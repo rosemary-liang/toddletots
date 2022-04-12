@@ -6,3 +6,5 @@ export default function Home(props) {
     </>
   );
 }
+
+// hash routing to # for home
