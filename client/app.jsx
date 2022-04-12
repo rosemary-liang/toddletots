@@ -1,5 +1,7 @@
 import React from 'react';
 import Home from './pages/home';
+import Header from './components/header';
+import './scss/style.scss';
 import { parseRoute } from './lib';
 
 export default class App extends React.Component {
@@ -25,8 +27,12 @@ export default class App extends React.Component {
   render() {
     return (
       <>
-        {this.renderPage()}
+      <div className="container rounded bg-primary">
+        <Header />
+          {/* // {this.renderPage()} */}
+      </div>
       </>
+
     );
   }
 }
