@@ -55,36 +55,36 @@ insert into "addresses" (
   "lng"
 ) values (
   1,
-  "3300 Park Ave",
-  "Tustin",
+  '3300 Park Ave',
+  'Tustin',
   92782,
   33.703203945718606,
   -117.81749149260851
 ), (
   2,
-  "1 Beech Tree Ln",
-  "Irvine",
+  '1 Beech Tree Ln',
+  'Irvine',
   92612,
   33.660372181185224,
   -117.82025108659401
 ), (
   3,
-  "375 Magnet",
-  "Irvine",
+  '375 Magnet',
+  'Irvine',
   92618,
   33.68044385566136,
   -117.73518891542894
 ), (
   4,
-  "14301 Yale Ave",
-  "Irvine",
+  '14301 Yale Ave',
+  'Irvine',
   92604,
   33.700352220501756,
   -117.7797393307703
 ), (
   5,
-  "75 Fallbrook",
-  "Irvine",
+  '75 Fallbrook',
+  'Irvine',
   92604,
   33.67999087253852,
   -117.78301396330183
