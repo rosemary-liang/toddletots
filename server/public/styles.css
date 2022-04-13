@@ -14,7 +14,7 @@
   top: 12px;
 }
 
-.button-crosshairs {
+.button-search {
   right: 0.1px;
   top: 0.1px;
   color: gray;
@@ -30,7 +30,7 @@
 }
 
 .w-60 {
-  width: 65%;
+  width: 60%;
 }
 
 .h-35px {
