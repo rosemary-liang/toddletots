@@ -27,9 +27,9 @@ export default class App extends React.Component {
   render() {
     return (
       <>
-      <div className="container rounded bg-primary min-vh-100">
+      <div className="container rounded-2 bg-primary min-vh-100">
         <Header />
-          {/* // {this.renderPage()} */}
+        { this.renderPage() }
       </div>
       </>
 

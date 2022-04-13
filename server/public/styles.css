@@ -13,3 +13,26 @@
   left: 16px;
   top: 12px;
 }
+
+.button-crosshairs {
+  right: 0.1px;
+  top: 0.1px;
+  color: gray;
+  border: 90px solid gray;
+}
+
+.border-radius-20px {
+  border-radius: 20px;
+}
+
+.border-radius-90px {
+  border-radius: 90px;
+}
+
+.w-60 {
+  width: 65%;
+}
+
+.h-35px {
+  height: 35px;
+}
