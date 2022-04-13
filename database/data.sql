@@ -205,8 +205,8 @@ insert into "descriptions" (
   "activityId",
   "description",
   "defaultDescription",
-  "ages2-5",
-  "ages5-12"
+  "ages2_5",
+  "ages5_12"
 ) values (
   1,
   1,

@@ -16,10 +16,13 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/activities');
+    fetch('/api/activities')
+      .then(res => res.json())
+      .then(activities => this.setState({ activities }));
   }
 
   render() {
+    // console.log(this.state.activities);
     return (
     <>
     <div className="home-container d-flex justify-content-center">
@@ -27,7 +30,7 @@ export default class Home extends React.Component {
         <div className="row">
           {/* {
             this.state.activities.map(activity => (
-              console.log
+              console.log(activity)
             ))
           } */}
         </div>
@@ -37,5 +40,10 @@ export default class Home extends React.Component {
     );
   }
 }
+
+// function Activity(props) {
+//   const { activityId, activityName, description, ages2_5, ages5_12, streetAddress, city, zipCode, lat, lng } = props;
+//   <h1>{props}</h1>;
+// }
 
 // hash routing to # for home

@@ -9,7 +9,7 @@ const app = express();
 app.use(staticMiddleware);
 
 app.get('/api/activities', (req, res, next) => {
-  const sql = `
+  const sqlActivities = `
    select
       "a"."activityId",
       "a"."activityName",
@@ -20,18 +20,40 @@ app.get('/api/activities', (req, res, next) => {
       "add"."lat",
       "add"."lng",
       "d"."description",
-      "d"."ages2-5",
-      "d"."ages5-12",
-      "i"."imageId",
-      "i"."url",
-      "i"."caption"
+      "d"."ages2_5",
+      "d"."ages5_12"
+
     from "activities" as "a"
     join "addresses" as "add" using ("addressId")
     join "descriptions" as "d" using ("activityId")
-    join "images" as "i" using ("activityId");
   `;
-  db.query(sql)
-    .then(result => res.json(result.rows))
+
+  db.query(sqlActivities)
+    .then(resultActivities => {
+      const activities = resultActivities.rows;
+
+      const sqlImages = `
+        select
+          "i"."imageId",
+          "i"."url",
+          "i"."caption",
+          "i"."activityId"
+
+        from "images" as "i"
+      `;
+
+      db.query(sqlImages)
+        .then(resultImages => {
+          const images = resultImages.rows;
+          const finalData = activities.map(activity => {
+            const filteredImages = images.filter(image => activity.activityId === image.activityId);
+            activity.images = filteredImages;
+            return activity;
+          });
+          res.json(finalData);
+        })
+        .catch(err => next(err));
+    })
     .catch(err => next(err));
 });
 

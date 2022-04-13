@@ -57,8 +57,8 @@ CREATE TABLE "descriptions" (
 	"description" TEXT NOT NULL,
 	"lastModified" TIMESTAMP NOT NULL default now(),
 	"defaultDescription" BOOLEAN NOT NULL,
-	"ages2-5" BOOLEAN NOT NULL,
-	"ages5-12" BOOLEAN NOT NULL,
+	"ages2_5" BOOLEAN NOT NULL,
+	"ages5_12" BOOLEAN NOT NULL,
 	CONSTRAINT "descriptions_pk" PRIMARY KEY ("descriptionId")
 ) WITH (
   OIDS=FALSE
