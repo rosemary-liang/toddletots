@@ -14,6 +14,11 @@
   top: 12px;
 }
 
+.fa-square,
+.fa-square-check {
+  color: black;
+}
+
 .button-search {
   right: 0.1px;
   top: 0.1px;
@@ -52,7 +57,6 @@
 img {
   object-fit: cover;
   height: 230px;
-  width: 150px;
 }
 
 footer {
@@ -61,4 +65,33 @@ footer {
   bottom: 0;
   width: 100%;
   background-color: #f6f9f9;
+}
+
+.searchbar {
+  width: 100%;
+}
+
+@media only screen and (max-width: 992px) {
+  .age-range-container {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .carousel {
+    max-width: 450px;
+  }
+
+  img {
+    height: 270px;
+    min-width: 300px;
+  }
+
+  .searchbar {
+    width: 450px;
+  }
+
+  footer {
+    display: none;
+  }
 }
