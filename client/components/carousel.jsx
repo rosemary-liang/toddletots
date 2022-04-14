@@ -5,24 +5,22 @@ export default class Carousel extends React.Component {
     super(props);
     const { images } = this.props;
     this.state = {
-      activeImageId: images[0]
-      // need to update to use default to smallest integer imageId of the activityId
+      activeImage: images[0]
     };
-
   }
 
-  // add method to handleNext and handlePrevious and handleActive?
+  // add method for handleNext and handlePrevious
 
   render() {
     const { images } = this.props;
     // console.log('images:', images);
     const { activityId } = images;
 
+    // if activeImage then make class "carousel-item active"; else just "carousel-item"
+    // let carouselClass;
+    // const { activeImage } = this.state;
+
     return (
-
-    // first image active, remaining are not active (use state to control)
-    // state --> carouselClass: 'carousel-item' or 'carousel-item active'
-
       <div id={activityId} className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-inner">
           {
@@ -30,7 +28,6 @@ export default class Carousel extends React.Component {
               <div key={image.imageId} className="carousel-item active">
                 <img src={image.url} className="d-block w-100 border-radius-20px" alt={image.caption} />
               </div>
-
             ))}
         </div>
         {/* button on click makes next or previous thing active */}

@@ -54,3 +54,12 @@ img {
   height: 230px;
   width: 150px;
 }
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #f6f9f9;
+  height: 5%;
+}
