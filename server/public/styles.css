@@ -17,8 +17,8 @@
 .button-search {
   right: 0.1px;
   top: 0.1px;
-  color: gray;
-  border: 90px solid gray;
+  color: #b0b0b0;
+  border: 90px solid #b0b0b0;
 }
 
 .border-radius-20px {
@@ -33,6 +33,23 @@
   width: 60%;
 }
 
-.h-35px {
-  height: 35px;
+.h-40px {
+  height: 40px;
+}
+
+.text-brown {
+  color: #c26f30;
+}
+
+.text-gray {
+  color: #b0b0b0;
+}
+
+::placeholder {
+  color: #b0b0b0;
+}
+
+.carousel-list-view {
+  width: 200px;
+  height: 200px;
 }
