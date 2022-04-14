@@ -52,9 +52,11 @@ function Activity(props) {
 
   return (
     // this should be an anchor tag because it shows another view
-    <div className='container bg-white px-5 py-4 mb-4 border-radius-20px'>
-      <div className='text-brown fs-5 fw-bold'>{activityName}</div>
-      <p className='text-gray fs-6 fw-bold'>1.1 miles</p>
+    <div className='container bg-white border-radius-20px mb-4 py-4'>
+      <div className='ps-4'>
+        <div className='text-brown fs-5 fw-bold'>{activityName}</div>
+        <p className='text-gray fs-6 fw-bold'>1.1 miles</p>
+      </div>
       <Carousel images={images}/>
 
     </div>

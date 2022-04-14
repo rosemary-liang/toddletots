@@ -7,38 +7,49 @@ export default class Carousel extends React.Component {
     this.state = {
       activeImage: images[0]
     };
+    this.handlePrevious = this.handlePrevious.bind(this);
+    this.handleNext = this.handleNext.bind(this);
   }
 
-  // add method for handleNext and handlePrevious
+  handlePrevious() {
+    const { activeImage } = this.state;
+    const { images } = this.props;
+    const index = images.indexOf(activeImage);
+    let prevImage;
+    if (index > 0) {
+      prevImage = images[index - 1];
+    } else {
+      prevImage = images[images.length - 1];
+    }
+    this.setState({ activeImage: prevImage });
+  }
+
+  handleNext() {
+    const { activeImage } = this.state;
+    const { images } = this.props;
+    const index = images.indexOf(activeImage);
+    let nextImage;
+    if (index >= 0 && index < images.length - 1) {
+      nextImage = images[index + 1];
+    } else {
+      nextImage = images[0];
+    }
+    this.setState({ activeImage: nextImage });
+  }
 
   render() {
-    const { images } = this.props;
-    // console.log('images:', images);
-    const { activityId } = images;
-
-    // if activeImage then make class "carousel-item active"; else just "carousel-item"
-    // let carouselClass;
-    // const { activeImage } = this.state;
+    const { activeImage } = this.state;
 
     return (
-      <div id={activityId} className="carousel slide" data-bs-ride="carousel">
+
+      <div className="carousel slide d-flex px-0" data-bs-ride="carousel">
+        <button onClick={this.handlePrevious} className='bg-transparent border-0 h1 text-gray'><i className="fa-solid fa-chevron-left"></i></button>
         <div className="carousel-inner">
-          {
-            images.map(image => (
-              <div key={image.imageId} className="carousel-item active">
-                <img src={image.url} className="d-block w-100 border-radius-20px" alt={image.caption} />
+              <div className="carousel-item active">
+                <img src={activeImage.url} className="d-block w-100 border-radius-20px" alt={activeImage.caption} />
               </div>
-            ))}
         </div>
-        {/* button on click makes next or previous thing active */}
-        <button className="carousel-control-prev" type="button" data-bs-target={activityId} data-bs-slide="prev">
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Previous</span>
-        </button>
-        <button className="carousel-control-next" type="button" data-bs-target={activityId} data-bs-slide="next">
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Next</span>
-        </button>
+        <button onClick={this.handleNext} className='bg-transparent border-0 h1 text-gray'><i className="fa-solid fa-chevron-right"></i></button>
       </div>
     );
   }
