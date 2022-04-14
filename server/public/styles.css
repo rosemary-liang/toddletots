@@ -49,6 +49,8 @@
   color: #b0b0b0;
 }
 
-.carousel-list-view {
-  height: 270px;
+img {
+  object-fit: cover;
+  height: 230px;
+  width: 150px;
 }

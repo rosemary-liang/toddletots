@@ -11,7 +11,7 @@ export default class Carousel extends React.Component {
 
   }
 
-  // add method to handleNext and handlePrevious
+  // add method to handleNext and handlePrevious and handleActive?
 
   render() {
     const { images } = this.props;
@@ -27,8 +27,8 @@ export default class Carousel extends React.Component {
         <div className="carousel-inner">
           {
             images.map(image => (
-              <div key={image.imageId} className="carousel-item active carousel-list-view">
-                <img src={image.url} className="d-block w-100" alt={image.caption} />
+              <div key={image.imageId} className="carousel-item active">
+                <img src={image.url} className="d-block w-100 border-radius-20px" alt={image.caption} />
               </div>
 
             ))}
