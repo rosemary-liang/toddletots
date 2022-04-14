@@ -24,9 +24,9 @@ export default class Home extends React.Component {
     <a href="#" className='text-decoration-none'>
       <div className="container d-flex flex-column align-items-center ">
           <SearchBar />
-          <div className=" row activities-container mt-3 mx-1">
-            <div className='title-row d-flex justify-content-between h3 mb-0'>
-              <p className='ms-2 text-white fw-bold'>Fun Activities Nearby</p>
+          <div className=" row activities-container mt-4 mx-1">
+            <div className='title-row d-flex justify-content-between h2 mb-0'>
+              <p className='ms-5 text-white fw-bold'>Fun Activities Nearby</p>
               <a href="#home-map-view" className='me-2'>
                   <i className="fa-solid fa-map text-white"></i>
               </a>
