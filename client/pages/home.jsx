@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import SearchBar from '../components/searchbar';
 import Carousel from '../components/carousel';
 
@@ -6,14 +7,36 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activities: []
+      activities: [],
+      activitiesByDistance: []
     };
+    this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
   }
 
   componentDidMount() {
     fetch('/api/activities')
       .then(res => res.json())
-      .then(activities => this.setState({ activities }));
+      .then(activities => {
+        this.setState({ activities }, function () {
+          // const currentCoordinates = this.getCurrentCoordinates();
+          // const { activities } = this.state;
+          // const { lat, lng } = activities;
+        });
+
+      });
+
+    // then for each activity, calc distance with origin
+  }
+
+  getCurrentCoordinates() {
+
+    axios.get({
+      method: 'POST',
+      url: `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.GOOGLE_MAPS_KEY}`
+    })
+      .then(results => results.json())
+    // .then(coordinates => console.log(coordinates)))
+      .catch(err => console.error(err));
   }
 
   render() {
@@ -30,7 +53,6 @@ export default class Home extends React.Component {
               <a href="#home-map-view" className='me-2'>
                   <i className="fa-solid fa-map text-white"></i>
               </a>
-
           </div>
           {
             this.state.activities.map(activity => (
@@ -40,7 +62,6 @@ export default class Home extends React.Component {
         </div>
       </div>
     </a>
-
     </>
     );
   }
@@ -52,6 +73,7 @@ function Activity(props) {
 
   let age2to5check;
   let age5to12check;
+
   if (ages2to5) {
     age2to5check = 'fa-solid fa-square-check d-inline-block';
   } else {

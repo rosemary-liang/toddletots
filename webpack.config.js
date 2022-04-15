@@ -1,4 +1,5 @@
 require('dotenv/config');
+const webpack = require('webpack');
 const path = require('path');
 
 const clientPath = path.join(__dirname, 'client');
@@ -39,6 +40,11 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env)
+    })
+  ],
 
   devtool: 'source-map',
   devServer: {

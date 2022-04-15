@@ -9,7 +9,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      route: parseRoute(window.location.hash)
+      route: parseRoute(window.location.hash),
+      latitude: '',
+      longitude: ''
     };
   }
 
