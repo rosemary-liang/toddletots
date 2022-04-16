@@ -23,11 +23,12 @@ export default class App extends React.Component {
   renderPage() {
     const { route } = this.state;
     if (route.path === '') {
-      return <Home />;
+      return <Home
+      googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+      loadingElement={<div style={{ height: '100%' }} />}/>;
     }
   }
 
-  // footer only visible on mobile
   render() {
     return (
       <>

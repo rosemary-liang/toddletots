@@ -1,13 +1,17 @@
+/* globals google */
 import React from 'react';
 import axios from 'axios';
+import { withScriptjs } from 'react-google-maps';
+// import _ from 'lodash';
 import SearchBar from '../components/searchbar';
 import Carousel from '../components/carousel';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activities: [],
+      currentCoordinates: [],
       activitiesByDistance: []
     };
     this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
@@ -18,33 +22,41 @@ export default class Home extends React.Component {
       .then(res => res.json())
       .then(activities => {
         this.setState({ activities }, function () {
-          // const currentCoordinates = this.getCurrentCoordinates();
-          // const { activities } = this.state;
-          // const { lat, lng } = activities;
+          this.getCurrentCoordinates()
+            .then(data => {
+              // console.log('currentCoordinates:', data.data.location);
+              const currentCoordinates = data.data.location;
+              this.setState({ currentCoordinates }, function () {
+                const { currentCoordinates, activities } = this.state;
+                const activitiesWithDistance = activities.map(activity => {
+                  const activityCoordinates = { lat: activity.lat, lng: activity.lng };
+                  const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(currentCoordinates, activityCoordinates);
+                  const distanceMiles = distanceMeters * 0.000621371;
+                  activity.distance = distanceMiles;
+                  return activity;
+
+                });
+                return activitiesWithDistance;
+                // console.log('activitiesWithDistance:', activitiesWithDistance);
+                // console.log('activityDistance1', activitiesWithDistance[0].distance);
+                // _.orderBy(activitiesWithDistance, )
+              });
+            });
         });
-
-      });
-
-    // then for each activity, calc distance with origin
-  }
-
-  getCurrentCoordinates() {
-
-    axios.get({
-      method: 'POST',
-      url: `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.GOOGLE_MAPS_KEY}`
-    })
-      .then(results => results.json())
-    // .then(coordinates => console.log(coordinates)))
+      })
       .catch(err => console.error(err));
   }
 
+  getCurrentCoordinates() {
+    return axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.GOOGLE_MAPS_KEY}`);
+  }
+
   render() {
-    // console.log('this.state.activities:', this.state.activities);
+    // console.log('this.state:', this.state);
 
     return (
     <>
-    <a href="#" className='text-decoration-none'>
+    <div className='text-decoration-none'>
       <div className="container d-flex flex-column align-items-center ">
           <SearchBar />
           <div className=" row activities-container mt-4 mx-1 mx-md-4">
@@ -61,7 +73,7 @@ export default class Home extends React.Component {
           }
         </div>
       </div>
-    </a>
+    </div>
     </>
     );
   }
@@ -112,3 +124,5 @@ function Activity(props) {
     </div>
   );
 }
+
+export default withScriptjs(Home);
