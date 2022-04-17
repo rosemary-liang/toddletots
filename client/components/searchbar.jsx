@@ -8,6 +8,7 @@ export default class SearchBar extends React.Component {
     this.state = {
       value: '',
       zipCoordinates: [],
+      city: '',
       errorMessage: ''
 
     };
@@ -26,13 +27,23 @@ export default class SearchBar extends React.Component {
     let errorMessage;
     const { value } = this.state;
     if (value.length === 5 && typeof parseInt(value) === 'number') {
-      errorMessage = '';
-      this.setState({ errorMessage });
+
       this.getZipCoordinates(value)
         .then(data => {
           const zipCoordinates = data.data.results[0].geometry.location;
-          this.setState({ zipCoordinates });
+          const city = data.data.results[0].address_components[1].long_name;
+          this.setState({ zipCoordinates, city }, function () {
+            this.props.handleZip(zipCoordinates);
+          });
+          errorMessage = '';
+          this.setState({ errorMessage });
+        })
+        .catch(err => {
+          console.error(err);
+          errorMessage = 'Zip code does not exist';
+          this.setState({ errorMessage });
         });
+
     } else {
       if (value.length !== 5) {
         errorMessage = 'Zipcode must have 5 characters';
@@ -42,13 +53,6 @@ export default class SearchBar extends React.Component {
       this.setState({ errorMessage });
     }
     event.target.value = '';
-    // validated input function
-
-    // send geocode to load activities from shortest to greatest distance from zip code
-    // return error if invalid zip code
-    // get lat/lng of current zip code and set it as current location
-    // reset form
-
   }
 
   getZipCoordinates(zip) {
@@ -56,7 +60,7 @@ export default class SearchBar extends React.Component {
   }
 
   render() {
-    // console.log('this.state', this.state);
+    // console.log('Searchbar this.state', this.state);
     return (
     <>
       <div>
@@ -68,8 +72,9 @@ export default class SearchBar extends React.Component {
             </button>
           </form>
         </div>
-        <div>
-          <p className='searchbar-error-msg d-block'>{this.state.errorMessage}</p>
+        <div className=''>
+          <p className='searchbar-error-msg text-danger fw-bold px-2 text-center'>{this.state.errorMessage}</p>
+            <p className='fw-bold px-2 text-center'>{this.state.city}</p>
         </div>
       </div>
     </>
