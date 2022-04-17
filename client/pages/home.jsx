@@ -2,7 +2,7 @@
 import React from 'react';
 import axios from 'axios';
 import { withScriptjs } from 'react-google-maps';
-// import _ from 'lodash';
+import _ from 'lodash';
 import SearchBar from '../components/searchbar';
 import Carousel from '../components/carousel';
 
@@ -11,8 +11,8 @@ class Home extends React.Component {
     super(props);
     this.state = {
       activities: [],
-      currentCoordinates: [],
-      activitiesByDistance: []
+      currentCoordinates: []
+      // activitiesByDistance: []
     };
     this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
   }
@@ -32,14 +32,12 @@ class Home extends React.Component {
                   const activityCoordinates = { lat: activity.lat, lng: activity.lng };
                   const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(currentCoordinates, activityCoordinates);
                   const distanceMiles = distanceMeters * 0.000621371;
-                  activity.distance = distanceMiles;
+                  activity.distance = distanceMiles.toFixed(1);
                   return activity;
 
                 });
-                return activitiesWithDistance;
-                // console.log('activitiesWithDistance:', activitiesWithDistance);
-                // console.log('activityDistance1', activitiesWithDistance[0].distance);
-                // _.orderBy(activitiesWithDistance, )
+                const sortedDistanceArray = _.orderBy(activitiesWithDistance, 'distance', 'asc');
+                this.setState({ activities: sortedDistanceArray });
               });
             });
         });
@@ -81,7 +79,7 @@ class Home extends React.Component {
 
 function Activity(props) {
   // const { activityId, activityName, description, ages2_5, ages5_12, streetAddress, city, zipCode, lat, lng, images } = props.activity;
-  const { activityName, images, ages2_5: ages2to5, ages5_12: ages5to12 } = props.activity;
+  const { activityName, images, ages2_5: ages2to5, ages5_12: ages5to12, distance } = props.activity;
 
   let age2to5check;
   let age5to12check;
@@ -103,7 +101,7 @@ function Activity(props) {
     <div className='container bg-white border-radius-20px mb-4 py-4'>
       <div className='ps-5'>
         <div className='text-brown fs-5 fw-bold'>{activityName}</div>
-        <p className='text-gray fs-6 fw-bold'>1.1 miles</p>
+        <p className='text-gray fs-6 fw-bold'>{distance} miles</p>
       </div>
       <div className='d-flex justify-content-sm-center justify-content-lg-between'>
           <Carousel images={images}/>
