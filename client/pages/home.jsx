@@ -12,7 +12,6 @@ class Home extends React.Component {
     this.state = {
       activities: [],
       currentCoordinates: []
-      // activitiesByDistance: []
     };
     this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
   }
@@ -56,7 +55,8 @@ class Home extends React.Component {
     <>
     <div className='text-decoration-none'>
       <div className="container d-flex flex-column align-items-center ">
-          <SearchBar />
+            <SearchBar googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+              loadingElement={<div style={{ height: '100%' }} />}/>
           <div className=" row activities-container mt-4 mx-1 mx-md-4">
             <div className='title-row d-flex justify-content-between h2 mb-0'>
               <p className='ms-5 text-white fw-bold'>Fun Activities Nearby</p>
