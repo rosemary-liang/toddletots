@@ -1,6 +1,5 @@
 /* globals google */
 import React from 'react';
-import AppContext from '../lib/app-context';
 import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
 import { withScriptjs } from 'react-google-maps';
@@ -73,7 +72,7 @@ class Home extends React.Component {
 
     return (
     <>
-    <div className='text-decoration-none'>
+    <div className='text-decoration-none pb-5'>
       <div className="container d-flex flex-column align-items-center ">
             <SearchBar handleZip={this.handleZip}
             googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
@@ -124,5 +123,3 @@ function Activity(props) {
 }
 
 export default withScriptjs(Home);
-
-Home.contextType = AppContext;

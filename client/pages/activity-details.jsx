@@ -27,7 +27,7 @@ export default class ActivityDetails extends React.Component {
 
     return (
       <>
-      <div className="container bg-secondary pt-2 pb-3 px-3 rounded">
+      <div className="container bg-secondary pt-2 pb-4 px-3 rounded">
         <div className='d-flex justify-content-between align-items-center'>
           <button className='bg-transparent border-0 h1 text-white fw-bold'><i className="fa-solid fa-arrow-left"></i></button>
           <p className='h2 text-white fw-bold'>View Activity</p>

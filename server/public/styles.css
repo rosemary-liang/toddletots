@@ -54,6 +54,10 @@
   color: #b0b0b0;
 }
 
+.pb-page {
+  padding-bottom: 5rem;
+}
+
 img {
   object-fit: cover;
   height: 230px;
@@ -93,5 +97,10 @@ footer {
 
   footer {
     display: none;
+  }
+
+  .pb-page {
+    padding-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 }
