@@ -1,4 +1,5 @@
 require('dotenv/config');
+const webpack = require('webpack');
 const path = require('path');
 
 const clientPath = path.join(__dirname, 'client');
@@ -25,9 +26,26 @@ module.exports = {
             ]
           }
         }
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader'
+        ]
       }
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env)
+    })
+  ],
+
   devtool: 'source-map',
   devServer: {
     host: '0.0.0.0',
