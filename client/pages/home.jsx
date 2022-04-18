@@ -6,6 +6,7 @@ import { withScriptjs } from 'react-google-maps';
 import _ from 'lodash';
 import SearchBar from '../components/searchbar';
 import Carousel from '../components/carousel';
+import AgeRange from '../components/age-range';
 
 class Home extends React.Component {
   constructor(props) {
@@ -90,7 +91,7 @@ class Home extends React.Component {
           </div>
           {
             this.state.activities.map(activity => (
-              <div key={activity.activityId}><Activity activity={activity}/></div>
+              <div key={activity.activityId}><Activity activity={activity} /> </div>
             ))
           }
         </div>
@@ -102,22 +103,7 @@ class Home extends React.Component {
 }
 
 function Activity(props) {
-  const { activityName, images, activityId, ages2_5: ages2to5, ages5_12: ages5to12, distance } = props.activity;
-
-  let age2to5check;
-  let age5to12check;
-
-  if (ages2to5) {
-    age2to5check = 'fa-solid fa-square-check d-inline-block';
-  } else {
-    age2to5check = 'fa-solid fa-square d-inline-block';
-  }
-
-  if (ages5to12) {
-    age5to12check = 'fa-solid fa-square-check d-inline-block';
-  } else {
-    age5to12check = 'fa-solid fa-square d-inline-block';
-  }
+  const { activityName, images, activityId, distance, ages2_5: ages2to5, ages5_12: ages5to12 } = props.activity;
 
   return (
     // this should be an anchor tag because it shows another view
@@ -128,19 +114,8 @@ function Activity(props) {
           <p className='text-gray fs-6 fw-bold'>{distance} miles</p>
         </div>
         <div className='d-flex justify-content-sm-center justify-content-lg-between'>
-            <Carousel images={images}/>
-            {/* check box if age true, else empty check box */}
-            <div className='age-range-container fs-5 fw-bold p-5 w-50'>
-              <p className='text-brown'>Age Range</p>
-              <div className="age-range-line">
-                <i className={age2to5check}></i>
-                <p className='d-inline-block text-black ms-4'>2-5 years</p>
-              </div>
-              <div className="age-range-line">
-                <i className={age5to12check}></i>
-                <p className='d-inline-block text-black ms-4'>5-12 years</p>
-              </div>
-            </div>
+          <Carousel images={images}/>
+          <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} />
           </div>
       </div>
     </a>
