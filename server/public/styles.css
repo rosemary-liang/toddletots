@@ -54,13 +54,6 @@
   color: #b0b0b0;
 }
 
-a:hover,
-button:hover {
-  display: inline-block;
-  transition: all 0.2s ease-in-out;
-  transform: scale(1.1);
-}
-
 img {
   object-fit: cover;
   height: 230px;
