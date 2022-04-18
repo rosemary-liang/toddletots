@@ -1,5 +1,6 @@
 import React from 'react';
 import Carousel from '../components/carousel';
+import AgeRange from '../components/age-range';
 
 export default class ActivityDetails extends React.Component {
   constructor(props) {
@@ -22,9 +23,7 @@ export default class ActivityDetails extends React.Component {
       return null;
     }
 
-    const { activityName, streetAddress, city, zipCode, description, images } = this.state.activity;
-
-    // const { activityName, streetAddress, city, zipCode, description, images, ages2_5: ages2to5, ages5_12: ages5to12, lat, lng } = this.state.activity;
+    const { activityName, streetAddress, city, zipCode, description, images, ages2_5: ages2to5, ages5_12: ages5to12 } = this.state.activity;
 
     return (
       <>
@@ -50,11 +49,9 @@ export default class ActivityDetails extends React.Component {
           </div>
           <button className='rounded bg-primary border-0 text-white fw-bold mt-4 mb-5 py-1 px-3 '>get directions</button>
           <Carousel images={images} />
-            <div>
-              <p className='mt-4 text-brown fw-bold h5'>Age Range placeholder</p>
-              </div>
+          <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} page='#activities'/>
 
-          <div>
+          <div className='my-2'>
             <p className='text-brown fw-bold h5'>Description</p>
             <p>{description}</p>
           </div>

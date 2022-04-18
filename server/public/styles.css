@@ -72,7 +72,7 @@ footer {
 }
 
 @media only screen and (max-width: 992px) {
-  .age-range-container {
+  .home-age-range {
     display: none;
   }
 }

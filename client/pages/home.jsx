@@ -1,5 +1,6 @@
 /* globals google */
 import React from 'react';
+import AppContext from '../lib/app-context';
 import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
 import { withScriptjs } from 'react-google-maps';
@@ -115,7 +116,7 @@ function Activity(props) {
         </div>
         <div className='d-flex justify-content-sm-center justify-content-lg-between'>
           <Carousel images={images}/>
-          <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} />
+          <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} page="#" />
           </div>
       </div>
     </a>
@@ -123,3 +124,5 @@ function Activity(props) {
 }
 
 export default withScriptjs(Home);
+
+Home.contextType = AppContext;

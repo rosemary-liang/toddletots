@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function AgeRange(props) {
-  const { ages2to5, ages5to12 } = props;
+  const { ages2to5, ages5to12, page } = props;
 
   let age2to5check;
   let age5to12check;
@@ -18,8 +18,18 @@ export default function AgeRange(props) {
     age5to12check = 'fa-solid fa-square d-inline-block';
   }
 
+  let className;
+  if (page === '#') {
+    className = 'home-age-range fs-5 fw-bold p-5 w-50';
+  } else if (page === '#activities') {
+    className = 'activity-detail-age-range h5 fw-bold mt-5';
+  }
+
+  // pass hash route here, if # then this
+  // if activityDetails then this
+
   return (
-  <div className='age-range-container fs-5 fw-bold p-5 w-50'>
+  <div className={className}>
     <p className='text-brown'>Age Range</p>
     <div className="age-range-line">
       <i className={age2to5check}></i>

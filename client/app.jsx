@@ -1,5 +1,6 @@
 import React from 'react';
 import Home from './pages/home';
+import AppContext from './lib/app-context';
 import ActivityDetails from './pages/activity-details';
 import Header from './components/header';
 import Footer from './components/footer';
@@ -10,9 +11,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      route: parseRoute(window.location.hash),
-      latitude: '',
-      longitude: ''
+      user: null,
+      route: parseRoute(window.location.hash)
     };
   }
 
@@ -37,14 +37,18 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { route } = this.state;
+    const contextValue = { route };
     return (
-      <>
-      <div className="container rounded-2 bg-primary min-vh-100">
-        <Header />
-        { this.renderPage() }
-        <Footer />
-      </div>
-      </>
+      <AppContext.Provider value = {contextValue}>
+        <>
+        <div className="container rounded-2 bg-primary min-vh-100">
+          <Header />
+          { this.renderPage() }
+          <Footer />
+        </div>
+        </>
+      </AppContext.Provider>
 
     );
   }
