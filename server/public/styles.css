@@ -44,9 +44,6 @@
 
 .entry-form-single {
   height: 2.25rem;
-}
-
-.entry-form-single::placeholder {
   padding-left: 1rem;
 }
 
