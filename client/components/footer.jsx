@@ -1,5 +1,7 @@
 import React from 'react';
 
+// update class colors depending on hash routing
+
 export default function Footer() {
   return (
     <footer>
