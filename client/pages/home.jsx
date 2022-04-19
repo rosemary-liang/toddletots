@@ -107,7 +107,7 @@ function Activity(props) {
 
   return (
     // this should be an anchor tag because it shows another view
-    <a href={`#activities?activityId=${activityId}`} className='text-decoration-none'>
+    <a href={`#activity-details?activityId=${activityId}`} className='text-decoration-none'>
       <div className='container bg-white border-radius-20px mb-4 py-4'>
         <div className='ps-5'>
           <div className='text-brown fs-5 fw-bold'>{activityName}</div>

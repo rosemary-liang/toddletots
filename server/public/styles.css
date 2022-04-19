@@ -72,6 +72,10 @@ footer {
   background-color: #f6f9f9;
 }
 
+.custom-dialog-menu {
+  width: 25% !important;
+}
+
 .searchbar {
   width: 100%;
 }

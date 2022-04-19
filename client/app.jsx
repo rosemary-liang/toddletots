@@ -30,7 +30,7 @@ export default class App extends React.Component {
       googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
       loadingElement={<div style={{ height: '100%' }} />}/>;
     }
-    if (route.path === 'activities') {
+    if (route.path === 'activity-details') {
       const activityId = route.params.get('activityId');
       return <ActivityDetails activityId={activityId} />;
     }
