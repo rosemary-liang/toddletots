@@ -13,7 +13,8 @@ class Home extends React.Component {
     super(props);
     this.state = {
       activities: [],
-      currentCoordinates: []
+      currentCoordinates: [],
+      newEntry: []
     };
     this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
     this.sortActivitiesByDistance = this.sortActivitiesByDistance.bind(this);

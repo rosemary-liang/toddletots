@@ -18,12 +18,12 @@ export default function HamburgerMenu() {
       <Modal show={show} onHide={handleClose} dialogClassName='custom-dialog-menu '>
         <Modal.Body>
           <div className='d-flex flex-column fw-bold'>
-            <a href="#" className='text-decoration-none text-brown'>Home</a>
-            <a href="#add-new" className='text-decoration-none text-brown'>Add New Activity</a>
-            <a href="#edit" className='text-decoration-none text-brown'>Edit Existing Activity</a>
-            <a href="#bookmarks" className='text-decoration-none text-brown'>Bookmarks</a>
-            <a href="#sign-in" className='text-decoration-none text-brown'>Sign In</a>
-            <a href="#sign-out" className='text-decoration-none text-brown'>Sign Out</a>
+            <a href="#" onClick={handleClose} className='text-decoration-none text-brown' >Home</a>
+            <a href="#new-entry-map" onClick={handleClose} className='text-decoration-none text-brown'>Add New Activity</a>
+            <a href="#edit" onClick={handleClose} className='text-decoration-none text-brown'>Edit Existing Activity</a>
+            <a href="#bookmarks" onClick={handleClose} className='text-decoration-none text-brown'>Bookmarks</a>
+            <a href="#sign-in" onClick={handleClose} className='text-decoration-none text-brown'>Sign In</a>
+            <a href="#sign-out" onClick={handleClose} className='text-decoration-none text-brown'>Sign Out</a>
           </div>
         </Modal.Body>
       </Modal>

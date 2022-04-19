@@ -26,6 +26,10 @@
   border: 90px solid #b0b0b0;
 }
 
+.border-radius-10px {
+  border-radius: 10px;
+}
+
 .border-radius-20px {
   border-radius: 20px;
 }
@@ -38,8 +42,21 @@
   width: 60%;
 }
 
+.entry-form-single {
+  height: 2.25rem;
+}
+
+.entry-form-single::placeholder {
+  padding-left: 1rem;
+}
+
 .h-40px {
   height: 40px;
+}
+
+.map-placeholder {
+  min-height: 600px;
+  border: 1px solid black;
 }
 
 .text-brown {
