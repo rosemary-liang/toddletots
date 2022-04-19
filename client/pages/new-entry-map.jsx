@@ -3,7 +3,7 @@ import React from 'react';
 // import SearchBar from '../components/searchbar';
 // import ReactTooltip from 'react-tooltip';
 
-export default class NewEntry extends React.Component {
+export default class NewEntryMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +19,6 @@ export default class NewEntry extends React.Component {
       // defaultDescription: true,
       // images: []
     };
-    this.renderView = this.renderView.bind(this);
   }
 
   render() {

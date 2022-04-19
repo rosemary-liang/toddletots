@@ -1,5 +1,5 @@
 import React from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 // import SearchBar from '../components/searchbar';
 // import ReactTooltip from 'react-tooltip';
 
@@ -17,23 +17,59 @@ export default class NewEntryForm extends React.Component {
       ages2to5: null,
       ages5to12: null,
       defaultDescription: true,
-      images: []
+      images: [],
+      errorMsg: ''
+
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const { value, name, type, checked } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    this.setState({ [name]: newValue });
+  }
 
-    this.setState({
-      [name]: value
-    });
+  handleSubmit(event) {
+    // if lng/lat null, run geolocation using address to populate it
+    // check that no properties in state are null
+    // check that image array is not empty (length greater than 0)
+    event.preventDefault();
+    const { streetAddress, city, zipCode, currentCoordinates } = this.state;
+
+    if (currentCoordinates === null) {
+      const modifiedStreetAddress = streetAddress.replaceAll(' ',
+        '+');
+      const address = `${modifiedStreetAddress},+${city},+${zipCode}`;
+      axios.post(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_MAPS_KEY}`)
+        .then(data => {
+          const currentCoordinates = data.data.results[0].geometry.location;
+          // console.log(currentCoordinates);
+          this.setState({
+            currentCoordinates,
+            errorMsg: ''
+          });
+        })
+        .catch(err => {
+          console.error(err);
+          this.setState({ errorMsg: 'Error - invalid address provided' });
+        });
+    }
   }
 
   render() {
+    // console.log('New Entry Form this.state:', this.state);
+    // const { streetAddress, city, zipCode, currentCoordinates } = this.state;
+    // if (streetAddress) {
+    //   const modifiedStreetAddress = streetAddress.replaceAll(' ',
+    //     '+');
+    //   const address = `${modifiedStreetAddress},+${city},+${zipCode}`;
+    //   console.log(address);
+    // }
+    const { handleInputChange, handleSubmit } = this;
+    const { errorMsg } = this.state;
     return (
       <div className='text-decoration-none pb-5 bg-secondary rounded'>
         <div className="d-flex flex-column align-items-center ">
@@ -43,26 +79,68 @@ export default class NewEntryForm extends React.Component {
               <p className='ms-5 text-white fw-bold'>Add New Activity</p>
             </div>
             <div className='w-100 p-1 p-2'>
-              <form action="">
-                <input type="text" name="activityName" placeholder='activity name' onChange={this.handleInputChange} className='w-100 border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
-                <input type="text" name="streetAddress" placeholder="street address" className='w-100 border-0 border-gray border-radius-10px entry-form-single fw-bold my-2'/>
+              <form onSubmit={handleSubmit} action="">
+                <input
+                  required
+                  type="text"
+                  name="activityName"
+                  placeholder='activity name'
+                  onChange={handleInputChange}
+                  className='w-100 border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
+                <input
+                  required
+                  type="text"
+                  name="streetAddress"
+                  placeholder="street address"
+                  onChange={handleInputChange}
+                  className='w-100 border-0 border-gray border-radius-10px entry-form-single fw-bold my-2'/>
                 <div className='d-flex my-2'>
                   <div className='w-75 me-2'>
-                    <input type="text" name="city" placeholder="city" className='w-100 border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
+                    <input
+                      required
+                      type="text"
+                      name="city"
+                      placeholder="city"
+                      onChange={handleInputChange}
+                      className='w-100 border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
                   </div>
                   <div className='me-2'>
-                  <input type="text" name="zipCode" placeholder="zip" className='w-100 border-0 border-gray border-radius-10px entry-form-single fw-bold my-2 ms-1' />
+                  <input
+                    required
+                    type="text"
+                    name="zipCode"
+                    placeholder="zip"
+                    onChange={handleInputChange}
+                    className='w-100 border-0 border-gray border-radius-10px entry-form-single fw-bold my-2 ms-1' />
                   </div>
                 </div>
-                <textarea name="description" rows="10" className='w-100 border-radius-10px mb-3 border-0' ></textarea>
+
+                <textarea
+                  required
+                  name="description"
+                  placeholder="description"
+                  rows="10"
+                  onChange={handleInputChange}
+                  className='w-100 border-radius-10px mb-3 border-0 ps-2 fw-bold' ></textarea>
+
                 <div className='bg-white p-4 fw-bold text-primary border-radius-10px fs-5 mb-4'>
                   <p className=' '>Age Range</p>
                   <div className="form-check  mb-4">
-                    <input className="form-check-input" type="checkbox" value="" name="ages2to5"></input>
-                      <label className="" htmlFor="flexCheckDefault">Ages 2-5</label>
+                    <input
+                      type="checkbox"
+                      value=""
+                      name="ages2to5"
+                      onChange={handleInputChange}
+                      className="form-check-input" />
+                      <label className=""htmlFor="flexCheckDefault">Ages 2-5</label>
                   </div>
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" name="ages5to12"></input>
+                    <input
+                      type="checkbox"
+                      value=""
+                      name="ages5to12"
+                      onChange={handleInputChange}
+                      className="form-check-input"/>
                     <label className="" htmlFor="flexCheckDefault">Ages 5-12</label>
                   </div>
 
@@ -74,15 +152,20 @@ export default class NewEntryForm extends React.Component {
                     {/* map images to preview layout and size */}
                   </div>
                 </div>
+                <div className='d-flex justify-content-between mt-5'>
+                  <a href="#new-entry-edit-images">
+                    <input
+                    type='button' value='edit images'
+                    className='px-4 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm' />
+                    </a>
+                  <input
+                    type='submit' value='submit'
+                    className='px-5 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm'/>
+                </div>
 
               </form>
+              <div className=' bg-danger mt-4 text-center text-white fw-bold fs-5'>{errorMsg}</div>
             </div>
-
-            <div className='d-flex justify-content-center my-4'>
-              <a href="#new-entry-form"><button className='px-5 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm' data-to='form'>Submit</button>
-              </a>
-            </div>
-
           </div>
         </div>
       </div>
