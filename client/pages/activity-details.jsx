@@ -27,9 +27,9 @@ export default class ActivityDetails extends React.Component {
 
     return (
       <>
-      <div className="container bg-secondary pt-2 pb-4 px-3 rounded">
+      <div className="container bg-secondary pt-2  pb-3 px-3 rounded">
         <div className='d-flex justify-content-between align-items-center'>
-          <button className='bg-transparent border-0 h1 text-white fw-bold'><i className="fa-solid fa-arrow-left"></i></button>
+          <a href='#' className='bg-transparent border-0 h1 text-white fw-bold'><i className="fa-solid fa-arrow-left"></i></a>
           <p className='h2 text-white fw-bold'>View Activity</p>
           <p></p>
         </div>
@@ -50,16 +50,16 @@ export default class ActivityDetails extends React.Component {
           <div>
            <button className='rounded bg-primary border-0 text-white fw-bold mt-4 mb-5 py-1 px-3'>get directions</button>
             </div>
-          <div className='d-md-flex flex-md-row-reverse justify-content-md-end position-relative'>
+          <div className='d-lg-flex flex-lg-row-reverse justify-content-md-end position-relative'>
             <div className=' carousel-overlap w-100 d-flex justify-content-center align-content-start'>
               <Carousel images={images} />
             </div>
-            <div className='w-75'>
+            <div className='w-75 mt-md-5'>
               <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} page='#activities'/>
             </div>
           </div>
 
-          <div className='my-2 my-md-5'>
+          <div className='mt-2 mt-lg-5'>
             <p className='text-brown fw-bold h5'>Description</p>
             <p>{description}</p>
           </div>

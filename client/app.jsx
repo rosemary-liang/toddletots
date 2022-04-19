@@ -42,7 +42,7 @@ export default class App extends React.Component {
     return (
       <AppContext.Provider value = {contextValue}>
         <>
-        <div className="container rounded-2 bg-primary min-vh-100 d-flex flex-column pb-page">
+        <div className="container rounded-2 bg-primary  d-flex flex-column pb-page">
           <Header />
           { this.renderPage() }
           <Footer />
