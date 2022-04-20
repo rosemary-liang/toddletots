@@ -111,9 +111,24 @@ app.get('/api/activities/:activityId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('api/activites', (req, res, next) => {
+// app.post('api/activites', (req, res, next) => {
+//   const { activityName, streetAddress, city, zipCode, description, defaultDescription, ages2to5, ages5to12, url, caption, userId, currentCoordinates } = req.body;
+//   const { lat, lng } = currentCoordinates;
 
-});
+//   const sqlAddress = `
+//   insert into "activities" ("userId", "activityName", "addressId")
+//   values ($1, $2, $3)
+//   returning "userId", "activityName", "addressId"
+//   `;
+//   const paramsActivities = [userId, activityName, addressId]
+
+//   const sqlActivities = `
+//   insert into "activities" ("userId", "activityName", "addressId")
+//   values ($1, $2, $3)
+//   returning "userId", "activityName", "addressId"
+//   `;
+//   const paramsActivities = [userId, activityName, addressId]
+// });
 
 app.use(errorMiddleware);
 

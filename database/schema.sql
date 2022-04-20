@@ -21,23 +21,20 @@ CREATE TABLE "activities" (
 	"activityId" serial NOT NULL,
 	"userId" integer NOT NULL,
 	"activityName" TEXT NOT NULL,
-	"addressId" integer NOT NULL,
+	"description" TEXT NOT NULL,
+	"lastModified" TIMESTAMP NOT NULL default now(),
+	"ages2to5" BOOLEAN NOT NULL,
+	"ages5to12" BOOLEAN NOT NULL,
+  "streetAddress" TEXT NOT NULL,
+	"city" TEXT NOT NULL,
+	"zipCode" integer NOT NULL,
+	"lat" FLOAT NOT NULL,
+	"lng" FLOAT NOT NULL,
 	CONSTRAINT "activities_pk" PRIMARY KEY ("activityId")
 ) WITH (
   OIDS=FALSE
 );
 
-CREATE TABLE "addresses" (
-	"addressId" serial NOT NULL,
-	"streetAddress" TEXT NOT NULL,
-	"city" TEXT NOT NULL,
-	"zipCode" integer NOT NULL,
-	"lat" FLOAT NOT NULL,
-	"lng" FLOAT NOT NULL,
-	CONSTRAINT "addresses_pk" PRIMARY KEY ("addressId")
-) WITH (
-  OIDS=FALSE
-);
 
 CREATE TABLE "images" (
 	"imageId" serial NOT NULL,
@@ -50,19 +47,6 @@ CREATE TABLE "images" (
   OIDS=FALSE
 );
 
-CREATE TABLE "descriptions" (
-	"descriptionId" serial NOT NULL,
-	"userId" integer NOT NULL,
-	"activityId" integer NOT NULL,
-	"description" TEXT NOT NULL,
-	"lastModified" TIMESTAMP NOT NULL default now(),
-	"defaultDescription" BOOLEAN NOT NULL,
-	"ages2_5" BOOLEAN NOT NULL,
-	"ages5_12" BOOLEAN NOT NULL,
-	CONSTRAINT "descriptions_pk" PRIMARY KEY ("descriptionId")
-) WITH (
-  OIDS=FALSE
-);
 
 CREATE TABLE "bookmarks" (
 	"bookmarkId" serial NOT NULL,
@@ -74,9 +58,6 @@ CREATE TABLE "bookmarks" (
 );
 
 ALTER TABLE "activities" ADD CONSTRAINT "activities_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
-ALTER TABLE "activities" ADD CONSTRAINT "activities_fk1" FOREIGN KEY ("addressId") REFERENCES "addresses"("addressId");
 ALTER TABLE "images" ADD CONSTRAINT "images_fk0" FOREIGN KEY ("activityId") REFERENCES "activities"("activityId");
-ALTER TABLE "descriptions" ADD CONSTRAINT "descriptions_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
-ALTER TABLE "descriptions" ADD CONSTRAINT "descriptions_fk1" FOREIGN KEY ("activityId") REFERENCES "activities"("activityId");
 ALTER TABLE "bookmarks" ADD CONSTRAINT "bookmarks_fk0" FOREIGN KEY ("activityId") REFERENCES "activities"("activityId");
 ALTER TABLE "bookmarks" ADD CONSTRAINT "bookmarks_fk1" FOREIGN KEY ("userId") REFERENCES "users"("userId");

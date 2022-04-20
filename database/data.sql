@@ -14,80 +14,83 @@ insert into "users" (
   'demo@example.com'
 );
 
-insert into "addresses" (
-  "addressId",
-  "streetAddress",
-  "city",
-  "zipCode",
-  "lat",
-  "lng"
-) values (
-  1,
-  '3300 Park Ave',
-  'Tustin',
-  92782,
-  33.703203945718606,
-  -117.81749149260851
-), (
-  2,
-  '1 Beech Tree Ln',
-  'Irvine',
-  92612,
-  33.660372181185224,
-  -117.82025108659401
-), (
-  3,
-  '375 Magnet',
-  'Irvine',
-  92618,
-  33.68044385566136,
-  -117.73518891542894
-), (
-  4,
-  '14301 Yale Ave',
-  'Irvine',
-  92604,
-  33.700352220501756,
-  -117.7797393307703
-), (
-  5,
-  '75 Fallbrook',
-  'Irvine',
-  92604,
-  33.67999087253852,
-  -117.78301396330183
-);
 
 insert into "activities" (
   "activityId",
   "activityName",
   "userId",
-  "addressId"
+  "streetAddress",
+  "city",
+  "zipCode",
+  "lat",
+  "lng",
+  "description",
+  "ages2to5",
+  "ages5to12"
 ) values (
   1,
   'Victory Park',
   1,
-  1
+  '3300 Park Ave',
+  'Tustin',
+  92782,
+  33.703203945718606,
+  -117.81749149260851,
+  'Amazing playground! Brand new, maintained very well, lot of areas for kids to play! I especially like how there are different sections for different ages. They even have a smaller playplace for the very young toddlers. This playground is enormous! The designers of this playground covered every fun, entertaining, and interactive feature a playground could have, while honoring the Marine Corp and blimp history.
+  \r\n One of the cool things about this playground is that it is perfect for all ages since it has a smaller section for toddlers and the bigger area for all the other ages including teenagers. The kids can climb on the spider webs, slide down the various size slides, spin, balance, swing, and even play a tune. There are also benches, tables, bbq grills, and a big green area for playing ball, running around, or just to relax and have a picnic. In the garden area you will not find flowers, but you will have benches where you can sit and read about the history of the area.',
+  'true',
+  'true'
 ), (
   2,
   'Adventure Playground',
   1,
-  2
+  '1 Beech Tree Ln',
+  'Irvine',
+  92612,
+  33.660372181185224,
+  -117.82025108659401,
+  'Totally enclosed play area with a staff member at the gate. Dirt, water, sand, playground, and toys like giants legos and little dump trucks to play with. Some chairs around for parents and a little shade, but will be hot and sunny in the summer. The street address will park you to the side of the adventure playground. There is a closer parking lot  across from the entrance you can maybe drop a pin to get a little closer if you need to. Bathrooms are there, although a little rough. A few shady picnic tables at the front, although they filled up fast and no one seemed to move away from them the whole time I was there. But there is a huge park outside the adventure playground that is ideal for picnicking and playing.
+  \r\n The parking lot is limited in space because it is next to a public library, but thankfully the parking lot is separated. If the parking lot were to be full, the overflow would surely be the park lot. We went during the weekend in the afternoon, so my observation was that it is full in the mornings. The location has two restroom with changing tables, and it is deceiving at a glance. The outside appears to be a run down CONNEX but the inside looks like a well maintained public restroom. The door is not automatic but it is large enough to push in a stroller alone.',
+  true,
+  true
 ), (
   3,
   'Parasol Park',
   1,
-  3
+  '375 Magnet',
+  'Irvine',
+  92618,
+  33.68044385566136,
+  -117.73518891542894,
+  'Parasol Park is a compact community space that has a combination basketballvolleyball court, shaded areas with picnic tables, community planting beds, and landscaped areas along the perimeter, complete with faux footbridges to give the impression that you are entering a nature retreat. There is also a building that may have once been the subdivision sales office and could now be a community center.
+  \r\n The wooden play structures do not have any slides and the ladders into them maybe challenging for littles to climb. Zipline too scary for some littles. I do not recall any swings. There are resident amenities like community garden and ping pong tables and pool. Not much shade either. Street parking. Just across the street is Bosque Trail, another option that has play equipment and bathrooms.',
+  true,
+  true
 ), (
   4,
   'Heritage Community Park',
   1,
-  4
+  '14301 Yale Ave',
+  'Irvine',
+  92604,
+  33.700352220501756,
+  -117.7797393307703,
+  'Heritage Park is a great spot to eat your takeout and enjoy the cool breeze, the scenery, and relax. The pond is full of all types of ducks/geese including baby ducks! There is a nice paved path to walk around, a good number of tables and benches, good parking, and lots of activities.
+  \r\n There are many things to do for both kids and adults.  The playground has 2 large play structures for infants and older kids respectively as well as a sand pit. There are swings for all ages as well as a splash pad. There is also a nice picnic area for parties, a small lake to walk around and read. The small lake is filled with turtles, ducks, and fish.Big fields and grassy area to play sports.',
+  'true',
+  'true'
 ), (
   5,
   'Fallbrook Park',
   1,
-  5
+  '75 Fallbrook',
+  'Irvine',
+  92604,
+  33.67999087253852,
+  -117.78301396330183,'Play equipment 2-5 and 5-12 with two toddler and two big kid swings over foam terrain with a small sand pit.  Two covered picnic tables on each side of playground (one with hand sanitizer dispenser).  No shade over the play equipment. The splash pad and pool are gated. Some grass area. Compared to other playground equipment in Woodbridge, this is the newest I have seen.
+  \r\n This is an association splash pad (so you need a key card for entry). We got tons of use out of the South Lake Beach Club (lagoon) over the summer but heard of this splash pad and thought it would be a quicker alternative. The splash pad was fun for my 2 and 4 year old boys. I will say there is a weird timer/motion setting that we could not quite figure out and even the lifeguards could not quite help. This splash pad is adjacent to a kiddie wading pool and the regular swimming pool - so be careful if you have little ones as the splash pad is not fenced in and little ones could wander off. Over all a great alternative to the pool.',
+  'true',
+  'true'
 );
 
 
@@ -197,59 +200,4 @@ insert into "images" (
   5,
   'https://ssl.cdn-redfin.com/photo/45/mbphoto/895/genMid.OC14106895_21_1.jpg',
   'fallbrook swings'
-);
-
-insert into "descriptions" (
-  "descriptionId",
-  "userId",
-  "activityId",
-  "description",
-  "defaultDescription",
-  "ages2_5",
-  "ages5_12"
-) values (
-  1,
-  1,
-  1,
-  'Amazing playground! Brand new, maintained very well, lot of areas for kids to play! I especially like how there are different sections for different ages. They even have a smaller playplace for the very young toddlers. This playground is enormous! The designers of this playground covered every fun, entertaining, and interactive feature a playground could have, while honoring the Marine Corp and blimp history.
-  \r\n One of the cool things about this playground is that it is perfect for all ages since it has a smaller section for toddlers and the bigger area for all the other ages including teenagers. The kids can climb on the spider webs, slide down the various size slides, spin, balance, swing, and even play a tune. There are also benches, tables, bbq grills, and a big green area for playing ball, running around, or just to relax and have a picnic. In the garden area you will not find flowers, but you will have benches where you can sit and read about the history of the area.',
-  'true',
-  'true',
-  'true'
-), (
-  2,
-  1,
-  2,
-  'Totally enclosed play area with a staff member at the gate. Dirt, water, sand, playground, and toys like giants legos and little dump trucks to play with. Some chairs around for parents and a little shade, but will be hot and sunny in the summer. The street address will park you to the side of the adventure playground. There is a closer parking lot  across from the entrance you can maybe drop a pin to get a little closer if you need to. Bathrooms are there, although a little rough. A few shady picnic tables at the front, although they filled up fast and no one seemed to move away from them the whole time I was there. But there is a huge park outside the adventure playground that is ideal for picnicking and playing.
-  \r\n The parking lot is limited in space because it is next to a public library, but thankfully the parking lot is separated. If the parking lot were to be full, the overflow would surely be the park lot. We went during the weekend in the afternoon, so my observation was that it is full in the mornings. The location has two restroom with changing tables, and it is deceiving at a glance. The outside appears to be a run down CONNEX but the inside looks like a well maintained public restroom. The door is not automatic but it is large enough to push in a stroller alone.',
-  true,
-  true,
-  true
-), (
-  3,
-  1,
-  3,
-  'Parasol Park is a compact community space that has a combination basketballvolleyball court, shaded areas with picnic tables, community planting beds, and landscaped areas along the perimeter, complete with faux footbridges to give the impression that you are entering a nature retreat. There is also a building that may have once been the subdivision sales office and could now be a community center.
-  \r\n The wooden play structures do not have any slides and the ladders into them maybe challenging for littles to climb. Zipline too scary for some littles. I do not recall any swings. There are resident amenities like community garden and ping pong tables and pool. Not much shade either. Street parking. Just across the street is Bosque Trail, another option that has play equipment and bathrooms.',
-  true,
-  true,
-  true
-), (
-  4,
-  1,
-  4,
-  'Heritage Park is a great spot to eat your takeout and enjoy the cool breeze, the scenery, and relax. The pond is full of all types of ducks/geese including baby ducks! There is a nice paved path to walk around, a good number of tables and benches, good parking, and lots of activities.
-  \r\n There are many things to do for both kids and adults.  The playground has 2 large play structures for infants and older kids respectively as well as a sand pit. There are swings for all ages as well as a splash pad. There is also a nice picnic area for parties, a small lake to walk around and read. The small lake is filled with turtles, ducks, and fish.Big fields and grassy area to play sports.',
-  'true',
-  'true',
-  'true'
-), (
-  5,
-  1,
-  5,
-  'Play equipment 2-5 and 5-12 with two toddler and two big kid swings over foam terrain with a small sand pit.  Two covered picnic tables on each side of playground (one with hand sanitizer dispenser).  No shade over the play equipment. The splash pad and pool are gated. Some grass area. Compared to other playground equipment in Woodbridge, this is the newest I have seen.
-  \r\n This is an association splash pad (so you need a key card for entry). We got tons of use out of the South Lake Beach Club (lagoon) over the summer but heard of this splash pad and thought it would be a quicker alternative. The splash pad was fun for my 2 and 4 year old boys. I will say there is a weird timer/motion setting that we could not quite figure out and even the lifeguards could not quite help. This splash pad is adjacent to a kiddie wading pool and the regular swimming pool - so be careful if you have little ones as the splash pad is not fenced in and little ones could wander off. Over all a great alternative to the pool.',
-  'true',
-  'true',
-  'true'
 );
