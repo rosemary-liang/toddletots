@@ -203,7 +203,7 @@ export default class NewEntryForm extends React.Component {
                       onChange={handleImageInputChange}
                       className='w-100 border-0 border-radius-10px entry-form-single fw-bold my-2' />
                       <div>
-                      <img onChange={handleImageInputChange} src={url} alt={caption} />
+                      <img onChange={handleImageInputChange} src={url} alt={caption} className='new-entry w-100 mt-2 border-radius-10px'/>
                       </div>
 
                     </div>

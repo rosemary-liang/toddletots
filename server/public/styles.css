@@ -87,6 +87,10 @@ img {
   height: 230px;
 }
 
+img.new-entry {
+  height: 270px;
+}
+
 footer {
   position: fixed;
   left: 0;
