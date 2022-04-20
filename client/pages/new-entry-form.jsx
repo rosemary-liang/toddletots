@@ -18,12 +18,14 @@ export default class NewEntryForm extends React.Component {
       ages5to12: null,
       defaultDescription: true,
       images: [],
+      url: null,
+      caption: null,
       errorMsg: ''
 
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleImageInputChange = this.handleImageInputChange.bind(this);
+    // this.handleImageInputChange = this.handleImageInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -33,18 +35,11 @@ export default class NewEntryForm extends React.Component {
     this.setState({ [name]: newValue });
   }
 
-  handleImageInputChange(event) {
-    const { value, name } = event.target;
-    this.setState({ images: [{ [name]: value }] });
-  }
-
   handleSubmit(event) {
-    // check that no properties in state are null
-    // check that image array is not empty (length greater than 0)
     event.preventDefault();
-    const { userId, streetAddress, city, zipCode, currentCoordinates } = this.state;
+    const { userId, streetAddress, city, zipCode, currentCoordinates, images, caption, url } = this.state;
     if (userId === null) {
-      this.setState({ userId: 1 }, () => { this.handleSubmit(); });
+      this.setState({ userId: 1 }, () => { this.handleSubmit(event); });
     }
     if (currentCoordinates === null) {
       const modifiedStreetAddress = streetAddress.replaceAll(' ', '+');
@@ -62,14 +57,17 @@ export default class NewEntryForm extends React.Component {
           this.setState({ errorMsg: 'Error - invalid address provided' });
         });
     }
-    // if (images.length === 0) {
-    //   <NewEntryImages />
-    //   // set state using images array from NewEntryImages component
-    //   // and if images length is still 0, then show error msg
-    //   this.setState({ errorMsg: 'Error - no images provided' });
-    // }
+    if (images.length === 0) {
+      const imageObject = {
+        caption: caption,
+        url: url
+      };
+      this.setState({ images: [...this.state.images, imageObject] }, () => {
+        this.handleSubmit(event);
+      });
+    }
 
-    // if (userId && currentCoordinates && images.length > 0) {
+    // if (userId && currentCoordinates) {
     //   const req = {
     //     method: 'POST',
     //     headers: {
@@ -80,19 +78,18 @@ export default class NewEntryForm extends React.Component {
     //   fetch('/api/activities')
     //     .then(res => res.json());
     // }
-    // do PUT request
+    // // do PUT request
   }
 
   render() {
     // console.log('New Entry Form this.state:', this.state);
-    // const { streetAddress, city, zipCode, currentCoordinates } = this.state;
-    const { handleInputChange, handleImageInputChange, handleSubmit } = this;
-    const { errorMsg, images } = this.state;
+    const { handleInputChange, handleSubmit } = this;
+    const { errorMsg } = this.state;
     let url = 'https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg';
     let caption = 'placeholder image';
-    if (images.length !== 0) {
-      url = this.images[0].url;
-      caption = this.images[0].caption;
+    if (this.state.url && this.state.caption) {
+      url = this.state.url;
+      caption = this.state.caption;
     }
 
     return (
@@ -104,8 +101,6 @@ export default class NewEntryForm extends React.Component {
               <p className='ms-5 text-white fw-bold'>Add New Activity</p>
             </div>
             <div className='w-100 p-1 p-2'>
-            {/* // if images is open, hide the form and vice versa */}
-
               <form onSubmit={handleSubmit} action="">
                 <input
                   required
@@ -173,7 +168,6 @@ export default class NewEntryForm extends React.Component {
 
                 </div>
 
-        {/* add images container */}
                 <div className='add-images-container'>
                   {/* <div className='single-add-image-container'>
                     <div className='bg-white p-4 border-radius-10px bg-white border-0 w-100 '>
@@ -187,25 +181,23 @@ export default class NewEntryForm extends React.Component {
                       </div> */}
 
                   <div className='add-image-expanded mt-2'>
-
                     <input
                       required
                       type="text"
                       name="url"
                       placeholder='image url'
-                      onChange={handleImageInputChange}
+                      onChange={handleInputChange}
                       className='w-100 border-0 border-radius-10px entry-form-single fw-bold my-2' />
                     <input
                       required
                       type="text"
                       name="caption"
                       placeholder='caption'
-                      onChange={handleImageInputChange}
+                      onChange={handleInputChange}
                       className='w-100 border-0 border-radius-10px entry-form-single fw-bold my-2' />
                       <div>
-                      <img onChange={handleImageInputChange} src={url} alt={caption} className='new-entry w-100 mt-2 border-radius-10px'/>
+                      <img onChange={handleInputChange} src={url} alt={caption} className='new-entry w-100 mt-2 border-radius-10px'/>
                       </div>
-
                     </div>
                     </div>
 
