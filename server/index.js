@@ -111,6 +111,10 @@ app.get('/api/activities/:activityId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('api/activites', (req, res, next) => {
+
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

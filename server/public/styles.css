@@ -19,6 +19,11 @@
   color: black;
 }
 
+.fa-plus {
+  width: 24px;
+  height: 24px;
+}
+
 .button-search {
   right: 0.1px;
   top: 0.1px;
@@ -49,6 +54,10 @@
 
 .h-40px {
   height: 40px;
+}
+
+.h-24px {
+  height: 24px;
 }
 
 .map-placeholder {

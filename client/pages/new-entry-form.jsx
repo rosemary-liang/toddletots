@@ -23,6 +23,7 @@ export default class NewEntryForm extends React.Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleImageInputChange = this.handleImageInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -30,6 +31,11 @@ export default class NewEntryForm extends React.Component {
     const { value, name, type, checked } = event.target;
     const newValue = type === 'checkbox' ? checked : value;
     this.setState({ [name]: newValue });
+  }
+
+  handleImageInputChange(event) {
+    const { value, name } = event.target;
+    this.setState({ images: [{ [name]: value }] });
   }
 
   handleSubmit(event) {
@@ -56,8 +62,14 @@ export default class NewEntryForm extends React.Component {
           this.setState({ errorMsg: 'Error - invalid address provided' });
         });
     }
+    // if (images.length === 0) {
+    //   <NewEntryImages />
+    //   // set state using images array from NewEntryImages component
+    //   // and if images length is still 0, then show error msg
+    //   this.setState({ errorMsg: 'Error - no images provided' });
+    // }
 
-    // if (userId && currentCoordinates) {
+    // if (userId && currentCoordinates && images.length > 0) {
     //   const req = {
     //     method: 'POST',
     //     headers: {
@@ -74,8 +86,15 @@ export default class NewEntryForm extends React.Component {
   render() {
     // console.log('New Entry Form this.state:', this.state);
     // const { streetAddress, city, zipCode, currentCoordinates } = this.state;
-    const { handleInputChange, handleSubmit } = this;
-    const { errorMsg } = this.state;
+    const { handleInputChange, handleImageInputChange, handleSubmit } = this;
+    const { errorMsg, images } = this.state;
+    let url = 'https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg';
+    let caption = 'placeholder image';
+    if (images.length !== 0) {
+      url = this.images[0].url;
+      caption = this.images[0].caption;
+    }
+
     return (
       <div className='text-decoration-none pb-5 bg-secondary rounded'>
         <div className="d-flex flex-column align-items-center ">
@@ -85,6 +104,8 @@ export default class NewEntryForm extends React.Component {
               <p className='ms-5 text-white fw-bold'>Add New Activity</p>
             </div>
             <div className='w-100 p-1 p-2'>
+            {/* // if images is open, hide the form and vice versa */}
+
               <form onSubmit={handleSubmit} action="">
                 <input
                   required
@@ -151,26 +172,51 @@ export default class NewEntryForm extends React.Component {
                   </div>
 
                 </div>
-                <div className='fs-6 text-brown fw-bold'>
-                  <p>No images uploaded yet</p>
-                  <div>
-                    <p>images uploaded:</p>
-                    {/* map images to preview layout and size */}
-                  </div>
-                </div>
-                <div className='d-flex justify-content-between mt-5'>
-                  <a href="#new-entry-edit-images">
+
+        {/* add images container */}
+                <div className='add-images-container'>
+                  {/* <div className='single-add-image-container'>
+                    <div className='bg-white p-4 border-radius-10px bg-white border-0 w-100 '>
+                      <div className='d-flex align-items-center align-content-center'>
+                        <div className="d-flex h-24px">
+                          <button className='bg-transparent border-0'>
+                            <i className="fa-solid fa-plus py-1 text-white bg-secondary"></i>
+                          </button>
+                          <p className='ms-5 fw-bold text-brown'>Add an image</p>
+                        </div>
+                      </div> */}
+
+                  <div className='add-image-expanded mt-2'>
+
                     <input
-                    type='button' value='edit images'
-                    className='px-4 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm' />
-                    </a>
+                      required
+                      type="text"
+                      name="url"
+                      placeholder='image url'
+                      onChange={handleImageInputChange}
+                      className='w-100 border-0 border-radius-10px entry-form-single fw-bold my-2' />
+                    <input
+                      required
+                      type="text"
+                      name="caption"
+                      placeholder='caption'
+                      onChange={handleImageInputChange}
+                      className='w-100 border-0 border-radius-10px entry-form-single fw-bold my-2' />
+                      <div>
+                      <img onChange={handleImageInputChange} src={url} alt={caption} />
+                      </div>
+
+                    </div>
+                    </div>
+
+                <div className='d-flex justify-content-end mt-5'>
                   <input
                     type='submit' value='submit'
-                    className='px-5 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm'/>
+                    className='px-5 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm' />
                 </div>
-
+                <div className=' bg-danger mt-4 text-center text-white fw-bold fs-5'>{errorMsg}</div>
               </form>
-              <div className=' bg-danger mt-4 text-center text-white fw-bold fs-5'>{errorMsg}</div>
+
             </div>
           </div>
         </div>
