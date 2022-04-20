@@ -33,20 +33,19 @@ export default class NewEntryForm extends React.Component {
   }
 
   handleSubmit(event) {
-    // if lng/lat null, run geolocation using address to populate it
     // check that no properties in state are null
     // check that image array is not empty (length greater than 0)
     event.preventDefault();
-    const { streetAddress, city, zipCode, currentCoordinates } = this.state;
-
+    const { userId, streetAddress, city, zipCode, currentCoordinates } = this.state;
+    if (userId === null) {
+      this.setState({ userId: 1 }, () => { this.handleSubmit(); });
+    }
     if (currentCoordinates === null) {
-      const modifiedStreetAddress = streetAddress.replaceAll(' ',
-        '+');
+      const modifiedStreetAddress = streetAddress.replaceAll(' ', '+');
       const address = `${modifiedStreetAddress},+${city},+${zipCode}`;
       axios.post(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_MAPS_KEY}`)
         .then(data => {
           const currentCoordinates = data.data.results[0].geometry.location;
-          // console.log(currentCoordinates);
           this.setState({
             currentCoordinates,
             errorMsg: ''
@@ -57,17 +56,24 @@ export default class NewEntryForm extends React.Component {
           this.setState({ errorMsg: 'Error - invalid address provided' });
         });
     }
+
+    // if (userId && currentCoordinates) {
+    //   const req = {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(this.state)
+    //   };
+    //   fetch('/api/activities')
+    //     .then(res => res.json());
+    // }
+    // do PUT request
   }
 
   render() {
     // console.log('New Entry Form this.state:', this.state);
     // const { streetAddress, city, zipCode, currentCoordinates } = this.state;
-    // if (streetAddress) {
-    //   const modifiedStreetAddress = streetAddress.replaceAll(' ',
-    //     '+');
-    //   const address = `${modifiedStreetAddress},+${city},+${zipCode}`;
-    //   console.log(address);
-    // }
     const { handleInputChange, handleSubmit } = this;
     const { errorMsg } = this.state;
     return (
@@ -172,18 +178,3 @@ export default class NewEntryForm extends React.Component {
     );
   }
 }
-
-// function HandleZip(zipCoordinates) {
-//   this.setState({ currentCoordinates: zipCoordinates });
-// }
-
-// function UseCurrentLocation() {
-//   axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.GOOGLE_MAPS_KEY}`)
-//     .then(data => {
-//       const currentCoordinates = data.data.location;
-//       this.setState({ currentCoordinates }, function () {
-//         this.sortActivitiesByDistance(currentCoordinates);
-//       });
-//     })
-//     .catch(err => console.error(err));
-// }
