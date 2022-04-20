@@ -23,7 +23,7 @@ export default class ActivityDetails extends React.Component {
       return null;
     }
 
-    const { activityName, streetAddress, city, zipCode, description, images, ages2_5: ages2to5, ages5_12: ages5to12 } = this.state.activity;
+    const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.state.activity;
 
     return (
       <>

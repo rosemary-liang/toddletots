@@ -12,21 +12,19 @@ app.use(staticMiddleware);
 app.get('/api/activities', (req, res, next) => {
   const sqlActivities = `
    select
-      "a"."activityId",
-      "a"."activityName",
-      "add"."addressId",
-      "add"."streetAddress",
-      "add"."city",
-      "add"."zipCode",
-      "add"."lat",
-      "add"."lng",
-      "d"."description",
-      "d"."ages2_5",
-      "d"."ages5_12"
+      "activityId",
+      "activityName",
+      "streetAddress",
+      "city",
+      "zipCode",
+      "lat",
+      "lng",
+      "description",
+      "ages2to5",
+      "ages5to12"
 
-    from "activities" as "a"
-    join "addresses" as "add" using ("addressId")
-    join "descriptions" as "d" using ("activityId")
+    from "activities"
+
   `;
 
   db.query(sqlActivities)
@@ -66,21 +64,18 @@ app.get('/api/activities/:activityId', (req, res, next) => {
   const params = [activityId];
   const sqlActivities = `
    select
-      "a"."activityId",
-      "a"."activityName",
-      "add"."addressId",
-      "add"."streetAddress",
-      "add"."city",
-      "add"."zipCode",
-      "add"."lat",
-      "add"."lng",
-      "d"."description",
-      "d"."ages2_5",
-      "d"."ages5_12"
+      "activityId",
+      "activityName",
+      "streetAddress",
+      "city",
+      "zipCode",
+      "lat",
+      "lng",
+      "description",
+      "ages2to5",
+      "ages5to12"
 
     from "activities" as "a"
-    join "addresses" as "add" using ("addressId")
-    join "descriptions" as "d" using ("activityId")
     where "activityId" = $1
   `;
   db.query(sqlActivities, params)
@@ -115,20 +110,13 @@ app.get('/api/activities/:activityId', (req, res, next) => {
 //   const { activityName, streetAddress, city, zipCode, description, defaultDescription, ages2to5, ages5to12, url, caption, userId, currentCoordinates } = req.body;
 //   const { lat, lng } = currentCoordinates;
 
-//   const sqlAddress = `
-//   insert into "activities" ("userId", "activityName", "addressId")
-//   values ($1, $2, $3)
-//   returning "userId", "activityName", "addressId"
-//   `;
-//   const paramsActivities = [userId, activityName, addressId]
-
-//   const sqlActivities = `
-//   insert into "activities" ("userId", "activityName", "addressId")
-//   values ($1, $2, $3)
-//   returning "userId", "activityName", "addressId"
-//   `;
-//   const paramsActivities = [userId, activityName, addressId]
-// });
+// //   const sqlActivities = `
+// //   insert into "activities" ("userId", "activityName", "addressId")
+// //   values ($1, $2, $3)
+// //   returning "userId", "activityName", "addressId"
+// //   `;
+// //   const paramsActivities = [userId, activityName, addressId]
+// // });
 
 app.use(errorMiddleware);
 

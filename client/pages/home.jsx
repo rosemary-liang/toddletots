@@ -13,8 +13,7 @@ class Home extends React.Component {
     super(props);
     this.state = {
       activities: [],
-      currentCoordinates: [],
-      newEntry: []
+      currentCoordinates: []
     };
     this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
     this.sortActivitiesByDistance = this.sortActivitiesByDistance.bind(this);
@@ -104,7 +103,7 @@ class Home extends React.Component {
 }
 
 function Activity(props) {
-  const { activityName, images, activityId, distance, ages2_5: ages2to5, ages5_12: ages5to12 } = props.activity;
+  const { activityName, images, activityId, distance, ages2to5, ages5to12 } = props.activity;
 
   return (
     // this should be an anchor tag because it shows another view

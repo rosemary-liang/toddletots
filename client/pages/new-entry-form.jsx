@@ -17,7 +17,6 @@ export default class NewEntryForm extends React.Component {
       ages2to5: null,
       ages5to12: null,
       defaultDescription: true,
-      images: [],
       url: null,
       caption: null,
       errorMsg: ''
@@ -37,7 +36,7 @@ export default class NewEntryForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { userId, streetAddress, city, zipCode, currentCoordinates, images, caption, url } = this.state;
+    const { userId, streetAddress, city, zipCode, currentCoordinates } = this.state;
     if (userId === null) {
       this.setState({ userId: 1 }, () => { this.handleSubmit(event); });
     }
@@ -56,15 +55,6 @@ export default class NewEntryForm extends React.Component {
           console.error(err);
           this.setState({ errorMsg: 'Error - invalid address provided' });
         });
-    }
-    if (images.length === 0) {
-      const imageObject = {
-        caption: caption,
-        url: url
-      };
-      this.setState({ images: [...this.state.images, imageObject] }, () => {
-        this.handleSubmit(event);
-      });
     }
 
     // if (userId && currentCoordinates) {
