@@ -91,16 +91,16 @@ img.new-entry {
   height: 270px;
 }
 
+img.new-entry-success {
+  height: 300px;
+}
+
 footer {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   background-color: #f6f9f9;
-}
-
-.custom-dialog-menu {
-  width: 25% !important;
 }
 
 .searchbar {
@@ -114,6 +114,10 @@ footer {
 }
 
 @media only screen and (min-width: 768px) {
+  .custom-dialog-menu {
+    width: 25% !important;
+  }
+
   .carousel {
     max-width: 450px;
   }
