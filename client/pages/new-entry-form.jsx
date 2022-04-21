@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import AgeRange from '../components/age-range';
 // import SearchBar from '../components/searchbar';
 // import ReactTooltip from 'react-tooltip';
 
@@ -30,7 +31,8 @@ export default class NewEntryForm extends React.Component {
       ages5to12: true,
       url: 'https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg',
       caption: 'dog',
-      errorMsg: ''
+      errorMsg: '',
+      activityAdded: []
 
     };
 
@@ -84,7 +86,7 @@ export default class NewEntryForm extends React.Component {
           if (activity) {
             // go to success page and populate it
             // console.log(activity);
-            return activity;
+            this.setState({ activityAdded: activity });
           }
         });
 
@@ -95,7 +97,7 @@ export default class NewEntryForm extends React.Component {
   render() {
     // console.log('NewEntryForm this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
-    const { errorMsg } = this.state;
+    const { errorMsg, activityAdded } = this.state;
     let url = 'https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg';
     let caption = 'placeholder image';
     if (this.state.url && this.state.caption) {
@@ -103,7 +105,8 @@ export default class NewEntryForm extends React.Component {
       caption = this.state.caption;
     }
 
-    return (
+    if (activityAdded.length === 0) {
+      return (
       <div className='text-decoration-none pb-5 bg-secondary rounded'>
         <div className="d-flex flex-column align-items-center ">
           <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
@@ -213,6 +216,48 @@ export default class NewEntryForm extends React.Component {
           </div>
         </div>
       </div>
-    );
+      );
+    } else {
+      const { activityName, streetAddress, city, zipCode, ages2to5, ages5to12, description, images } = activityAdded;
+      const { url, caption } = images;
+
+      return (
+        <div className='text-decoration-none pb-5 bg-secondary rounded'>
+          <div className="d-flex flex-column align-items-center ">
+            <div className="mt-2 w-100 ps-4 d-flex flex-column justify-content-center">
+              <div className='d-flex justify-content-center fs-2 mb-0 position-relative'>
+                <a href='#' className='bg-transparent border-0 h1 text-white fw-bold position-absolute top-0 start-0'><i className="fa-solid fa-arrow-left"></i></a>
+                <p className='ms-4 text-white fw-bold'>Success!</p>
+              </div>
+              <div className='w-100 p-2 bg-white row border-radius-10px'>
+                <div className='d-flex justify-content-between align-content-center align-items-center'>
+                  <p className='text-brown fw-bold pt-2'>{activityName}</p>
+                  <button className='bg-transparent border-0'><i className="fa-solid fa-pencil text-gray"></i></button>
+                </div>
+                <p className='my-0'>{streetAddress}</p>
+                <p className='mt-0'>{city}, {zipCode}</p>
+                <div className='w-100'>
+                  <img src={url} alt={caption} className='border-radius-10px my-2' />
+                </div>
+
+                <div className='fw-bold mt-4'>
+                  <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} page='#new-entry-success' />
+                </div>
+                <div>
+                  <p className='fw-bold text-brown'>Description</p>
+                  <p>{description}</p>
+                </div>
+              </div>
+              <div className='my-4 d-flex justify-content-end me-2'>
+                <a href="#" className='text-decoration-none'>
+                  <button className='px-2 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm'>see all activities</button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
   }
 }
