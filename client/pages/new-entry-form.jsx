@@ -9,30 +9,31 @@ export default class NewEntryForm extends React.Component {
     super(props);
     this.state = {
 
-      // activityName: null,
-      // streetAddress: null,
-      // city: null,
-      // zipCode: null,
-      // currentCoordinates: null,
-      // description: null,
-      // ages2to5: null,
-      // ages5to12: null,
-      // url: null,
-      // caption: null,
-      // errorMsg: ''
-
-      activityName: 'Sweet Shade Neighborhood Park',
-      streetAddress: '15 Sweet Shade',
-      city: 'Irvine',
-      zipCode: 92606,
+      activityName: null,
+      streetAddress: null,
+      city: null,
+      zipCode: null,
       currentCoordinates: null,
-      description: 'Wow what a nice park. All the nice things.',
-      ages2to5: true,
-      ages5to12: true,
-      url: 'https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg',
-      caption: 'dog',
+      description: null,
+      ages2to5: null,
+      ages5to12: null,
+      url: null,
+      caption: null,
       errorMsg: '',
       activityAdded: []
+
+      // activityName: 'Sweet Shade Neighborhood Park',
+      // streetAddress: '15 Sweet Shade',
+      // city: 'Irvine',
+      // zipCode: 92606,
+      // currentCoordinates: null,
+      // description: 'Wow what a nice park. All the nice things.',
+      // ages2to5: true,
+      // ages5to12: true,
+      // url: 'https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg',
+      // caption: 'dog',
+      // errorMsg: '',
+      // activityAdded: []
 
     };
 
