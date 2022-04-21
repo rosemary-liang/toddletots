@@ -39,6 +39,7 @@ export default class Carousel extends React.Component {
 
   render() {
     const { activeImage } = this.state;
+    // console.log(this.state);
 
     return (
       <div className="carousel slide d-flex px-0" data-bs-ride="carousel">

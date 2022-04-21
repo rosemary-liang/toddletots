@@ -8,6 +8,7 @@ const staticMiddleware = require('./static-middleware');
 const app = express();
 
 app.use(staticMiddleware);
+app.use(express.json());
 
 app.get('/api/activities', (req, res, next) => {
   const sqlActivities = `
@@ -106,17 +107,36 @@ app.get('/api/activities/:activityId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// app.post('api/activites', (req, res, next) => {
-//   const { activityName, streetAddress, city, zipCode, description, defaultDescription, ages2to5, ages5to12, url, caption, userId, currentCoordinates } = req.body;
-//   const { lat, lng } = currentCoordinates;
+app.post('/api/activities', (req, res, next) => {
+  const userId = 1;
+  const { activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, currentCoordinates } = req.body;
+  const { lat, lng } = currentCoordinates;
 
-// //   const sqlActivities = `
-// //   insert into "activities" ("userId", "activityName", "addressId")
-// //   values ($1, $2, $3)
-// //   returning "userId", "activityName", "addressId"
-// //   `;
-// //   const paramsActivities = [userId, activityName, addressId]
-// // });
+  const sqlActivities = `
+  insert into "activities"
+    (
+    "userId",
+    "activityName",
+    "streetAddress",
+    "city",
+    "zipCode",
+    "description",
+    "ages2to5",
+    "ages5to12",
+    "lat",
+    "lng"
+    )
+  values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+  returning "activityId"
+  `;
+  const paramsActivities = [userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, lat, lng];
+  db.query(sqlActivities, paramsActivities)
+    .then(result => {
+      return result;
+
+    })
+    .catch(err => next(err));
+});
 
 app.use(errorMiddleware);
 

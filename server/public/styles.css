@@ -148,6 +148,10 @@ footer {
     bottom: 0.1rem;
     transform: scale(1.2);
   }
+
+  img.new-entry {
+    height: 300px;
+  }
 }
 
 @media only screen and (min-width: 1200px) {
@@ -157,6 +161,10 @@ footer {
     bottom: 0.1rem;
     transform: scale(1.3);
   }
+
+  img.new-entry {
+    height: 330px;
+  }
 }
 
 @media only screen and (min-width: 1400px) {
@@ -165,5 +173,9 @@ footer {
     left: 18rem;
     bottom: 0.1rem;
     transform: scale(1.3);
+  }
+
+  img.new-entry {
+    height: 360px;
   }
 }
