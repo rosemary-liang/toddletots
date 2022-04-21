@@ -132,6 +132,7 @@ app.post('/api/activities', (req, res, next) => {
   const paramsActivities = [userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, lat, lng];
   db.query(sqlActivities, paramsActivities)
     .then(result => {
+      // console.log(result);
       return result;
 
     })

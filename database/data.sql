@@ -1,12 +1,10 @@
 insert into "users" (
-  "userId",
   "username",
   "hashedPassword",
   "firstName",
   "lastName",
   "email"
 ) values (
-  '1',
   'demo',
   'temp',
   'Demo',
@@ -16,7 +14,6 @@ insert into "users" (
 
 
 insert into "activities" (
-  "activityId",
   "activityName",
   "userId",
   "streetAddress",
@@ -28,7 +25,6 @@ insert into "activities" (
   "ages2to5",
   "ages5to12"
 ) values (
-  1,
   'Victory Park',
   1,
   '3300 Park Ave',
@@ -41,7 +37,6 @@ insert into "activities" (
   'true',
   'true'
 ), (
-  2,
   'Adventure Playground',
   1,
   '1 Beech Tree Ln',
@@ -54,7 +49,6 @@ insert into "activities" (
   true,
   true
 ), (
-  3,
   'Parasol Park',
   1,
   '375 Magnet',
@@ -67,7 +61,6 @@ insert into "activities" (
   true,
   true
 ), (
-  4,
   'Heritage Community Park',
   1,
   '14301 Yale Ave',
@@ -80,7 +73,6 @@ insert into "activities" (
   'true',
   'true'
 ), (
-  5,
   'Fallbrook Park',
   1,
   '75 Fallbrook',
@@ -96,107 +88,86 @@ insert into "activities" (
 
 
 insert into "images" (
-  "imageId",
   "activityId",
   "url",
   "caption"
 ) values (
   1,
-  1,
   'https://s3-media0.fl.yelpcdn.com/bphoto/ffBHq176CStn3BwhMqpOIw/o.jpg',
   'victory park playground full view'
 ), (
-  2,
   1,
   'https://s3-media0.fl.yelpcdn.com/bphoto/c0qB4cplIKx7sY4qkHz-QQ/o.jpg',
   'victory park climbing structures'
 ), (
-  3,
   1,
   'https://s3-media0.fl.yelpcdn.com/bphoto/ytIbjfa0W5G6sFbpazt3YQ/o.jpg',
   'victory park swings'
 ), (
-  4,
   1,
   'https://s3-media0.fl.yelpcdn.com/bphoto/p3pAwdkwJzRIX2x-mSsfkA/o.jpg',
   'victory park upper level'
 ), (
-  5,
   2,
   'https://s3-media0.fl.yelpcdn.com/bphoto/n7OjGTC97B60QpLjX-2EuQ/o.jpg',
   'adventure playground play structure'
 ), (
-  6,
   2,
   'https://s3-media0.fl.yelpcdn.com/bphoto/N2-8jUGZkRUSZB55x1zv0Q/o.jpg',
   'adventure playground shaded seating area'
 ), (
-  7,
   2,
   'https://s3-media0.fl.yelpcdn.com/bphoto/cjL-zw9YkrrW0kaUBbJLXA/o.jpg',
   'adventure playground giant legos'
 ), (
-  8,
   2,
   'https://s3-media0.fl.yelpcdn.com/bphoto/ByKhoiva-CHg3B3648f3kA/o.jpg',
   'adventure playground entrance'
 ), (
-  9,
   3,
   'https://s3-media0.fl.yelpcdn.com/bphoto/hpYkrqQA9vkrf8OmkDtJUw/o.jpg',
   'parasol park overview'
 ), (
-  10,
   3,
   'https://s3-media0.fl.yelpcdn.com/bphoto/vVxc4saU6tuOUBidCxwsvQ/o.jpg',
   'parasol park swings'
 ), (
-  11,
   3,
   'https://s3-media0.fl.yelpcdn.com/bphoto/9ja7a3GLtBfEjeaCgfV0Zw/o.jpg',
   'parasol park play structure'
 ), (
-  12,
   3,
   'https://s3-media0.fl.yelpcdn.com/bphoto/Hq6MRvKnJ8coMFVkHcUIMA/o.jpg',
   'parasol park neighborhood garden'
 ), (
-  13,
   4,
   'https://s3-media0.fl.yelpcdn.com/bphoto/QzKn6H4ODqI1hGfdPVbudg/o.jpg',
   'heritage park playground'
 ), (
-  14,
   4,
   'https://s3-media0.fl.yelpcdn.com/bphoto/Y-igrhYLEPt2cwZje0qR8Q/o.jpg',
   'heritage park lake'
 ), (
-  15,
   4,
   'https://s3-media0.fl.yelpcdn.com/bphoto/ugUl7LgF0__25GAS7Z9HLQ/o.jpg',
   'heritage park small playground'
 ), (
-  16,
   4,
   'https://s3-media0.fl.yelpcdn.com/bphoto/Mh3rQFP60WUaQjhu-fklmg/o.jpg',
   'heritage park water play'
 ), (
-  17,
   5,
   'https://s3-media0.fl.yelpcdn.com/bphoto/p0djEdSpOj1RtXyzUAPSjg/o.jpg',
   'fallbrook splash pad'
 ), (
-  18,
   5,
   'https://s3-media0.fl.yelpcdn.com/bphoto/4j0EULkBaHeh6a15pfaPVQ/o.jpg',
   'fallbrook play structure'
 ), (
-  19,
   5,
   'https://ap.rdcpix.com/c335990e6778fa382528b9bbb3d3a2f4l-m961033455s-w642_h420_q75.jpg',
   'fallbrook from above'
 ), (
-  20,
   5,
   'https://ssl.cdn-redfin.com/photo/45/mbphoto/895/genMid.OC14106895_21_1.jpg',
   'fallbrook swings'
