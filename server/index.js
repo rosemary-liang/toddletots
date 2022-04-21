@@ -109,7 +109,7 @@ app.get('/api/activities/:activityId', (req, res, next) => {
 
 app.post('/api/activities', (req, res, next) => {
   const userId = 1;
-  const { activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, currentCoordinates } = req.body;
+  const { activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, currentCoordinates, url, caption } = req.body;
   const { lat, lng } = currentCoordinates;
 
   const sqlActivities = `
@@ -127,13 +127,33 @@ app.post('/api/activities', (req, res, next) => {
     "lng"
     )
   values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-  returning "activityId"
+  returning *
   `;
   const paramsActivities = [userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, lat, lng];
   db.query(sqlActivities, paramsActivities)
-    .then(result => {
-      // console.log(result);
-      return result;
+    .then(newActivity => {
+      // console.log(newActivity);
+      const [activity] = newActivity.rows;
+      const newActivityId = activity.activityId;
+      const sqlImages = `
+      insert into "images"
+      (
+        "activityId",
+        "url",
+        "caption"
+      )
+      values ($1, $2, $3)
+      returning *
+      `;
+      const paramsImages = [newActivityId, url, caption];
+      db.query(sqlImages, paramsImages)
+        .then(resultImages => {
+          // console.log(resultImages);
+          const [image] = resultImages.rows;
+          activity.images = image;
+          res.json(activity);
+        })
+        .catch(err => next(err));
 
     })
     .catch(err => next(err));

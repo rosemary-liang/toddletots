@@ -79,8 +79,15 @@ export default class NewEntryForm extends React.Component {
       };
       // console.log('req.body:', req.body);
       fetch('/api/activities', req)
-        .then(res => res.json());
-      // .then(data => console.log(data));
+        .then(res => res.json())
+        .then(activity => {
+          if (activity) {
+            // go to success page and populate it
+            // console.log(activity);
+            return activity;
+          }
+        });
+
     }
     // // do PUT request
   }
