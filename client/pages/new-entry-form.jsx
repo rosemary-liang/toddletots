@@ -228,25 +228,25 @@ export default class NewEntryForm extends React.Component {
               <div className='d-flex justify-content-center fs-2 mb-0 position-relative'>
                 <p className='text-white fw-bold'>Success!</p>
               </div>
-              <div className='col-12 p-2 bg-white row border-radius-10px mb-4 fs-5'>
+              <div className='col-12 p-2 bg-white row border-radius-10px mb-4 fs-5 position-relative'>
                 <div className='d-flex justify-content-between align-content-center align-items-center'>
                   <p className='text-brown fw-bold pt-2'>{activityName}</p>
                   <button className='bg-transparent border-0'><i className="fa-solid fa-pencil text-gray"></i></button>
                 </div>
                 <p className='my-0 fs-6'>{streetAddress}</p>
                 <p className='mt-0 fs-6'>{city}, {zipCode}</p>
-                <div className='w-100 mb-4'>
-                  <img src={url} alt={caption} className='border-radius-10px my-2 w-100 new-entry-success' />
+                <div className='col-md-12 col-lg-6 mb-4 p-md-2'>
+                  <img src={url} alt={caption} className='border-radius-10px my-2 new-entry-success' />
                 </div>
 
                   <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} page='#new-entry-success' />
 
-                <div>
+                <div className='mt-lg-5'>
                   <p className='fw-bold text-brown'>Description</p>
                   <p className='fs-6'> {description}</p>
                 </div>
               </div>
-              <div className='my-4 d-flex justify-content-end me-2'>
+              <div className='my-2 d-flex justify-content-end me-2'>
                 <a href="#" className='text-decoration-none'>
                   <button className='px-2 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm'>see all activities</button>
                 </a>

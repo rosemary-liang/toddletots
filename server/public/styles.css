@@ -93,6 +93,7 @@ img.new-entry {
 
 img.new-entry-success {
   height: 300px;
+  width: 100%;
 }
 
 footer {
@@ -127,6 +128,11 @@ footer {
     min-width: 300px;
   }
 
+  img.new-entry-success {
+    height: 350px;
+    width: 100%;
+  }
+
   .searchbar {
     width: 450px;
   }
@@ -155,6 +161,15 @@ footer {
 
   img.new-entry {
     height: 300px;
+    width: 100%;
+  }
+
+  img.new-entry-success {
+    height: 270px;
+    width: 50%;
+    top: 4rem;
+    right: 1.5rem;
+    position: absolute;
   }
 }
 
@@ -169,6 +184,14 @@ footer {
   img.new-entry {
     height: 330px;
   }
+
+  img.new-entry-success {
+    height: 300px;
+    width: 45%;
+    top: 4rem;
+    right: 1.5rem;
+    position: absolute;
+  }
 }
 
 @media only screen and (min-width: 1400px) {
@@ -181,5 +204,13 @@ footer {
 
   img.new-entry {
     height: 360px;
+  }
+
+  img.new-entry-success {
+    height: 300px;
+    width: 45%;
+    top: 4rem;
+    right: 1.5rem;
+    position: absolute;
   }
 }
