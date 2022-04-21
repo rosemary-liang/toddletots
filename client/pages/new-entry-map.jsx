@@ -7,17 +7,7 @@ export default class NewEntryMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // userId: null,
-      // activityName: null,
-      // streetAddress: null,
-      // city: null,
-      // zipCode: null,
       currentCoordinates: null
-      // description: null,
-      // ages2to5: null,
-      // ages5to12: null,
-      // defaultDescription: true,
-      // images: []
     };
   }
 

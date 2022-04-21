@@ -1,8 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import AgeRange from '../components/age-range';
-// import SearchBar from '../components/searchbar';
-// import ReactTooltip from 'react-tooltip';
 
 export default class NewEntryForm extends React.Component {
   constructor(props) {
@@ -21,20 +19,6 @@ export default class NewEntryForm extends React.Component {
       caption: null,
       errorMsg: '',
       activityAdded: []
-
-      // activityName: 'Sweet Shade Neighborhood Park',
-      // streetAddress: '15 Sweet Shade',
-      // city: 'Irvine',
-      // zipCode: 92606,
-      // currentCoordinates: null,
-      // description: 'Wow what a nice park. All the nice things.',
-      // ages2to5: true,
-      // ages5to12: true,
-      // url: 'https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg',
-      // caption: 'dog',
-      // errorMsg: '',
-      // activityAdded: []
-
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -50,9 +34,7 @@ export default class NewEntryForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const { streetAddress, city, zipCode, currentCoordinates } = this.state;
-    // if (userId === null) {
-    //   this.setState({ userId: 1 }, () => { this.handleSubmit(event); });
-    // }
+
     if (currentCoordinates === null) {
       const modifiedStreetAddress = streetAddress.replaceAll(' ', '+');
       const address = `${modifiedStreetAddress},+${city},+${zipCode}`;
@@ -80,19 +62,17 @@ export default class NewEntryForm extends React.Component {
         },
         body: JSON.stringify(this.state)
       };
-      // console.log('req.body:', req.body);
+
       fetch('/api/activities', req)
         .then(res => res.json())
         .then(activity => {
           if (activity) {
-            // go to success page and populate it
-            // console.log(activity);
+
             this.setState({ activityAdded: activity });
           }
         });
-
     }
-    // // do PUT request
+
   }
 
   render() {
@@ -121,14 +101,14 @@ export default class NewEntryForm extends React.Component {
                   <div className='d-flex flex-column col-md-12 col-lg-6'>
 
                     <input
-                      // required
+                      required
                       type="text"
                       name="activityName"
                       placeholder='activity name'
                       onChange={handleInputChange}
                       className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
                     <input
-                      // required
+                      required
                       type="text"
                       name="streetAddress"
                       placeholder="street address"
@@ -136,14 +116,14 @@ export default class NewEntryForm extends React.Component {
                         className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2'/>
                     <div className='d-flex my-2 justify-content-between'>
                         <input
-                          // required
+                          required
                           type="text"
                           name="city"
                           placeholder="city"
                           onChange={handleInputChange}
                             className='col-md-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
                       <input
-                        // required
+                        required
                         type="text"
                         name="zipCode"
                         placeholder="zip"
@@ -151,7 +131,7 @@ export default class NewEntryForm extends React.Component {
                             className='col-md-4 col-lg-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
                     </div>
                     <textarea
-                      // required
+                      required
                       name="description"
                       placeholder="description"
                       rows="10"
@@ -185,14 +165,14 @@ export default class NewEntryForm extends React.Component {
                 <div className='add-images-container col-lg-6 ms-lg-4 px-lg-2'>
 
                     <input
-                      // required
+                      required
                       type="text"
                       name="url"
                       placeholder='image url'
                       onChange={handleInputChange}
                       className='w-100 border-0 border-radius-10px entry-form-single fw-bold my-2' />
                     <input
-                      // required
+                      required
                       type="text"
                       name="caption"
                       placeholder='caption'
