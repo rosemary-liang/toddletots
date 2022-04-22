@@ -190,7 +190,7 @@ app.put('/api/activities/:activityId', (req, res, next) => {
   const paramsActivities = [userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, lat, lng, activityId];
   db.query(sqlActivities, paramsActivities)
     .then(result => {
-      // const activity = result.rows;
+      const activity = result.rows;
       const sqlImages = `
       update "images"
       set "lastModified" = now(),
@@ -201,14 +201,17 @@ app.put('/api/activities/:activityId', (req, res, next) => {
       `;
       const paramsImages = [url, caption, imageId];
       db.query(sqlImages, paramsImages)
-        .then(resultImages => {
-          // need to do another db GET query for ALL images with specific activityId
+        .then(result => {
+          activity.images = result.rows;
+          const finalData = activity;
+          res.json(finalData);
         })
         .catch(err => next(err));
     })
 
     .catch(err => next(err));
 });
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

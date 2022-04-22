@@ -11,22 +11,25 @@ export default class ActivityDetails extends React.Component {
       editClicked: false
     };
 
-    this.setParentStateActivity = this.setParentStateActivity.bind(this);
     this.setParentStateEditClicked = this.setParentStateEditClicked.bind(this);
   }
 
   componentDidMount() {
+    this.fetchActivities();
+  }
+
+  fetchActivities() {
     fetch(`api/activities/${this.props.activityId}`)
       .then(results => results.json())
       .then(activity => this.setState({ activity }));
   }
 
-  setParentStateActivity(newActivity) {
-    this.setState({ activity: newActivity });
-  }
-
   setParentStateEditClicked(newStatus) {
-    this.setState({ editClicked: newStatus });
+    this.setState({ editClicked: newStatus }, () => {
+      if (!this.state.editClicked) {
+        this.fetchActivities();
+      }
+    });
   }
 
   render() {
@@ -51,7 +54,6 @@ export default class ActivityDetails extends React.Component {
         <>
         <EditActivity
         activity={this.state.activity}
-        setParentStateActivity={this.setParentStateActivity}
         setParentStateEditClicked={this.setParentStateEditClicked} />
         </>
       );
@@ -158,7 +160,6 @@ class EditActivity extends React.Component {
     const { imageId, url, caption } = images[0];
 
     this.setState({ activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images, url, caption, imageId, userId });
-
   }
 
   handleInputChange(event) {
@@ -217,7 +218,7 @@ class EditActivity extends React.Component {
         .then(activity => {
           if (activity) {
             // console.log(activity);
-            // this.props.setParentStateActivity({ activity }, () => { this.props.setParentStateEditClicked(false); });
+            this.props.setParentStateEditClicked(false);
           }
         })
         .catch(err => console.error(err));
@@ -239,7 +240,7 @@ class EditActivity extends React.Component {
           <div className="d-flex flex-column align-items-center ">
             <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
               <div className='d-flex justify-content-center fs-2 mb-0 position-relative'>
-                <a href='#new-entry-map' className='bg-transparent border-0 h1 text-white fw-bold position-absolute top-0 start-0'><i className="fa-solid fa-arrow-left"></i></a>
+                <button onClick={() => this.props.setParentStateEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold position-absolute top-0 start-0'><i className="fa-solid fa-arrow-left"></i></button>
                 <p className='ms-5 text-white fw-bold'>Edit Activity</p>
               </div>
               <div className='w-100 p-1 p-2 '>
