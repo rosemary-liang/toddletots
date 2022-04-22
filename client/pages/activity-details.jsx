@@ -75,7 +75,6 @@ class ActivityDetail extends React.Component {
   render() {
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
     // console.log('props.activity:', this.props.activity);
-    // return (<h1>Hi</h1>);
 
     return (
   <>
