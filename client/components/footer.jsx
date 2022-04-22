@@ -9,7 +9,7 @@ export default function Footer() {
         <a href="#">
           <i className="fa-solid fa-house"></i>
         </a>
-        <a href="#">
+        <a href="#add-new">
           <i className="fa-solid fa-circle-plus"></i>
         </a>
         <a href="#">

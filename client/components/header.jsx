@@ -1,14 +1,13 @@
 import React from 'react';
+import HamburgerMenu from './hamburger-menu';
 
 export default function Header() {
   return (
     <header className='mb-2'>
       <nav>
         <div className="container bg-primary h1 d-flex justify-content-between align-items-center rounded">
-          <div className="menu d-flex justify-content-start">
-           <a href="#menu">
-             <i className="fa-solid fa-bars text-white"></i>
-            </a>
+          <div className='position-relative'>
+            <HamburgerMenu />
           </div>
           <div className="d-flex flex-row">
             <div className="trees-logo-container position-relative me-4 h1">

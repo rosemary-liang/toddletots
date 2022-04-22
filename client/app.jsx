@@ -2,6 +2,8 @@ import React from 'react';
 import Home from './pages/home';
 import AppContext from './lib/app-context';
 import ActivityDetails from './pages/activity-details';
+import NewEntryMap from './pages/new-entry-map';
+import NewEntryForm from './pages/new-entry-form';
 import Header from './components/header';
 import Footer from './components/footer';
 import './scss/style.scss';
@@ -30,9 +32,15 @@ export default class App extends React.Component {
       googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
       loadingElement={<div style={{ height: '100%' }} />}/>;
     }
-    if (route.path === 'activities') {
+    if (route.path === 'activity-details') {
       const activityId = route.params.get('activityId');
       return <ActivityDetails activityId={activityId} />;
+    }
+    if (route.path === 'new-entry-map') {
+      return <NewEntryMap />;
+    }
+    if (route.path === 'new-entry-form') {
+      return <NewEntryForm />;
     }
   }
 

@@ -39,9 +39,10 @@ export default class Carousel extends React.Component {
 
   render() {
     const { activeImage } = this.state;
+    // console.log(this.state);
 
     return (
-      <div className="carousel slide d-flex px-0" data-bs-ride="carousel">
+      <div className="carousel slide d-flex px-0" data-bs-ride="carousel" onClick={e => e.stopPropagation()}>
         <button onClick={this.handlePrevious} className='bg-transparent border-0 h1 text-gray'><i className="fa-solid fa-chevron-left"></i></button>
         <div className="carousel-inner mx-2">
               <div className="carousel-item active">

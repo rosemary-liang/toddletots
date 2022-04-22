@@ -24,7 +24,10 @@ export default function AgeRange(props) {
     className = 'home-age-range fs-5 fw-bold p-5 w-50';
     pClassName = 'd-inline-block text-black ms-4';
   } else if (page === '#activities') {
-    className = 'activity-detail-age-range h5 fw-bold mt-5';
+    className = 'h5 fw-bold mt-5';
+    pClassName = 'd-inline-block text-black ms-4 fw-normal';
+  } else if (page === '#new-entry-success') {
+    className = ' d-inline-block h5 fw-bold mt-5';
     pClassName = 'd-inline-block text-black ms-4 fw-normal';
   }
 
@@ -33,7 +36,7 @@ export default function AgeRange(props) {
 
   return (
   <div className={className}>
-    <p className='text-brown'>Age Range</p>
+    <p className='text-brown fw-bold'>Age Range</p>
     <div className="age-range-line">
       <i className={age2to5check}></i>
       <p className={pClassName}>2-5 years</p>

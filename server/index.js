@@ -8,25 +8,24 @@ const staticMiddleware = require('./static-middleware');
 const app = express();
 
 app.use(staticMiddleware);
+app.use(express.json());
 
 app.get('/api/activities', (req, res, next) => {
   const sqlActivities = `
    select
-      "a"."activityId",
-      "a"."activityName",
-      "add"."addressId",
-      "add"."streetAddress",
-      "add"."city",
-      "add"."zipCode",
-      "add"."lat",
-      "add"."lng",
-      "d"."description",
-      "d"."ages2_5",
-      "d"."ages5_12"
+      "activityId",
+      "activityName",
+      "streetAddress",
+      "city",
+      "zipCode",
+      "lat",
+      "lng",
+      "description",
+      "ages2to5",
+      "ages5to12"
 
-    from "activities" as "a"
-    join "addresses" as "add" using ("addressId")
-    join "descriptions" as "d" using ("activityId")
+    from "activities"
+
   `;
 
   db.query(sqlActivities)
@@ -66,21 +65,18 @@ app.get('/api/activities/:activityId', (req, res, next) => {
   const params = [activityId];
   const sqlActivities = `
    select
-      "a"."activityId",
-      "a"."activityName",
-      "add"."addressId",
-      "add"."streetAddress",
-      "add"."city",
-      "add"."zipCode",
-      "add"."lat",
-      "add"."lng",
-      "d"."description",
-      "d"."ages2_5",
-      "d"."ages5_12"
+      "activityId",
+      "activityName",
+      "streetAddress",
+      "city",
+      "zipCode",
+      "lat",
+      "lng",
+      "description",
+      "ages2to5",
+      "ages5to12"
 
     from "activities" as "a"
-    join "addresses" as "add" using ("addressId")
-    join "descriptions" as "d" using ("activityId")
     where "activityId" = $1
   `;
   db.query(sqlActivities, params)
@@ -107,6 +103,58 @@ app.get('/api/activities/:activityId', (req, res, next) => {
           res.json(finalData);
         })
         .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/activities', (req, res, next) => {
+  const userId = 1;
+  const { activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, currentCoordinates, url, caption } = req.body;
+  const { lat, lng } = currentCoordinates;
+
+  const sqlActivities = `
+  insert into "activities"
+    (
+    "userId",
+    "activityName",
+    "streetAddress",
+    "city",
+    "zipCode",
+    "description",
+    "ages2to5",
+    "ages5to12",
+    "lat",
+    "lng"
+    )
+  values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+  returning *
+  `;
+  const paramsActivities = [userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, lat, lng];
+  db.query(sqlActivities, paramsActivities)
+    .then(newActivity => {
+      // console.log(newActivity);
+      const [activity] = newActivity.rows;
+      const newActivityId = activity.activityId;
+      const sqlImages = `
+      insert into "images"
+      (
+        "activityId",
+        "url",
+        "caption"
+      )
+      values ($1, $2, $3)
+      returning *
+      `;
+      const paramsImages = [newActivityId, url, caption];
+      db.query(sqlImages, paramsImages)
+        .then(resultImages => {
+          // console.log(resultImages);
+          const [image] = resultImages.rows;
+          activity.images = image;
+          res.json(activity);
+        })
+        .catch(err => next(err));
+
     })
     .catch(err => next(err));
 });
