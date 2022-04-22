@@ -159,11 +159,11 @@ class EditActivity extends React.Component {
   }
 
   componentDidMount() {
-    const { activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images } = this.props.activity;
+    const { activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images, userId } = this.props.activity;
 
     const { imageId, url, caption } = images[0];
 
-    this.setState({ activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images, url, caption, imageId });
+    this.setState({ activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images, url, caption, imageId, userId });
 
   }
 
@@ -216,26 +216,35 @@ class EditActivity extends React.Component {
         body: JSON.stringify(this.state)
       };
 
-      fetch('/api/activities', req)
+      const { activityId } = this.state;
+
+      fetch(`/api/activities/${activityId}`, req)
         .then(res => res.json())
         .then(activity => {
-          if (activity) {
+          return activity;
+          // console.log(activity);
+          // if (activity) {
 
-            this.setState({ activityAdded: activity });
-          }
+        //   this.setState({ activityAdded: activity });
+        //   // pass activity back to parent
+          // show success page
+        // }
         });
     }
 
   }
 
   render() {
-    // console.log(this.props);
-    // console.log('NewEntryForm this.state:', this.state);
+    // console.log('this.props:', this.props);
     // console.log('this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
     const { errorMsg, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, url, caption } = this.state;
 
-    return (
+    if (!activityName || !url || !caption) {
+      return null;
+    } else {
+
+      return (
         <div className='text-decoration-none pb-5 bg-secondary rounded'>
           <div className="d-flex flex-column align-items-center ">
             <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
@@ -352,7 +361,8 @@ class EditActivity extends React.Component {
             </div>
           </div>
         </div>
-    );
+      );
+    }
   }
 
 }
