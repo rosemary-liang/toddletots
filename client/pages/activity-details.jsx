@@ -8,13 +8,11 @@ export default class ActivityDetails extends React.Component {
     super(props);
     this.state = {
       activity: null,
-      editClicked: false,
-      editSuccess: false
+      editClicked: false
     };
 
     this.setParentStateActivity = this.setParentStateActivity.bind(this);
     this.setParentStateEditClicked = this.setParentStateEditClicked.bind(this);
-    this.setParentStateEditSuccess = this.setParentStateEditSuccess.bind(this);
   }
 
   componentDidMount() {
@@ -29,10 +27,6 @@ export default class ActivityDetails extends React.Component {
 
   setParentStateEditClicked(newStatus) {
     this.setState({ editClicked: newStatus });
-  }
-
-  setParentStateEditSuccess(newStatus) {
-    this.setState({ editSuccess: newStatus });
   }
 
   render() {
