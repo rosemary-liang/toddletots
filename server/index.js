@@ -22,7 +22,8 @@ app.get('/api/activities', (req, res, next) => {
       "lng",
       "description",
       "ages2to5",
-      "ages5to12"
+      "ages5to12",
+      "userId"
 
     from "activities"
 
@@ -74,7 +75,8 @@ app.get('/api/activities/:activityId', (req, res, next) => {
       "lng",
       "description",
       "ages2to5",
-      "ages5to12"
+      "ages5to12",
+      "userId"
 
     from "activities" as "a"
     where "activityId" = $1
@@ -156,6 +158,57 @@ app.post('/api/activities', (req, res, next) => {
         .catch(err => next(err));
 
     })
+    .catch(err => next(err));
+});
+
+app.put('/api/activities/:activityId', (req, res, next) => {
+  const activityId = Number(req.params.activityId);
+  if (!activityId) {
+    throw new ClientError(400, `cannot find activity with activityId ${activityId}`);
+  }
+
+  const { userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, currentCoordinates, images } = req.body;
+  const { lat, lng } = currentCoordinates;
+  const { imageId, url, caption } = images[0];
+
+  const sqlActivities = `
+    update "activities"
+    set "lastModified" = now(),
+        "userId" = $1,
+        "activityName" = $2,
+        "streetAddress" = $3,
+        "city" = $4,
+        "zipCode" = $5,
+        "description" = $6,
+        "ages2to5" = $7,
+        "ages5to12" = $8,
+        "lat" = $9,
+        "lng" = $10
+    where "activityId" = $11
+    returning *
+  `;
+  const paramsActivities = [userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, lat, lng, activityId];
+  db.query(sqlActivities, paramsActivities)
+    .then(result => {
+      const activity = result.rows;
+      const sqlImages = `
+      update "images"
+      set "lastModified" = now(),
+          "url" = $1,
+          "caption" = $2
+      where "imageId" = $3
+      returning *
+      `;
+      const paramsImages = [url, caption, imageId];
+      db.query(sqlImages, paramsImages)
+        .then(result => {
+          activity.images = result.rows;
+          const finalData = activity;
+          res.json(finalData);
+        })
+        .catch(err => next(err));
+    })
+
     .catch(err => next(err));
 });
 

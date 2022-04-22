@@ -42,6 +42,7 @@ export default class App extends React.Component {
     if (route.path === 'new-entry-form') {
       return <NewEntryForm />;
     }
+
   }
 
   render() {
