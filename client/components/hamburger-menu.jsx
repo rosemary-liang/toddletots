@@ -20,7 +20,6 @@ export default function HamburgerMenu() {
           <div className='d-flex flex-column fw-bold'>
             <a href="#" onClick={handleClose} className='text-decoration-none text-brown' >Home</a>
             <a href="#new-entry-map" onClick={handleClose} className='text-decoration-none text-brown'>Add New Activity</a>
-            <a href="#edit" onClick={handleClose} className='text-decoration-none text-brown'>Edit Existing Activity</a>
             <a href="#bookmarks" onClick={handleClose} className='text-decoration-none text-brown'>Bookmarks</a>
             <a href="#sign-in" onClick={handleClose} className='text-decoration-none text-brown'>Sign In</a>
             <a href="#sign-out" onClick={handleClose} className='text-decoration-none text-brown'>Sign Out</a>
