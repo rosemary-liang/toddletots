@@ -75,6 +75,7 @@ class ActivityDetail extends React.Component {
   render() {
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
     // console.log('props.activity:', this.props.activity);
+    // return (<h1>Hi</h1>);
 
     return (
   <>
@@ -214,17 +215,13 @@ class EditActivity extends React.Component {
       fetch(`/api/activities/${activityId}`, req)
         .then(res => res.json())
         .then(activity => {
-          return activity;
-          // console.log(activity);
-          // if (activity) {
-
-        //   this.setState({ activityAdded: activity });
-        //   // pass activity back to parent
-          // show success page
-        // }
-        });
+          if (activity) {
+            // console.log(activity);
+            // this.props.setParentStateActivity({ activity }, () => { this.props.setParentStateEditClicked(false); });
+          }
+        })
+        .catch(err => console.error(err));
     }
-
   }
 
   render() {

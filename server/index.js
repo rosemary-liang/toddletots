@@ -167,8 +167,9 @@ app.put('/api/activities/:activityId', (req, res, next) => {
     throw new ClientError(400, `cannot find activity with activityId ${activityId}`);
   }
 
-  const { userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, currentCoordinates } = req.body;
+  const { userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, currentCoordinates, images } = req.body;
   const { lat, lng } = currentCoordinates;
+  const { imageId, url, caption } = images[0];
 
   const sqlActivities = `
     update "activities"
@@ -188,10 +189,26 @@ app.put('/api/activities/:activityId', (req, res, next) => {
   `;
   const paramsActivities = [userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, lat, lng, activityId];
   db.query(sqlActivities, paramsActivities)
-    .then(result => { return result; })
+    .then(result => {
+      // const activity = result.rows;
+      const sqlImages = `
+      update "images"
+      set "lastModified" = now(),
+          "url" = $1,
+          "caption" = $2
+      where "imageId" = $3
+      returning *
+      `;
+      const paramsImages = [url, caption, imageId];
+      db.query(sqlImages, paramsImages)
+        .then(resultImages => {
+          // need to do another db GET query for ALL images with specific activityId
+        })
+        .catch(err => next(err));
+    })
+
     .catch(err => next(err));
 });
-
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

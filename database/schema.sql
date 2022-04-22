@@ -41,7 +41,7 @@ CREATE TABLE "images" (
 	"activityId" integer NOT NULL,
 	"url" TEXT NOT NULL,
 	"caption" TEXT NOT NULL,
-	"createdAt" TIMESTAMPTZ NOT NULL default now(),
+	"lastModified" TIMESTAMPTZ NOT NULL default now(),
 	CONSTRAINT "images_pk" PRIMARY KEY ("imageId")
 ) WITH (
   OIDS=FALSE
