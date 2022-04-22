@@ -145,9 +145,13 @@ class EditActivity extends React.Component {
       ages2to5: null,
       ages5to12: null,
       images: [],
+      modifiedImage: null,
+      url: null,
+      caption: null,
+      imageId: null,
       // images should be mapped to render
       errorMsg: '',
-      activityAdded: []
+      activityEdited: []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -157,7 +161,9 @@ class EditActivity extends React.Component {
   componentDidMount() {
     const { activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images } = this.props.activity;
 
-    this.setState({ activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images });
+    const { imageId, url, caption } = images[0];
+
+    this.setState({ activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images, url, caption, imageId });
 
   }
 
@@ -169,7 +175,7 @@ class EditActivity extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { streetAddress, city, zipCode, currentCoordinates } = this.state;
+    const { streetAddress, city, zipCode, currentCoordinates, modifiedImage } = this.state;
 
     if (currentCoordinates === null) {
       const modifiedStreetAddress = streetAddress.replaceAll(' ', '+');
@@ -190,7 +196,18 @@ class EditActivity extends React.Component {
         });
     }
 
-    if (currentCoordinates) {
+    if (modifiedImage == null) {
+      const { url, caption, imageId } = this.state;
+      this.setState({ modifiedImage: { url, caption, imageId } }, () => {
+        const images = [...this.state.images];
+        let imageToModify = { ...images[0] };
+        imageToModify = this.state.modifiedImage;
+        images[0] = imageToModify;
+        this.setState({ images }, () => this.handleSubmit(event));
+      });
+    }
+
+    if (currentCoordinates && modifiedImage) {
       const req = {
         method: 'PUT',
         headers: {
@@ -214,17 +231,11 @@ class EditActivity extends React.Component {
   render() {
     // console.log(this.props);
     // console.log('NewEntryForm this.state:', this.state);
+    // console.log('this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
-    const { errorMsg, activityAdded } = this.state;
-    let url = 'https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg';
-    let caption = 'placeholder image';
-    if (this.state.url && this.state.caption) {
-      url = this.state.url;
-      caption = this.state.caption;
-    }
+    const { errorMsg, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, url, caption } = this.state;
 
-    if (activityAdded.length === 0) {
-      return (
+    return (
         <div className='text-decoration-none pb-5 bg-secondary rounded'>
           <div className="d-flex flex-column align-items-center ">
             <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
@@ -243,13 +254,15 @@ class EditActivity extends React.Component {
                         name="activityName"
                         placeholder='activity name'
                         onChange={handleInputChange}
-                        className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
+                        value={activityName}
+                        className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2'/>
                       <input
                         required
                         type="text"
                         name="streetAddress"
                         placeholder="street address"
                         onChange={handleInputChange}
+                        value={streetAddress}
                         className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
                       <div className='d-flex my-2 justify-content-between'>
                         <input
@@ -258,6 +271,7 @@ class EditActivity extends React.Component {
                           name="city"
                           placeholder="city"
                           onChange={handleInputChange}
+                          value={city}
                           className='col-md-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
                         <input
                           required
@@ -265,6 +279,7 @@ class EditActivity extends React.Component {
                           name="zipCode"
                           placeholder="zip"
                           onChange={handleInputChange}
+                          value={zipCode}
                           className='col-md-4 col-lg-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
                       </div>
                       <textarea
@@ -273,6 +288,7 @@ class EditActivity extends React.Component {
                         placeholder="description"
                         rows="10"
                         onChange={handleInputChange}
+                        value={description}
                         className='new-entry-description col-md-12 border-radius-10px mb-3 border-0 ps-2 fw-bold my-2 ' >
                       </textarea>
 
@@ -281,7 +297,7 @@ class EditActivity extends React.Component {
                         <div className="form-check  mb-4">
                           <input
                             type="checkbox"
-                            value=""
+                            value={ages2to5}
                             name="ages2to5"
                             onChange={handleInputChange}
                             className="form-check-input" />
@@ -290,7 +306,7 @@ class EditActivity extends React.Component {
                         <div className="form-check">
                           <input
                             type="checkbox"
-                            value=""
+                            value={ages5to12}
                             name="ages5to12"
                             onChange={handleInputChange}
                             className="form-check-input" />
@@ -307,6 +323,7 @@ class EditActivity extends React.Component {
                         name="url"
                         placeholder='image url'
                         onChange={handleInputChange}
+                        value={url}
                         className='w-100 border-0 border-radius-10px entry-form-single fw-bold my-2' />
                       <input
                         required
@@ -314,6 +331,7 @@ class EditActivity extends React.Component {
                         name="caption"
                         placeholder='caption'
                         onChange={handleInputChange}
+                        value={caption}
                         className='w-100 border-0 border-radius-10px entry-form-single fw-bold my-2' />
                       <div>
                         <img onChange={handleInputChange} src={url} alt={caption} className='new-entry w-100 mt-2 border-radius-10px' />
@@ -334,7 +352,7 @@ class EditActivity extends React.Component {
             </div>
           </div>
         </div>
-      );
-    }
+    );
   }
+
 }
