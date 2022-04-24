@@ -106,8 +106,6 @@ function Activity(props) {
   const { activityName, images, activityId, distance, ages2to5, ages5to12 } = props.activity;
 
   return (
-  // this should be an anchor tag because it shows another view
-  // <a href={`#activity-details?activityId=${activityId}`} className='text-decoration-none'>
       <div onClick={() => { location.hash = `#activity-details?activityId=${activityId}`; }} className='container bg-white border-radius-20px mb-4 py-4 cursor-pointer '>
         <div className='ps-5'>
           <div className='text-brown fs-5 fw-bold'>{activityName}</div>
@@ -118,7 +116,6 @@ function Activity(props) {
           <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} page="#" />
           </div>
       </div>
-  // </a>
   );
 }
 

@@ -97,8 +97,8 @@ insert into "images" (
   'victory park playground full view'
 ), (
   1,
-  'https://s3-media0.fl.yelpcdn.com/bphoto/c0qB4cplIKx7sY4qkHz-QQ/o.jpg',
-  'victory park climbing structures'
+  'https://s3-media0.fl.yelpcdn.com/bphoto/TRdb3_x0R-sOMVVGl4PP-g/o.jpg',
+  'victory park grass field'
 ), (
   1,
   'https://s3-media0.fl.yelpcdn.com/bphoto/ytIbjfa0W5G6sFbpazt3YQ/o.jpg',
@@ -145,8 +145,8 @@ insert into "images" (
   'heritage park playground'
 ), (
   4,
-  'https://s3-media0.fl.yelpcdn.com/bphoto/Y-igrhYLEPt2cwZje0qR8Q/o.jpg',
-  'heritage park lake'
+  'https://s3-media0.fl.yelpcdn.com/bphoto/R2GbZa3NZovjQSfBZYs2vQ/o.jpg',
+  'heritage park sunset'
 ), (
   4,
   'https://s3-media0.fl.yelpcdn.com/bphoto/ugUl7LgF0__25GAS7Z9HLQ/o.jpg',

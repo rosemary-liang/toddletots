@@ -297,7 +297,7 @@ class EditActivity extends React.Component {
                         <div className="form-check  mb-4">
                           <input
                             type="checkbox"
-                            value={ages2to5}
+                            checked={ages2to5}
                             name="ages2to5"
                             onChange={handleInputChange}
                             className="form-check-input" />
@@ -306,7 +306,7 @@ class EditActivity extends React.Component {
                         <div className="form-check">
                           <input
                             type="checkbox"
-                            value={ages5to12}
+                            checked={ages5to12}
                             name="ages5to12"
                             onChange={handleInputChange}
                             className="form-check-input" />
