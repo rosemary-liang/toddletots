@@ -13,13 +13,13 @@ export default function DeleteModal() {
         <i className="fa-solid fa-trash-can text-white"></i>
       </button>
 
-      <Modal show={show} onHide={handleClose} dialogClassName='custom-dialog-menu '>
+      <Modal show={show} onHide={handleClose} dialogClassName='custom-dialog-delete position-absolute'>
         <Modal.Body>
-          <div className='d-flex flex-column fw-bold font-gray'>
-            <p>Are you sure you want to delete this entry?</p>
-            <div>
-              <button>yes</button>
-              <button>no</button>
+          <div className='d-flex flex-column fw-bold text-dark-gray text-center p-4'>
+            <p className='mb-4'>Are you sure you want to delete this entry?</p>
+            <div className='d-flex justify-content-evenly'>
+              <button className='yes-button border-radius-10px px-5 py-1 fw-bold'>yes</button>
+              <button className='no-button border-radius-10px px-5 py-1 fw-bold'>no</button>
             </div>
           </div>
         </Modal.Body>

@@ -240,7 +240,7 @@ class EditActivity extends React.Component {
         <div className='text-decoration-none pb-5 bg-secondary rounded'>
           <div className="d-flex flex-column align-items-center ">
             <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
-              <div className='d-flex justify-content-center fs-2 mb-0 position-relative'>
+              <div className='d-flex justify-content-between fs-2 mb-0'>
                 <button onClick={() => this.props.setParentStateEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold '><i className="fa-solid fa-arrow-left"></i></button>
                 <p className='ms-5 text-white fw-bold'>Edit Activity</p>
                 <DeleteModal />
