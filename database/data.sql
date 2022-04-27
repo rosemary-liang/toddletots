@@ -133,8 +133,8 @@ insert into "images" (
   'parasol park swings'
 ), (
   3,
-  'https://s3-media0.fl.yelpcdn.com/bphoto/9ja7a3GLtBfEjeaCgfV0Zw/o.jpg',
-  'parasol park play structure'
+  'https://s3-media0.fl.yelpcdn.com/bphoto/YHdNUJeb9DFqYvEGmFp2hQ/o.jpg',
+  'parasol park sign'
 ), (
   3,
   'https://s3-media0.fl.yelpcdn.com/bphoto/Hq6MRvKnJ8coMFVkHcUIMA/o.jpg',

@@ -43,17 +43,10 @@ class Home extends React.Component {
     });
     const sortedDistanceArray = _.orderBy(activitiesWithDistance, 'distance', 'asc');
     this.setState({ activities: sortedDistanceArray });
-
   }
 
   getCurrentCoordinates() {
     return axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.GOOGLE_MAPS_KEY}`);
-  }
-
-  handleZip(zipCoordinates) {
-    this.setState({ currentCoordinates: zipCoordinates }, function () {
-      this.sortActivitiesByDistance();
-    });
   }
 
   useCurrentLocation() {
@@ -61,10 +54,16 @@ class Home extends React.Component {
       .then(data => {
         const currentCoordinates = data.data.location;
         this.setState({ currentCoordinates }, function () {
-          this.sortActivitiesByDistance(currentCoordinates);
+          this.sortActivitiesByDistance();
         });
       })
       .catch(err => console.error(err));
+  }
+
+  handleZip(zipCoordinates) {
+    this.setState({ currentCoordinates: zipCoordinates }, function () {
+      this.sortActivitiesByDistance();
+    });
   }
 
   render() {

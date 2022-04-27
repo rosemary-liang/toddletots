@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
+import DeleteModal from '../components/delete-modal';
 
 export default class ActivityDetails extends React.Component {
   constructor(props) {
@@ -239,9 +240,11 @@ class EditActivity extends React.Component {
         <div className='text-decoration-none pb-5 bg-secondary rounded'>
           <div className="d-flex flex-column align-items-center ">
             <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
-              <div className='d-flex justify-content-center fs-2 mb-0 position-relative'>
-                <button onClick={() => this.props.setParentStateEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold position-absolute top-0 start-0'><i className="fa-solid fa-arrow-left"></i></button>
+              <div className='d-flex justify-content-between fs-2 mb-0 position-relative'>
+                <button onClick={() => this.props.setParentStateEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold '><i className="fa-solid fa-arrow-left"></i></button>
                 <p className='ms-5 text-white fw-bold'>Edit Activity</p>
+                <DeleteModal />
+
               </div>
               <div className='w-100 p-1 p-2 '>
                 <form onSubmit={handleSubmit} action="" >
