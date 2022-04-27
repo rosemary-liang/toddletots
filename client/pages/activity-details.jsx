@@ -230,7 +230,7 @@ class EditActivity extends React.Component {
     // console.log('this.props:', this.props);
     // console.log('this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
-    const { errorMsg, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, url, caption } = this.state;
+    const { activityId, errorMsg, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, url, caption } = this.state;
 
     if (!activityName || !url || !caption) {
       return null;
@@ -243,7 +243,7 @@ class EditActivity extends React.Component {
               <div className='d-flex justify-content-between fs-2 mb-0'>
                 <button onClick={() => this.props.setParentStateEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold '><i className="fa-solid fa-arrow-left"></i></button>
                 <p className='ms-5 text-white fw-bold'>Edit Activity</p>
-                <DeleteModal />
+                <DeleteModal activityId={activityId}/>
 
               </div>
               <div className='w-100 p-1 p-2 '>
