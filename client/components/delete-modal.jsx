@@ -15,7 +15,7 @@ export default function DeleteModal() {
 
       <Modal show={show} onHide={handleClose} dialogClassName='custom-dialog-menu '>
         <Modal.Body>
-          <div className='d-flex flex-column fw-bold'>
+          <div className='d-flex flex-column fw-bold font-gray'>
             <p>Are you sure you want to delete this entry?</p>
             <div>
               <button>yes</button>

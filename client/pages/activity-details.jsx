@@ -240,7 +240,7 @@ class EditActivity extends React.Component {
         <div className='text-decoration-none pb-5 bg-secondary rounded'>
           <div className="d-flex flex-column align-items-center ">
             <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
-              <div className='d-flex justify-content-between fs-2 mb-0 position-relative'>
+              <div className='d-flex justify-content-center fs-2 mb-0 position-relative'>
                 <button onClick={() => this.props.setParentStateEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold '><i className="fa-solid fa-arrow-left"></i></button>
                 <p className='ms-5 text-white fw-bold'>Edit Activity</p>
                 <DeleteModal />
@@ -275,7 +275,7 @@ class EditActivity extends React.Component {
                           placeholder="city"
                           onChange={handleInputChange}
                           value={city}
-                          className='col-md-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
+                          className='col-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
                         <input
                           required
                           type="text"
@@ -283,7 +283,7 @@ class EditActivity extends React.Component {
                           placeholder="zip"
                           onChange={handleInputChange}
                           value={zipCode}
-                          className='col-md-4 col-lg-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
+                          className='col-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
                       </div>
                       <textarea
                         required

@@ -121,14 +121,14 @@ export default class NewEntryForm extends React.Component {
                           name="city"
                           placeholder="city"
                           onChange={handleInputChange}
-                            className='col-md-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
+                            className='col-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
                       <input
                         required
                         type="text"
                         name="zipCode"
                         placeholder="zip"
                         onChange={handleInputChange}
-                            className='col-md-4 col-lg-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
+                            className='col-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
                     </div>
                     <textarea
                       required
