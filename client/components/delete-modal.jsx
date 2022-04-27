@@ -15,7 +15,7 @@ export default function DeleteModal(props) {
     })
       .then(result => {
         if (result) {
-        // show success page
+          return result;
         }
       });
   };

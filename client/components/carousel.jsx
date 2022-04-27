@@ -3,12 +3,18 @@ import React from 'react';
 export default class Carousel extends React.Component {
   constructor(props) {
     super(props);
-    const { images } = this.props;
     this.state = {
-      activeImage: images[0]
+      activeImage: null
     };
     this.handlePrevious = this.handlePrevious.bind(this);
     this.handleNext = this.handleNext.bind(this);
+  }
+
+  componentDidMount() {
+    const { images } = this.props;
+    if (images[0]) {
+      this.setState({ activeImage: images[0] });
+    }
   }
 
   handlePrevious() {
@@ -41,7 +47,9 @@ export default class Carousel extends React.Component {
     const { activeImage } = this.state;
     // console.log(this.state);
 
-    return (
+    if (this.state.activeImage !== null) {
+
+      return (
       <div className="carousel slide d-flex px-0" data-bs-ride="carousel" onClick={e => e.stopPropagation()}>
         <button onClick={this.handlePrevious} className='bg-transparent border-0 h1 text-gray'><i className="fa-solid fa-chevron-left"></i></button>
         <div className="carousel-inner mx-2">
@@ -51,6 +59,9 @@ export default class Carousel extends React.Component {
         </div>
         <button onClick={this.handleNext} className='bg-transparent border-0 h1 text-gray'><i className="fa-solid fa-chevron-right"></i></button>
       </div>
-    );
+      );
+    } else {
+      return null;
+    }
   }
 }
