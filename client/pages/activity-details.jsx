@@ -9,10 +9,12 @@ export default class ActivityDetails extends React.Component {
     super(props);
     this.state = {
       activity: null,
-      editClicked: false
+      editClicked: false,
+      deleted: false
     };
 
-    this.setParentStateEditClicked = this.setParentStateEditClicked.bind(this);
+    this.setEditClicked = this.setEditClicked.bind(this);
+    this.setDeleted = this.setDeleted.bind(this);
   }
 
   componentDidMount() {
@@ -25,7 +27,7 @@ export default class ActivityDetails extends React.Component {
       .then(activity => this.setState({ activity }));
   }
 
-  setParentStateEditClicked(newStatus) {
+  setEditClicked(newStatus) {
     this.setState({ editClicked: newStatus }, () => {
       if (!this.state.editClicked) {
         this.fetchActivities();
@@ -33,9 +35,13 @@ export default class ActivityDetails extends React.Component {
     });
   }
 
+  setDeleted(newStatus) {
+    this.setState({ deleted: newStatus });
+  }
+
   render() {
     // console.log('ActivityDetail this.state:', this.state);
-    const { activity, editClicked } = this.state;
+    const { activity, editClicked, deleted } = this.state;
     if (!activity) {
       return null;
     }
@@ -45,7 +51,7 @@ export default class ActivityDetails extends React.Component {
       <>
       <ActivityDetail
       activity={this.state.activity}
-      setParentStateEditClicked= {this.setParentStateEditClicked}/>
+      setEditClicked= {this.setEditClicked}/>
       </>
       );
     }
@@ -55,7 +61,16 @@ export default class ActivityDetails extends React.Component {
         <>
         <EditActivity
         activity={this.state.activity}
-        setParentStateEditClicked={this.setParentStateEditClicked} />
+        setEditClicked={this.setEditClicked} />
+        </>
+      );
+    }
+
+    if (deleted) {
+      return (
+        <>
+        <Deleted
+        setDeleted={this.setDeleted} />
         </>
       );
     }
@@ -72,7 +87,7 @@ class ActivityDetail extends React.Component {
   }
 
   handleClick() {
-    this.props.setParentStateEditClicked(true);
+    this.props.setEditClicked(true);
   }
 
   render() {
@@ -218,8 +233,7 @@ class EditActivity extends React.Component {
         .then(res => res.json())
         .then(activity => {
           if (activity) {
-            // console.log(activity);
-            this.props.setParentStateEditClicked(false);
+            this.props.setEditClicked(false);
           }
         })
         .catch(err => console.error(err));
@@ -241,9 +255,9 @@ class EditActivity extends React.Component {
           <div className="d-flex flex-column align-items-center ">
             <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
               <div className='d-flex justify-content-between fs-2 mb-0'>
-                <button onClick={() => this.props.setParentStateEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold '><i className="fa-solid fa-arrow-left"></i></button>
+                <button onClick={() => this.props.setEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold '><i className="fa-solid fa-arrow-left"></i></button>
                 <p className='ms-5 text-white fw-bold'>Edit Activity</p>
-                <DeleteModal activityId={activityId}/>
+                <DeleteModal activityId={activityId} onClick={() => this.props.setDeleted(false)}/>
 
               </div>
               <div className='w-100 p-1 p-2 '>
@@ -358,5 +372,28 @@ class EditActivity extends React.Component {
       );
     }
   }
+}
 
+class Deleted extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   // this.handleClick = this.handleClick.bind(this);
+  // }
+
+  // handleClick() {
+  //   this.props.setEditClicked(true);
+  // }
+
+  render() {
+
+    return (
+      <>
+      <div>
+
+      </div>
+
+      </>
+
+    );
+  }
 }
