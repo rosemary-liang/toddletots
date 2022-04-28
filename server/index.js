@@ -212,6 +212,31 @@ app.put('/api/activities/:activityId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.delete('/api/activities/:activityId', (req, res, next) => {
+  const activityId = Number(req.params.activityId);
+  if (!activityId) {
+    throw new ClientError(400, `cannot find activity with activityId ${activityId}`);
+  }
+  const params = [activityId];
+  const sqlImages = `
+    delete from "images"
+    where "activityId" = $1
+    returning *
+    `;
+  db.query(sqlImages, params)
+    .then(result => {
+      const sqlActivities = `
+    delete from "activities"
+    where "activityId" = $1
+    returning *
+  `;
+      db.query(sqlActivities, params)
+        .then(result => res.sendStatus(204))
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

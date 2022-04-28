@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
+import DeleteModal from '../components/delete-modal';
 
 export default class ActivityDetails extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ export default class ActivityDetails extends React.Component {
       editClicked: false
     };
 
-    this.setParentStateEditClicked = this.setParentStateEditClicked.bind(this);
+    this.setEditClicked = this.setEditClicked.bind(this);
   }
 
   componentDidMount() {
@@ -24,7 +25,7 @@ export default class ActivityDetails extends React.Component {
       .then(activity => this.setState({ activity }));
   }
 
-  setParentStateEditClicked(newStatus) {
+  setEditClicked(newStatus) {
     this.setState({ editClicked: newStatus }, () => {
       if (!this.state.editClicked) {
         this.fetchActivities();
@@ -35,6 +36,7 @@ export default class ActivityDetails extends React.Component {
   render() {
     // console.log('ActivityDetail this.state:', this.state);
     const { activity, editClicked } = this.state;
+
     if (!activity) {
       return null;
     }
@@ -44,7 +46,7 @@ export default class ActivityDetails extends React.Component {
       <>
       <ActivityDetail
       activity={this.state.activity}
-      setParentStateEditClicked= {this.setParentStateEditClicked}/>
+      setEditClicked= {this.setEditClicked}/>
       </>
       );
     }
@@ -54,12 +56,10 @@ export default class ActivityDetails extends React.Component {
         <>
         <EditActivity
         activity={this.state.activity}
-        setParentStateEditClicked={this.setParentStateEditClicked} />
+        setEditClicked={this.setEditClicked} />
         </>
       );
     }
-
-    // if edit entry clicked = true & success = true, then show success page
 
   }
 }
@@ -71,13 +71,12 @@ class ActivityDetail extends React.Component {
   }
 
   handleClick() {
-    this.props.setParentStateEditClicked(true);
+    this.props.setEditClicked(true);
   }
 
   render() {
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
     // console.log('props.activity:', this.props.activity);
-    // return (<h1>Hi</h1>);
 
     return (
   <>
@@ -145,7 +144,6 @@ class EditActivity extends React.Component {
       url: null,
       caption: null,
       imageId: null,
-      // images should be mapped to render
       errorMsg: '',
       activityEdited: []
     };
@@ -217,8 +215,7 @@ class EditActivity extends React.Component {
         .then(res => res.json())
         .then(activity => {
           if (activity) {
-            // console.log(activity);
-            this.props.setParentStateEditClicked(false);
+            this.props.setEditClicked(false);
           }
         })
         .catch(err => console.error(err));
@@ -229,7 +226,7 @@ class EditActivity extends React.Component {
     // console.log('this.props:', this.props);
     // console.log('this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
-    const { errorMsg, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, url, caption } = this.state;
+    const { activityId, errorMsg, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, url, caption } = this.state;
 
     if (!activityName || !url || !caption) {
       return null;
@@ -239,9 +236,11 @@ class EditActivity extends React.Component {
         <div className='text-decoration-none pb-5 bg-secondary rounded'>
           <div className="d-flex flex-column align-items-center ">
             <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
-              <div className='d-flex justify-content-center fs-2 mb-0 position-relative'>
-                <button onClick={() => this.props.setParentStateEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold position-absolute top-0 start-0'><i className="fa-solid fa-arrow-left"></i></button>
+              <div className='d-flex justify-content-between fs-2 mb-0'>
+                <button onClick={() => this.props.setEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold '><i className="fa-solid fa-arrow-left"></i></button>
                 <p className='ms-5 text-white fw-bold'>Edit Activity</p>
+                <DeleteModal activityId={activityId} setEditClicked={this.props.setEditClicked}/>
+
               </div>
               <div className='w-100 p-1 p-2 '>
                 <form onSubmit={handleSubmit} action="" >
@@ -272,7 +271,7 @@ class EditActivity extends React.Component {
                           placeholder="city"
                           onChange={handleInputChange}
                           value={city}
-                          className='col-md-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
+                          className='col-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
                         <input
                           required
                           type="text"
@@ -280,7 +279,7 @@ class EditActivity extends React.Component {
                           placeholder="zip"
                           onChange={handleInputChange}
                           value={zipCode}
-                          className='col-md-4 col-lg-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
+                          className='col-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
                       </div>
                       <textarea
                         required
@@ -297,7 +296,7 @@ class EditActivity extends React.Component {
                         <div className="form-check  mb-4">
                           <input
                             type="checkbox"
-                            value={ages2to5}
+                            checked={ages2to5}
                             name="ages2to5"
                             onChange={handleInputChange}
                             className="form-check-input" />
@@ -306,7 +305,7 @@ class EditActivity extends React.Component {
                         <div className="form-check">
                           <input
                             type="checkbox"
-                            value={ages5to12}
+                            checked={ages5to12}
                             name="ages5to12"
                             onChange={handleInputChange}
                             className="form-check-input" />
@@ -355,5 +354,4 @@ class EditActivity extends React.Component {
       );
     }
   }
-
 }

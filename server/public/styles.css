@@ -1,7 +1,6 @@
 .fa-tree-1 {
   left: 8px;
   top: 7px;
-  color: white;
 }
 
 .fa-tree-2 {
@@ -77,8 +76,24 @@
   color: #b0b0b0;
 }
 
+.text-dark-gray {
+  color: #9b9999;
+}
+
 ::placeholder {
   color: #b0b0b0;
+}
+
+.yes-button {
+  color: #46d215;
+  background-color: #cbf8bb;
+  border: #95dd7b 2px solid;
+}
+
+.no-button {
+  color: #fe6666;
+  background-color: #f6d4d4;
+  border: #eba6a6 2px solid;
 }
 
 .pb-page {
@@ -110,6 +125,19 @@ footer {
 
 .searchbar {
   width: 100%;
+}
+
+.custom-dialog-delete {
+  top: 6rem;
+  left: 25%;
+  right: 25%;
+}
+
+@media only screen and (max-width: 768px) {
+  .custom-dialog-delete {
+    left: 15%;
+    right: 15%;
+  }
 }
 
 @media only screen and (max-width: 992px) {

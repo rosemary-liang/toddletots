@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 
-// onClick open hamburger menu and put gray overlay over everything else (modal)
-
 export default function HamburgerMenu() {
   const [show, setShow] = useState(false);
 
