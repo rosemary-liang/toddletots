@@ -42,8 +42,18 @@ export default class ActivityDetails extends React.Component {
   render() {
     // console.log('ActivityDetail this.state:', this.state);
     const { activity, editClicked, deleted } = this.state;
+
     if (!activity) {
       return null;
+    }
+
+    if (activity && deleted) {
+      return (
+        <>
+          <Deleted
+            setDeleted={this.setDeleted} />
+        </>
+      );
     }
 
     if (!editClicked) {
@@ -66,17 +76,6 @@ export default class ActivityDetails extends React.Component {
         </>
       );
     }
-
-    if (deleted) {
-      return (
-        <>
-        <Deleted
-        setDeleted={this.setDeleted} />
-        </>
-      );
-    }
-
-    // if edit entry clicked = true & success = true, then show success page
 
   }
 }
@@ -389,21 +388,21 @@ class Deleted extends React.Component {
 
     return (
       <>
-        <div className='text-decoration-none pb-5 bg-secondary rounded'>
+      <div className='d-flex justify-content-center'>
+        <div className='text-decoration-none pb-5 bg-secondary rounded col-sm-8 col-lg-6'>
           <div className="d-flex flex-column align-items-center ">
             <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
-              <div className='d-flex justify-content-between fs-2 mb-0'>
-                <button className='bg-transparent border-0 h1 text-white fw-bold '></button>
+              <div className='d-flex justify-content-center fs-2 mb-0'>
                 <p className='ms-5 text-white fw-bold'>Entry Deleted</p>
               </div>
-              <div className='w-100 p-1 p-2 '>
-                <button onClick={() => this.props.setDeleted(false)} className='px-5 py-1 text-primary bg-white border-0 border-radius-10px'>return to all activities</button>
+              <div className='w-100 p-1 p-2 d-flex justify-content-center'>
+                <a href="#"><button onClick={() => this.props.setDeleted(false)} className='px-5 py-1 text-primary bg-white border-0 border-radius-10px'>return to all activities</button></a>
 
               </div>
             </div>
           </div>
         </div>
-
+      </div>
       </>
 
     );
