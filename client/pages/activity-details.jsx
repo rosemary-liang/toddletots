@@ -9,12 +9,10 @@ export default class ActivityDetails extends React.Component {
     super(props);
     this.state = {
       activity: null,
-      editClicked: false,
-      deleted: false
+      editClicked: false
     };
 
     this.setEditClicked = this.setEditClicked.bind(this);
-    this.setDeleted = this.setDeleted.bind(this);
   }
 
   componentDidMount() {
@@ -35,25 +33,12 @@ export default class ActivityDetails extends React.Component {
     });
   }
 
-  setDeleted(newStatus) {
-    this.setState({ deleted: newStatus });
-  }
-
   render() {
     // console.log('ActivityDetail this.state:', this.state);
-    const { activity, editClicked, deleted } = this.state;
+    const { activity, editClicked } = this.state;
 
     if (!activity) {
       return null;
-    }
-
-    if (activity && deleted) {
-      return (
-        <>
-          <Deleted
-            setDeleted={this.setDeleted} />
-        </>
-      );
     }
 
     if (!editClicked) {
@@ -71,8 +56,7 @@ export default class ActivityDetails extends React.Component {
         <>
         <EditActivity
         activity={this.state.activity}
-        setEditClicked={this.setEditClicked}
-        setDeleted={this.setDeleted} />
+        setEditClicked={this.setEditClicked} />
         </>
       );
     }
@@ -93,7 +77,6 @@ class ActivityDetail extends React.Component {
   render() {
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
     // console.log('props.activity:', this.props.activity);
-    // return (<h1>Hi</h1>);
 
     return (
   <>
@@ -161,7 +144,6 @@ class EditActivity extends React.Component {
       url: null,
       caption: null,
       imageId: null,
-      // images should be mapped to render
       errorMsg: '',
       activityEdited: []
     };
@@ -257,7 +239,7 @@ class EditActivity extends React.Component {
               <div className='d-flex justify-content-between fs-2 mb-0'>
                 <button onClick={() => this.props.setEditClicked(false)} className='bg-transparent border-0 h1 text-white fw-bold '><i className="fa-solid fa-arrow-left"></i></button>
                 <p className='ms-5 text-white fw-bold'>Edit Activity</p>
-                <DeleteModal activityId={activityId} setDeleted={this.props.setDeleted} setEditClicked={this.props.setEditClicked}/>
+                <DeleteModal activityId={activityId} setEditClicked={this.props.setEditClicked}/>
 
               </div>
               <div className='w-100 p-1 p-2 '>
@@ -371,40 +353,5 @@ class EditActivity extends React.Component {
         </div>
       );
     }
-  }
-}
-
-class Deleted extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   // this.handleClick = this.handleClick.bind(this);
-  // }
-
-  // handleClick() {
-  //   this.props.setEditClicked(true);
-  // }
-
-  render() {
-
-    return (
-      <>
-      <div className='d-flex justify-content-center'>
-        <div className='text-decoration-none pb-5 bg-secondary rounded col-sm-8 col-lg-6'>
-          <div className="d-flex flex-column align-items-center ">
-            <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
-              <div className='d-flex justify-content-center fs-2 mb-0'>
-                <p className='ms-5 text-white fw-bold'>Entry Deleted</p>
-              </div>
-              <div className='w-100 p-1 p-2 d-flex justify-content-center'>
-                <a href="#"><button onClick={() => this.props.setDeleted(false)} className='px-5 py-1 text-primary bg-white border-0 border-radius-10px'>return to all activities</button></a>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </>
-
-    );
   }
 }
