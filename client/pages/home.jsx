@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import { withScriptjs } from 'react-google-maps';
 import _ from 'lodash';
 import SearchBar from '../components/searchbar';
 import Carousel from '../components/carousel';
