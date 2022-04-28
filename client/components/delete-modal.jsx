@@ -9,9 +9,7 @@ export default function DeleteModal(props) {
 
   const handleDelete = () => {
     const { activityId, setEditClicked } = props;
-    fetch(`/api/activities/${activityId}`, {
-      method: 'DELETE'
-    })
+    fetch(`/api/activities/${activityId}`, { method: 'DELETE' })
       .then(result => {
         if (result) {
           setEditClicked(false);

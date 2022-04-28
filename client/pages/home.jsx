@@ -13,12 +13,14 @@ class Home extends React.Component {
     super(props);
     this.state = {
       activities: [],
-      currentCoordinates: []
+      currentCoordinates: [],
+      currentView: 'list'
     };
     this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
     this.sortActivitiesByDistance = this.sortActivitiesByDistance.bind(this);
     this.handleZip = this.handleZip.bind(this);
     this.useCurrentLocation = this.useCurrentLocation.bind(this);
+    this.handleCurrentView = this.handleCurrentView.bind(this);
   }
 
   componentDidMount() {
@@ -66,8 +68,48 @@ class Home extends React.Component {
     });
   }
 
+  handleCurrentView() {
+    // const { currentView } = this.state;
+    // if (currentView === 'list') {
+    //   this.setState({ currentView: 'map' });
+    // }
+    // if (currentView === 'map') {
+    //   this.setState({ currentView: 'list' });
+    // }
+
+    const currentView = this.state.currentView === 'list'
+      ? 'map'
+      : 'list';
+    this.setState({ currentView });
+  }
+
   render() {
     // console.log('Home this.state:', this.state);
+    // console.log('Home this.state.currentView:', this.state.currentView);
+
+    const { currentView } = this.state;
+
+    let id;
+    let icon;
+    let tooltip;
+    let listDisplay;
+    let mapDisplay;
+
+    if (currentView === 'list') {
+      id = 'home-map-view';
+      icon = 'fa-solid fa-map text-white';
+      tooltip = 'Map view';
+      listDisplay = 'home-list-view';
+      mapDisplay = 'home-map-view d-none';
+    }
+
+    if (currentView === 'map') {
+      id = 'list-map-view';
+      icon = 'fa-solid fa-list text-white';
+      tooltip = 'List view';
+      listDisplay = 'home-list-view d-none';
+      mapDisplay = 'home-map-view';
+    }
 
     return (
     <>
@@ -80,19 +122,27 @@ class Home extends React.Component {
             <div className='title-row d-flex justify-content-between h2 mb-0'>
               <p className='ms-5 text-white fw-bold'>Fun Activities Nearby</p>
               <div>
-                  <button onClick={this.useCurrentLocation} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
-                  <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
-                  <a href="#" data-tip data-for='home-map-view' className='me-2'>
-                    <i className="fa-solid fa-map text-white"></i>
+                <button onClick={this.useCurrentLocation} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
+                <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
+                <a href="#" onClick={this.handleCurrentView} data-tip data-for={id} className='me-2'>
+                  <i className={icon}></i>
                 </a>
-                <ReactTooltip id='home-map-view' place='top' effect='solid'>Map view</ReactTooltip>
+                <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
               </div>
           </div>
-          {
-            this.state.activities.map(activity => (
-              <div key={activity.activityId}><Activity activity={activity} /> </div>
-            ))
-          }
+          <div className={listDisplay}>
+            {
+              this.state.activities.map(activity => (
+                <div key={activity.activityId}><Activity activity={activity} /> </div>
+              ))
+            }
+            </div>
+            <div className={mapDisplay}>
+              <div className='container'>
+                <h1>MAP VIEW!</h1>
+
+              </div>
+            </div>
         </div>
       </div>
     </div>
