@@ -8,14 +8,15 @@ export default function DeleteModal(props) {
   const handleShow = () => setShow(true);
 
   const handleDelete = () => {
-    const { activityId } = props;
-    fetch(`/api/activities/:${activityId}`, {
-      method: 'DELETE',
-      body: activityId
+    const { activityId, setDeleted, setEditClicked } = props;
+    fetch(`/api/activities/${activityId}`, {
+      method: 'DELETE'
     })
       .then(result => {
         if (result) {
-          return result;
+          setEditClicked(false);
+          setDeleted(true);
+          handleClose();
         }
       });
   };
