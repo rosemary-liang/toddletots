@@ -2,11 +2,12 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
-import { withScriptjs } from 'react-google-maps';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import _ from 'lodash';
 import SearchBar from '../components/searchbar';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
+import HomeMap from '../components/home-map';
 
 class Home extends React.Component {
   constructor(props) {
@@ -69,14 +70,6 @@ class Home extends React.Component {
   }
 
   handleCurrentView() {
-    // const { currentView } = this.state;
-    // if (currentView === 'list') {
-    //   this.setState({ currentView: 'map' });
-    // }
-    // if (currentView === 'map') {
-    //   this.setState({ currentView: 'list' });
-    // }
-
     const currentView = this.state.currentView === 'list'
       ? 'map'
       : 'list';
@@ -85,7 +78,6 @@ class Home extends React.Component {
 
   render() {
     // console.log('Home this.state:', this.state);
-    // console.log('Home this.state.currentView:', this.state.currentView);
 
     const { currentView } = this.state;
 
@@ -112,7 +104,12 @@ class Home extends React.Component {
     }
 
     return (
+
     <>
+        {/* <div >
+          <HomeMap />
+        </div> */}
+
     <div className='text-decoration-none pb-5'>
       <div className="container d-flex flex-column align-items-center ">
             <SearchBar handleZip={this.handleZip}
@@ -138,10 +135,7 @@ class Home extends React.Component {
             }
             </div>
             <div className={mapDisplay}>
-              <div className='container'>
-                <h1>MAP VIEW!</h1>
-
-              </div>
+              <HomeMap currentCoordinates={this.state.currentCoordinates} />
             </div>
         </div>
       </div>
