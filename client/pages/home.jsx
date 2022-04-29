@@ -105,7 +105,7 @@ class Home extends React.Component {
       tooltip = 'List view';
       listDisplay = 'd-none';
       mapDisplay = '';
-      iconClass = 'me-5';
+      iconClass = '';
     }
 
     const contextValue = { activities, currentCoordinates, currentView };
@@ -114,12 +114,12 @@ class Home extends React.Component {
 
     <>
     <HomeContext.Provider value={contextValue}>
-      <div className='mb-5' >
+      {/* <div className='mb-5' >
         <HomeMap />
-      </div>
+      </div> */}
 
       <div className='text-decoration-none container '>
-        <div className="container d-flex flex-column align-items-center ">
+        <div className="container  ">
               {/* <SearchBar handleZip={this.handleZip}
               googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
                 loadingElement={<div style={{ height: '100%' }} />}/> */}
@@ -161,7 +161,7 @@ function Activity(props) {
   const { activityName, images, activityId, distance, ages2to5, ages5to12 } = props.activity;
 
   return (
-      <div onClick={() => { location.hash = `#activity-details?activityId=${activityId}`; }} className='container bg-white border-radius-20px mb-4 py-4 cursor-pointer '>
+      <div onClick={() => { location.hash = `#activity-details?activityId=${activityId}`; }} className='row bg-white border-radius-20px mb-4 py-4 cursor-pointer '>
         <div className='ps-5'>
           <div className='text-brown fs-5 fw-bold'>{activityName}</div>
           <p className='text-gray fs-6 fw-bold'>{distance} miles</p>
