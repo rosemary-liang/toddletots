@@ -51,7 +51,7 @@ import mapStyles from '../lib/map-styles';
 const libraries = ['places'];
 const mapContainerStyle = {
   width: '100vw',
-  height: '100vh'
+  height: '70vh'
 
 };
 const options = {
@@ -79,7 +79,7 @@ export default function HomeMap(props) {
 
   return (
     <div
-    className='container p-2 row d-flex justify-content-center'>
+    className='container ps-5 row d-flex justify-content-center w-100'>
       <GoogleMap
       mapContainerStyle={mapContainerStyle}
       zoom={8}

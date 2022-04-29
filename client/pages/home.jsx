@@ -86,6 +86,7 @@ class Home extends React.Component {
     let tooltip;
     let listDisplay;
     let mapDisplay;
+    let iconClass;
 
     if (currentView === 'list') {
       id = 'home-map-view';
@@ -93,6 +94,7 @@ class Home extends React.Component {
       tooltip = 'Map view';
       listDisplay = 'home-list-view';
       mapDisplay = 'home-map-view d-none';
+      iconClass = '';
     }
 
     if (currentView === 'map') {
@@ -101,12 +103,13 @@ class Home extends React.Component {
       tooltip = 'List view';
       listDisplay = 'home-list-view d-none';
       mapDisplay = 'home-map-view';
+      iconClass = 'me-5';
     }
 
     return (
 
     <>
-        {/* <div >
+        {/* <div className='mb-5' >
           <HomeMap />
         </div> */}
 
@@ -115,10 +118,10 @@ class Home extends React.Component {
             <SearchBar handleZip={this.handleZip}
             googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
               loadingElement={<div style={{ height: '100%' }} />}/>
-          <div className=" row activities-container mt-4 mx-1 mx-md-4">
-            <div className='title-row d-flex justify-content-between h2 mb-0'>
+          <div className="  mt-4 mx-1 mx-md-4">
+            <div className=' d-flex justify-content-between h2 mb-0 w-100'>
               <p className='ms-5 text-white fw-bold'>Fun Activities Nearby</p>
-              <div>
+              <div className={iconClass}>
                 <button onClick={this.useCurrentLocation} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
                 <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
                 <a href="#" onClick={this.handleCurrentView} data-tip data-for={id} className='me-2'>
