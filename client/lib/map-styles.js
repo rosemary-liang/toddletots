@@ -52,5 +52,16 @@ export default [
         color: '#aee0f4'
       }
     ]
+  },
+
+  {
+    featureType: 'poi',
+    elementType: 'labels.icon',
+    stylers: [
+      {
+        visibility: 'off'
+      }
+    ]
   }
+
 ];

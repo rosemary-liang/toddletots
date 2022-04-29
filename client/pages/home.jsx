@@ -85,7 +85,7 @@ class Home extends React.Component {
     let icon;
     let tooltip;
     let listDisplay;
-    let mapDisplay;
+    // let mapDisplay;
     let iconClass;
 
     if (currentView === 'list') {
@@ -93,7 +93,7 @@ class Home extends React.Component {
       icon = 'fa-solid fa-map text-white';
       tooltip = 'Map view';
       listDisplay = 'home-list-view';
-      mapDisplay = 'home-map-view d-none';
+      // mapDisplay = 'home-map-view d-none';
       iconClass = '';
     }
 
@@ -102,16 +102,16 @@ class Home extends React.Component {
       icon = 'fa-solid fa-list text-white';
       tooltip = 'List view';
       listDisplay = 'home-list-view d-none';
-      mapDisplay = 'home-map-view';
+      // mapDisplay = 'home-map-view';
       iconClass = 'me-5';
     }
 
     return (
 
     <>
-        {/* <div className='mb-5' >
+        <div className='mb-5' >
           <HomeMap />
-        </div> */}
+        </div>
 
     <div className='text-decoration-none pb-5'>
       <div className="container d-flex flex-column align-items-center ">
@@ -137,9 +137,9 @@ class Home extends React.Component {
               ))
             }
             </div>
-            <div className={mapDisplay}>
+            {/* <div className={mapDisplay}>
               <HomeMap currentCoordinates={this.state.currentCoordinates} />
-            </div>
+            </div> */}
         </div>
       </div>
     </div>

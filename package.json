@@ -14,6 +14,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@reach/combobox": "^0.17.0",
     "@react-google-maps/api": "^2.10.2",
     "argon2": "^0.28.5",
     "axios": "^0.26.1",
