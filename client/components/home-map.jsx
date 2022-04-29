@@ -39,7 +39,9 @@
 //   }
 // }
 
-import React from 'react';
+import React, { useContext } from 'react';
+import HomeContext from '../lib/home-context';
+
 import {
   GoogleMap,
   useLoadScript,
@@ -75,13 +77,12 @@ const options = {
 
 };
 
-export default function HomeMap(props) {
-  // const center = props.currentCoordinates;
-  const center = {
-    lat: 33.669445,
-    lng: -117.823059
-    // zoomControl: true
-  };
+export default function HomeMap() {
+  const context = useContext(HomeContext);
+  // const activities = context.activities;
+  // console.log(activities);
+  const center = context.currentCoordinates;
+
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
 
@@ -155,6 +156,7 @@ export default function HomeMap(props) {
 
   );
 }
+
 function Search({ panTo }) {
   const {
     ready,

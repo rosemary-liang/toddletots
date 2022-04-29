@@ -1,5 +1,6 @@
 /* globals google */
 import React from 'react';
+import HomeContext from '../lib/home-context';
 import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
 import { withScriptjs } from 'react-google-maps';
@@ -79,7 +80,7 @@ class Home extends React.Component {
   render() {
     // console.log('Home this.state:', this.state);
 
-    const { currentView } = this.state;
+    const { activities, currentCoordinates, currentView } = this.state;
 
     let id;
     let icon;
@@ -106,43 +107,47 @@ class Home extends React.Component {
       iconClass = 'me-5';
     }
 
+    const contextValue = { activities, currentCoordinates, currentView };
+
     return (
 
     <>
-        <div className='mb-5' >
-          <HomeMap />
-        </div>
+    <HomeContext.Provider value={contextValue}>
+      <div className='mb-5' >
+        <HomeMap />
+      </div>
 
-    <div className='text-decoration-none pb-5'>
-      <div className="container d-flex flex-column align-items-center ">
-            <SearchBar handleZip={this.handleZip}
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-              loadingElement={<div style={{ height: '100%' }} />}/>
-          <div className="  mt-4 mx-1 mx-md-4">
-            <div className=' d-flex justify-content-between h2 mb-0 w-100'>
-              <p className='ms-5 text-white fw-bold'>Fun Activities Nearby</p>
-              <div className={iconClass}>
-                <button onClick={this.useCurrentLocation} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
-                <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
-                <a href="#" onClick={this.handleCurrentView} data-tip data-for={id} className='me-2'>
-                  <i className={icon}></i>
-                </a>
-                <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
-              </div>
-          </div>
-          <div className={listDisplay}>
-            {
-              this.state.activities.map(activity => (
-                <div key={activity.activityId}><Activity activity={activity} /> </div>
-              ))
-            }
+      <div className='text-decoration-none pb-5'>
+        <div className="container d-flex flex-column align-items-center ">
+              <SearchBar handleZip={this.handleZip}
+              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+                loadingElement={<div style={{ height: '100%' }} />}/>
+            <div className="  mt-4 mx-1 mx-md-4">
+              <div className=' d-flex justify-content-between h2 mb-0 w-100'>
+                <p className='ms-5 text-white fw-bold'>Fun Activities Nearby</p>
+                <div className={iconClass}>
+                  <button onClick={this.useCurrentLocation} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
+                  <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
+                  <a href="#" onClick={this.handleCurrentView} data-tip data-for={id} className='me-2'>
+                    <i className={icon}></i>
+                  </a>
+                  <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
+                </div>
             </div>
-            {/* <div className={mapDisplay}>
-              <HomeMap currentCoordinates={this.state.currentCoordinates} />
-            </div> */}
+            <div className={listDisplay}>
+              {
+                this.state.activities.map(activity => (
+                  <div key={activity.activityId}><Activity activity={activity} /> </div>
+                ))
+              }
+              </div>
+              {/* <div className={mapDisplay}>
+                <HomeMap currentCoordinates={this.state.currentCoordinates} />
+              </div> */}
+          </div>
         </div>
       </div>
-    </div>
+    </HomeContext.Provider>
     </>
     );
   }
