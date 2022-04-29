@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import HomeContext from '../lib/home-context';
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -14,7 +15,9 @@ import {
 } from '@reach/combobox';
 import '@reach/combobox/styles.css';
 
-export default function Search({ panTo }) {
+export default function Search({ panTo, handleZip }) {
+  const context = useContext(HomeContext);
+
   const {
     ready,
     value,
@@ -39,7 +42,14 @@ export default function Search({ panTo }) {
     try {
       const results = await getGeocode({ address });
       const { lat, lng } = await getLatLng(results[0]);
-      panTo({ lat, lng });
+      // if map view pan, if list view use handle zip and pass in this obj
+      if (context.currentView === 'list') {
+        handleZip({ lat, lng });
+      }
+      if (context.currentView === 'map') {
+        panTo({ lat, lng });
+      }
+
     } catch (error) {
       console.error(error);
     }

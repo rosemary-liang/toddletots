@@ -93,7 +93,7 @@ export default function HomeMap() {
 
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(14);
+    mapRef.current.setZoom(13);
   }, []);
 
   const { isLoaded, loadError } = useLoadScript({
@@ -108,7 +108,6 @@ export default function HomeMap() {
     <div
     className='container ps-5 row d-flex justify-content-center w-100'>
 
-      {/* <Locate panTo={panTo} /> */}
       <Search panTo={panTo} />
 
       <GoogleMap
@@ -139,7 +138,7 @@ export default function HomeMap() {
               <p>{selected.city}</p>
               <a href={`#activity-details?activityId=${selected.activityId}`}
               className='text-decoration-none px-2 py-1 bg-primary text-white fw-bold border-radius-10px my-2'>see activity details</a>
-              <div className='mt-3'>
+              <div className='home-map mt-3'>
                 <Carousel images={selected.images} />
               </div>
 

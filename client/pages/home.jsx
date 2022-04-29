@@ -60,6 +60,7 @@ class Home extends React.Component {
         const currentCoordinates = data.data.location;
         this.setState({ currentCoordinates }, function () {
           this.sortActivitiesByDistance();
+
         });
       })
       .catch(err => console.error(err));
@@ -111,13 +112,8 @@ class Home extends React.Component {
     const contextValue = { activities, currentCoordinates, currentView };
 
     return (
-
     <>
     <HomeContext.Provider value={contextValue}>
-      {/* <div className='mb-5' >
-        <HomeMap />
-      </div> */}
-
       <div className='text-decoration-none container '>
         <div className="container  ">
               {/* <SearchBar handleZip={this.handleZip}
@@ -137,7 +133,7 @@ class Home extends React.Component {
             </div>
 
             <div className={listDisplay}>
-              <Search />
+                <Search handleZip={this.handleZip}/>
 
               {
                 this.state.activities.map(activity => (
