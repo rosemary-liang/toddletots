@@ -41,6 +41,7 @@
 
 import React, { useContext } from 'react';
 import Search from './search';
+import Carousel from './carousel';
 import HomeContext from '../lib/home-context';
 
 import {
@@ -66,23 +67,24 @@ const options = {
 
 export default function HomeMap() {
   const context = useContext(HomeContext);
-  // const activities = context.activities;
+  const activities = context.activities;
   // console.log(activities);
-  const center = context.currentCoordinates;
+  // const center = context.currentCoordinates;
+  const center = { lat: 33.6846, lng: -117.8265 };
 
-  const [markers, setMarkers] = React.useState([]);
+  // const [activityMarkers, setActivityMarkers] = React.useState([activities]);
   const [selected, setSelected] = React.useState(null);
 
-  const onMapClick = React.useCallback(event => {
-    setMarkers(current => [
-      ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date()
-      }
-    ]);
-  }, []);
+  // const onMapClick = React.useCallback(event => {
+  //   setMarkers(current => [
+  //     ...current,
+  //     {
+  //       lat: event.latLng.lat(),
+  //       lng: event.latLng.lng(),
+  //       time: new Date()
+  //     }
+  //   ]);
+  // }, []);
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback(map => {
@@ -114,15 +116,15 @@ export default function HomeMap() {
       zoom={12}
       center={center}
       options={options}
-      onClick={onMapClick}
+      // onClick={onMapClick}
       onLoad={onMapLoad}
       >
-        {markers.map(marker => (
+        {activities.map(activity => (
         <Marker
-        key={marker.time.toISOString()}
-        position={{ lat: marker.lat, lng: marker.lng }}
+        key={activity.activityId}
+        position={{ lat: activity.lat, lng: activity.lng }}
         onClick={() => {
-          setSelected(marker);
+          setSelected(activity);
         }}
         />
         ))}
@@ -132,8 +134,15 @@ export default function HomeMap() {
           position={{ lat: selected.lat, lng: selected.lng }}
           onCloseClick={() => { setSelected(null); }}>
             <div>
-              <h2>Bear spotted!</h2>
-              <p>enter activity link?</p>
+              <h6 className='text-brown fw-bold'>{selected.activityName}</h6>
+              <p className='m-0'>{selected.streetAddress}</p>
+              <p>{selected.city}</p>
+              <a href={`#activity-details?activityId=${selected.activityId}`}
+              className='text-decoration-none px-2 py-1 bg-primary text-white fw-bold border-radius-10px my-2'>see activity details</a>
+              <div className='mt-3'>
+                <Carousel images={selected.images} />
+              </div>
+
             </div>
         </InfoWindow>)
           : null}
