@@ -5,7 +5,8 @@ import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
 import { withScriptjs } from 'react-google-maps';
 import _ from 'lodash';
-import SearchBar from '../components/searchbar';
+import Search from '../components/search';
+// import SearchBar from '../components/searchbar';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
 import HomeMap from '../components/home-map';
@@ -86,15 +87,15 @@ class Home extends React.Component {
     let icon;
     let tooltip;
     let listDisplay;
-    // let mapDisplay;
+    let mapDisplay;
     let iconClass;
 
     if (currentView === 'list') {
       id = 'home-map-view';
       icon = 'fa-solid fa-map text-white';
       tooltip = 'Map view';
-      listDisplay = 'home-list-view';
-      // mapDisplay = 'home-map-view d-none';
+      listDisplay = '';
+      mapDisplay = 'd-none';
       iconClass = '';
     }
 
@@ -102,8 +103,8 @@ class Home extends React.Component {
       id = 'list-map-view';
       icon = 'fa-solid fa-list text-white';
       tooltip = 'List view';
-      listDisplay = 'home-list-view d-none';
-      // mapDisplay = 'home-map-view';
+      listDisplay = 'd-none';
+      mapDisplay = '';
       iconClass = 'me-5';
     }
 
@@ -117,14 +118,14 @@ class Home extends React.Component {
         <HomeMap />
       </div>
 
-      <div className='text-decoration-none pb-5'>
+      <div className='text-decoration-none container '>
         <div className="container d-flex flex-column align-items-center ">
-              <SearchBar handleZip={this.handleZip}
+              {/* <SearchBar handleZip={this.handleZip}
               googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-                loadingElement={<div style={{ height: '100%' }} />}/>
+                loadingElement={<div style={{ height: '100%' }} />}/> */}
             <div className="  mt-4 mx-1 mx-md-4">
               <div className=' d-flex justify-content-between h2 mb-0 w-100'>
-                <p className='ms-5 text-white fw-bold'>Fun Activities Nearby</p>
+                <p className='ms-1 text-white fw-bold'>Fun Activities Nearby</p>
                 <div className={iconClass}>
                   <button onClick={this.useCurrentLocation} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
                   <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
@@ -134,18 +135,21 @@ class Home extends React.Component {
                   <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
                 </div>
             </div>
+
             <div className={listDisplay}>
+              <Search />
+
               {
                 this.state.activities.map(activity => (
                   <div key={activity.activityId}><Activity activity={activity} /> </div>
                 ))
               }
               </div>
-              {/* <div className={mapDisplay}>
-                <HomeMap currentCoordinates={this.state.currentCoordinates} />
-              </div> */}
           </div>
         </div>
+      </div>
+      <div className={mapDisplay}>
+        <HomeMap currentCoordinates={this.state.currentCoordinates} />
       </div>
     </HomeContext.Provider>
     </>
