@@ -1,44 +1,3 @@
-// import React from 'react';
-// import { compose, withProps } from 'recompose';
-// import {
-//   withScriptjs,
-//   withGoogleMap,
-//   GoogleMap,
-//   Marker
-// } from 'react-google-maps';
-
-// const MyMapComponent = compose(
-//   withProps({
-//     googleMapURL:
-//       `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`,
-//     loadingElement: <div style={{ height: '100%' }} />,
-//     containerElement: <div style={{ height: '500px', width: '100%' }} />,
-//     mapElement: <div style={{ height: '100%' }} />
-//   }),
-//   withScriptjs,
-//   withGoogleMap
-// )(props => (
-//   <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }}>
-//     {props.isMarkerShown && (
-//       <Marker position={{ lat: -34.397, lng: 150.644 }} />
-//     )}
-//   </GoogleMap>
-// ));
-
-// export default class HomeMap extends React.Component {
-
-//   constructor(props) {
-//     super(props);
-//     this.state = { center: this.props.currentCoordinates };
-//   }
-
-//   render() {
-//     return (
-//     <MyMapComponent />
-//     );
-//   }
-// }
-
 import React, { useContext } from 'react';
 import Search from './search';
 import Carousel from './carousel';
@@ -65,7 +24,7 @@ const options = {
 
 };
 
-export default function HomeMap() {
+export default function Map() {
   const context = useContext(HomeContext);
   const activities = context.activities;
   // console.log(activities);
@@ -103,6 +62,9 @@ export default function HomeMap() {
 
   if (loadError) return 'Error loading maps';
   if (!isLoaded) return 'Loading maps...';
+
+  // if hash routing is home, render this
+  // if hash routing is new-entry-map, render map with setMarkers
 
   return (
     <div

@@ -9,7 +9,7 @@ import Search from '../components/search';
 // import SearchBar from '../components/searchbar';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
-import HomeMap from '../components/home-map';
+import Map from '../components/home-map';
 
 class Home extends React.Component {
   constructor(props) {
@@ -145,7 +145,7 @@ class Home extends React.Component {
         </div>
       </div>
       <div className={mapDisplay}>
-        <HomeMap currentCoordinates={this.state.currentCoordinates} />
+        <Map currentCoordinates={this.state.currentCoordinates} />
       </div>
     </HomeContext.Provider>
     </>
