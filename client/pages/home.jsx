@@ -9,7 +9,7 @@ import Search from '../components/search';
 // import SearchBar from '../components/searchbar';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
-import Map from '../components/home-map';
+import Map from '../components/map';
 
 class Home extends React.Component {
   constructor(props) {
