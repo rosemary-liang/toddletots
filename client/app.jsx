@@ -26,6 +26,7 @@ class App extends React.Component {
     this.sortActivitiesByDistance = this.sortActivitiesByDistance.bind(this);
     this.useCurrentLocation = this.useCurrentLocation.bind(this);
     this.useZipCoordinates = this.useZipCoordinates.bind(this);
+    this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
   }
 
   componentDidMount() {
@@ -67,9 +68,9 @@ class App extends React.Component {
         const currentCoordinates = data.data.location;
         this.setState({ currentCoordinates }, () => {
           this.sortActivitiesByDistance();
-        })
-          .catch(err => console.error(err));
-      });
+        });
+      })
+      .catch(err => console.error(err));
   }
 
   useZipCoordinates(zipCoordinates) {

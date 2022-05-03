@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import AppContext from '../lib/app-context';
 import Search from '../components/search';
@@ -23,9 +23,17 @@ export default function Home() {
 
   const handleZip = zipCoordinates => {
     context.useZipCoordinates(zipCoordinates);
+    setUseCurrentLocation(false);
+
   };
 
-  const useCurrentLocation = context.useCurrentLocation();
+  const [useCurrentLocation, setUseCurrentLocation] = useState(true);
+
+  useEffect(() => {
+    if (useCurrentLocation) {
+      setUseCurrentLocation(context.useCurrentLocation());
+    }
+  }, []);
 
   let id;
   let icon;
@@ -60,7 +68,7 @@ export default function Home() {
               <div className=' d-flex justify-content-between h2 mb-0 w-100'>
                 <p className='ms-1 text-white fw-bold'>Fun Activities Nearby</p>
                 <div className={iconClass}>
-                  <button onClick={useCurrentLocation} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
+                  <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
                   <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
                   <a href="#" onClick={updateView} data-tip data-for={id} className='me-2'>
                     <i className={icon}></i>
