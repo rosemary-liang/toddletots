@@ -1,111 +1,106 @@
-/* globals google */
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
-import axios from 'axios';
-import { withScriptjs } from 'react-google-maps';
-import _ from 'lodash';
-import SearchBar from '../components/searchbar';
+import AppContext from '../lib/app-context';
+import Search from '../components/search';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
+import Map from '../components/map';
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activities: [],
-      currentCoordinates: []
-    };
-    this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
-    this.sortActivitiesByDistance = this.sortActivitiesByDistance.bind(this);
-    this.handleZip = this.handleZip.bind(this);
-    this.useCurrentLocation = this.useCurrentLocation.bind(this);
-  }
+export default function Home() {
 
-  componentDidMount() {
-    fetch('/api/activities')
-      .then(res => res.json())
-      .then(activities => {
-        this.setState({ activities }, function () {
-          this.useCurrentLocation();
-        });
-      })
-      .catch(err => console.error(err));
-  }
+  const context = useContext(AppContext);
+  const { activities, currentCoordinates } = context;
+  // console.log('Home context:', context);
 
-  sortActivitiesByDistance() {
-    const { currentCoordinates, activities } = this.state;
-    const activitiesWithDistance = activities.map(activity => {
-      const activityCoordinates = { lat: activity.lat, lng: activity.lng };
-      const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(currentCoordinates, activityCoordinates);
-      const distanceMiles = distanceMeters * 0.000621371;
-      activity.distance = distanceMiles.toFixed(1);
-      return activity;
+  const [view, setView] = React.useState('list');
+  const updateView = () => {
+    setView(prev => {
+      return prev === 'list' ? 'map' : 'list';
     });
-    const sortedDistanceArray = _.orderBy(activitiesWithDistance, 'distance', 'asc');
-    this.setState({ activities: sortedDistanceArray });
+  };
+
+  // const [center, setCenter] = React.useState(currentCoordinates);
+
+  const handleZip = zipCoordinates => {
+    context.useZipCoordinates(zipCoordinates);
+    setUseCurrentLocation(false);
+
+  };
+
+  const [useCurrentLocation, setUseCurrentLocation] = useState(true);
+
+  useEffect(() => {
+    if (useCurrentLocation) {
+      setUseCurrentLocation(context.useCurrentLocation());
+    }
+  }, []);
+
+  let id;
+  let icon;
+  let tooltip;
+  let listDisplay;
+  let mapDisplay;
+  let iconClass;
+
+  if (view === 'list') {
+    id = 'home-map-view';
+    icon = 'fa-solid fa-map text-white';
+    tooltip = 'Map view';
+    listDisplay = '';
+    mapDisplay = 'd-none';
+    iconClass = '';
   }
 
-  getCurrentCoordinates() {
-    return axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.GOOGLE_MAPS_KEY}`);
+  if (view === 'map') {
+    id = 'list-map-view';
+    icon = 'fa-solid fa-list text-white';
+    tooltip = 'List view';
+    listDisplay = 'd-none';
+    mapDisplay = '';
+    iconClass = '';
   }
 
-  useCurrentLocation() {
-    this.getCurrentCoordinates()
-      .then(data => {
-        const currentCoordinates = data.data.location;
-        this.setState({ currentCoordinates }, function () {
-          this.sortActivitiesByDistance();
-        });
-      })
-      .catch(err => console.error(err));
-  }
-
-  handleZip(zipCoordinates) {
-    this.setState({ currentCoordinates: zipCoordinates }, function () {
-      this.sortActivitiesByDistance();
-    });
-  }
-
-  render() {
-    // console.log('Home this.state:', this.state);
-
-    return (
+  return (
     <>
-    <div className='text-decoration-none pb-5'>
-      <div className="container d-flex flex-column align-items-center ">
-            <SearchBar handleZip={this.handleZip}
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-              loadingElement={<div style={{ height: '100%' }} />}/>
-          <div className=" row activities-container mt-4 mx-1 mx-md-4">
-            <div className='title-row d-flex justify-content-between h2 mb-0'>
-              <p className='ms-5 text-white fw-bold'>Fun Activities Nearby</p>
-              <div>
-                  <button onClick={this.useCurrentLocation} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
+      <div className='text-decoration-none container '>
+        <div className="container  ">
+            <div className="  mt-4 mx-1 mx-md-4">
+              <div className=' d-flex justify-content-between h2 mb-0 w-100'>
+                <p className='ms-1 text-white fw-bold'>Fun Activities Nearby</p>
+                <div className={iconClass}>
+                  <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
                   <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
-                  <a href="#" data-tip data-for='home-map-view' className='me-2'>
-                    <i className="fa-solid fa-map text-white"></i>
-                </a>
-                <ReactTooltip id='home-map-view' place='top' effect='solid'>Map view</ReactTooltip>
+                  <a href="#" onClick={updateView} data-tip data-for={id} className='me-2'>
+                    <i className={icon}></i>
+                  </a>
+                  <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
+                </div>
+            </div>
+
+            <div className={listDisplay}>
+                <Search handleZip={handleZip}/>
+
+              {
+                activities.map(activity => (
+                  <div key={activity.activityId}><Activity activity={activity} /> </div>
+                ))
+              }
               </div>
           </div>
-          {
-            this.state.activities.map(activity => (
-              <div key={activity.activityId}><Activity activity={activity} /> </div>
-            ))
-          }
         </div>
       </div>
-    </div>
+      <div className={mapDisplay}>
+        <Map currentCoordinates={currentCoordinates} />
+      </div>
     </>
-    );
-  }
+  );
 }
 
 function Activity(props) {
   const { activityName, images, activityId, distance, ages2to5, ages5to12 } = props.activity;
 
   return (
-      <div onClick={() => { location.hash = `#activity-details?activityId=${activityId}`; }} className='container bg-white border-radius-20px mb-4 py-4 cursor-pointer '>
+      <div onClick={() => { location.hash = `#activity-details?activityId=${activityId}`; }} className='row bg-white border-radius-20px mb-4 py-4 cursor-pointer '>
         <div className='ps-5'>
           <div className='text-brown fs-5 fw-bold'>{activityName}</div>
           <p className='text-gray fs-6 fw-bold'>{distance} miles</p>
@@ -117,5 +112,3 @@ function Activity(props) {
       </div>
   );
 }
-
-export default withScriptjs(Home);

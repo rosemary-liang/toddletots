@@ -54,7 +54,7 @@ export default class Carousel extends React.Component {
         <button onClick={this.handlePrevious} className='bg-transparent border-0 h1 text-gray'><i className="fa-solid fa-chevron-left"></i></button>
         <div className="carousel-inner mx-2">
               <div className="carousel-item active">
-                <img src={activeImage.url} className="d-block w-100 border-radius-20px" alt={activeImage.caption} />
+                <img src={activeImage.url} className="d-block w-100 border-radius-20px carousel-image" alt={activeImage.caption} />
               </div>
         </div>
         <button onClick={this.handleNext} className='bg-transparent border-0 h1 text-gray'><i className="fa-solid fa-chevron-right"></i></button>

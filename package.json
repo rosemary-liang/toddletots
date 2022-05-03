@@ -14,6 +14,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@reach/combobox": "^0.17.0",
+    "@react-google-maps/api": "^2.10.2",
     "argon2": "^0.28.5",
     "axios": "^0.26.1",
     "bootstrap": "^5.1.3",
@@ -26,7 +28,9 @@
     "react-bootstrap": "^2.2.3",
     "react-dom": "^17.0.2",
     "react-google-maps": "^9.4.5",
-    "react-tooltip": "^4.2.21"
+    "react-tooltip": "^4.2.21",
+    "recompose": "^0.30.0",
+    "use-places-autocomplete": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

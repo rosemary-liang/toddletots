@@ -1,4 +1,5 @@
 import React from 'react';
+import Map from '../components/map';
 // import axios from 'axios';
 // import SearchBar from '../components/searchbar';
 // import ReactTooltip from 'react-tooltip';
@@ -21,7 +22,8 @@ export default class NewEntryMap extends React.Component {
               <a href='#' className='bg-transparent border-0 h1 text-white fw-bold position-absolute top-0 start-0'><i className="fa-solid fa-arrow-left"></i></a>
               <p className='ms-5 text-white fw-bold'>Drop A Pin to Add Activity</p>
             </div>
-            <div className='w-100 map-placeholder p-1 bg-white'>Map Placeholder
+            <div className='w-100 map-placeholder p-1 bg-white'>
+              <Map />
             </div>
             <div className='d-flex justify-content-center my-4'>
               <a href="#new-entry-form"><button className='px-5 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm' data-to='form'>Input address manually</button>
