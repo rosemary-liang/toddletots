@@ -1,131 +1,68 @@
-/* globals google */
-import React from 'react';
-import HomeContext from '../lib/home-context';
+import React, { useContext } from 'react';
 import ReactTooltip from 'react-tooltip';
-import axios from 'axios';
-import { withScriptjs } from 'react-google-maps';
-import _ from 'lodash';
+import AppContext from '../lib/app-context';
 import Search from '../components/search';
-// import SearchBar from '../components/searchbar';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
 import Map from '../components/map';
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activities: [],
-      currentCoordinates: [],
-      currentView: 'list'
-    };
-    this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
-    this.sortActivitiesByDistance = this.sortActivitiesByDistance.bind(this);
-    this.handleZip = this.handleZip.bind(this);
-    this.useCurrentLocation = this.useCurrentLocation.bind(this);
-    this.handleCurrentView = this.handleCurrentView.bind(this);
-  }
+export default function Home() {
 
-  componentDidMount() {
-    fetch('/api/activities')
-      .then(res => res.json())
-      .then(activities => {
-        this.setState({ activities }, function () {
-          this.useCurrentLocation();
-        });
-      })
-      .catch(err => console.error(err));
-  }
+  const context = useContext(AppContext);
+  const { activities, currentCoordinates } = context;
+  // console.log('Home context:', context);
 
-  sortActivitiesByDistance() {
-    const { currentCoordinates, activities } = this.state;
-    const activitiesWithDistance = activities.map(activity => {
-      const activityCoordinates = { lat: activity.lat, lng: activity.lng };
-      const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(currentCoordinates, activityCoordinates);
-      const distanceMiles = distanceMeters * 0.000621371;
-      activity.distance = distanceMiles.toFixed(1);
-      return activity;
+  const [view, setView] = React.useState('list');
+  const updateView = () => {
+    setView(prev => {
+      return prev === 'list' ? 'map' : 'list';
     });
-    const sortedDistanceArray = _.orderBy(activitiesWithDistance, 'distance', 'asc');
-    this.setState({ activities: sortedDistanceArray });
+  };
+
+  // const [center, setCenter] = React.useState(currentCoordinates);
+
+  const handleZip = zipCoordinates => {
+    context.useZipCoordinates(zipCoordinates);
+  };
+
+  const useCurrentLocation = context.useCurrentLocation();
+
+  let id;
+  let icon;
+  let tooltip;
+  let listDisplay;
+  let mapDisplay;
+  let iconClass;
+
+  if (view === 'list') {
+    id = 'home-map-view';
+    icon = 'fa-solid fa-map text-white';
+    tooltip = 'Map view';
+    listDisplay = '';
+    mapDisplay = 'd-none';
+    iconClass = '';
   }
 
-  getCurrentCoordinates() {
-    return axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.GOOGLE_MAPS_KEY}`);
+  if (view === 'map') {
+    id = 'list-map-view';
+    icon = 'fa-solid fa-list text-white';
+    tooltip = 'List view';
+    listDisplay = 'd-none';
+    mapDisplay = '';
+    iconClass = '';
   }
 
-  useCurrentLocation() {
-    this.getCurrentCoordinates()
-      .then(data => {
-        const currentCoordinates = data.data.location;
-        this.setState({ currentCoordinates }, function () {
-          this.sortActivitiesByDistance();
-
-        });
-      })
-      .catch(err => console.error(err));
-  }
-
-  handleZip(zipCoordinates) {
-    this.setState({ currentCoordinates: zipCoordinates }, function () {
-      this.sortActivitiesByDistance();
-    });
-  }
-
-  handleCurrentView() {
-    const currentView = this.state.currentView === 'list'
-      ? 'map'
-      : 'list';
-    this.setState({ currentView });
-  }
-
-  render() {
-    // console.log('Home this.state:', this.state);
-
-    const { activities, currentCoordinates, currentView } = this.state;
-
-    let id;
-    let icon;
-    let tooltip;
-    let listDisplay;
-    let mapDisplay;
-    let iconClass;
-
-    if (currentView === 'list') {
-      id = 'home-map-view';
-      icon = 'fa-solid fa-map text-white';
-      tooltip = 'Map view';
-      listDisplay = '';
-      mapDisplay = 'd-none';
-      iconClass = '';
-    }
-
-    if (currentView === 'map') {
-      id = 'list-map-view';
-      icon = 'fa-solid fa-list text-white';
-      tooltip = 'List view';
-      listDisplay = 'd-none';
-      mapDisplay = '';
-      iconClass = '';
-    }
-
-    const contextValue = { activities, currentCoordinates, currentView };
-
-    return (
+  return (
     <>
-    <HomeContext.Provider value={contextValue}>
       <div className='text-decoration-none container '>
         <div className="container  ">
-              {/* <SearchBar handleZip={this.handleZip}
-              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-                loadingElement={<div style={{ height: '100%' }} />}/> */}
             <div className="  mt-4 mx-1 mx-md-4">
               <div className=' d-flex justify-content-between h2 mb-0 w-100'>
                 <p className='ms-1 text-white fw-bold'>Fun Activities Nearby</p>
                 <div className={iconClass}>
-                  <button onClick={this.useCurrentLocation} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
+                  <button onClick={useCurrentLocation} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
                   <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
-                  <a href="#" onClick={this.handleCurrentView} data-tip data-for={id} className='me-2'>
+                  <a href="#" onClick={updateView} data-tip data-for={id} className='me-2'>
                     <i className={icon}></i>
                   </a>
                   <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
@@ -133,10 +70,10 @@ class Home extends React.Component {
             </div>
 
             <div className={listDisplay}>
-                <Search handleZip={this.handleZip}/>
+                <Search handleZip={handleZip}/>
 
               {
-                this.state.activities.map(activity => (
+                activities.map(activity => (
                   <div key={activity.activityId}><Activity activity={activity} /> </div>
                 ))
               }
@@ -145,12 +82,10 @@ class Home extends React.Component {
         </div>
       </div>
       <div className={mapDisplay}>
-        <Map currentCoordinates={this.state.currentCoordinates} />
+        <Map currentCoordinates={currentCoordinates} />
       </div>
-    </HomeContext.Provider>
     </>
-    );
-  }
+  );
 }
 
 function Activity(props) {
@@ -169,5 +104,3 @@ function Activity(props) {
       </div>
   );
 }
-
-export default withScriptjs(Home);

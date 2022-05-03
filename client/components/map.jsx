@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import Search from './search';
 import Carousel from './carousel';
-import HomeContext from '../lib/home-context';
 import AppContext from '../lib/app-context';
 
 import {
@@ -26,14 +25,12 @@ const options = {
 };
 
 export default function Map() {
-  const homeContext = useContext(HomeContext);
-  const activities = homeContext.activities;
+  const context = useContext(AppContext);
+  const activities = context.activities;
+  const path = context.route.path;
   // console.log(activities);
   // const center = homeContext.currentCoordinates;
   const center = { lat: 33.6846, lng: -117.8265 };
-
-  const appContext = useContext(AppContext);
-  const path = appContext.route.path;
 
   const [markers, setMarker] = React.useState([]);
   const [selected, setSelected] = React.useState(null);

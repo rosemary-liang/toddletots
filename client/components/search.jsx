@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import HomeContext from '../lib/home-context';
+import AppContext from '../lib/app-context';
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -16,7 +16,7 @@ import {
 import '@reach/combobox/styles.css';
 
 export default function Search({ panTo, handleZip }) {
-  const context = useContext(HomeContext);
+  const context = useContext(AppContext);
 
   const {
     ready,

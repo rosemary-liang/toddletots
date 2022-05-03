@@ -1,4 +1,8 @@
+/* globals google */
 import React from 'react';
+import axios from 'axios';
+import _ from 'lodash';
+import { withScriptjs } from 'react-google-maps';
 import Home from './pages/home';
 import AppContext from './lib/app-context';
 import ActivityDetails from './pages/activity-details';
@@ -9,13 +13,19 @@ import Footer from './components/footer';
 import './scss/style.scss';
 import { parseRoute } from './lib';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: null,
-      route: parseRoute(window.location.hash)
+      route: parseRoute(window.location.hash),
+      activities: [],
+      currentCoordinates: []
     };
+
+    this.sortActivitiesByDistance = this.sortActivitiesByDistance.bind(this);
+    this.useCurrentLocation = this.useCurrentLocation.bind(this);
+    this.useZipCoordinates = this.useZipCoordinates.bind(this);
   }
 
   componentDidMount() {
@@ -23,14 +33,56 @@ export default class App extends React.Component {
       const route = parseRoute(window.location.hash);
       this.setState({ route });
     });
+
+    fetch('/api/activities')
+      .then(res => res.json())
+      .then(activities => {
+        this.setState({ activities }, () => {
+          this.useCurrentLocation();
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  sortActivitiesByDistance() {
+    const { currentCoordinates, activities } = this.state;
+    const activitiesWithDistance = activities.map(activity => {
+      const activityCoordinates = { lat: activity.lat, lng: activity.lng };
+      const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(currentCoordinates, activityCoordinates);
+      const distanceMiles = distanceMeters * 0.000621371;
+      activity.distance = distanceMiles.toFixed(1);
+      return activity;
+    });
+    const sortedDistanceArray = _.orderBy(activitiesWithDistance, 'distance', 'asc');
+    this.setState({ activities: sortedDistanceArray });
+  }
+
+  getCurrentCoordinates() {
+    return axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.GOOGLE_MAPS_KEY}`);
+  }
+
+  useCurrentLocation() {
+    this.getCurrentCoordinates()
+      .then(data => {
+        const currentCoordinates = data.data.location;
+        this.setState({ currentCoordinates }, () => {
+          this.sortActivitiesByDistance();
+        })
+          .catch(err => console.error(err));
+      });
+  }
+
+  useZipCoordinates(zipCoordinates) {
+    this.setState({ currentCoordinates: zipCoordinates }, () => {
+      this.sortActivitiesByDistance();
+    });
+
   }
 
   renderPage() {
     const { route } = this.state;
     if (route.path === '') {
-      return <Home
-      googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-      loadingElement={<div style={{ height: '100%' }} />}/>;
+      return <Home />;
     }
     if (route.path === 'activity-details') {
       const activityId = route.params.get('activityId');
@@ -46,8 +98,11 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { route } = this.state;
-    const contextValue = { route };
+    // console.log('App this.state:', this.state);
+    const { useZipCoordinates, useCurrentLocation } = this;
+    const { route, activities, currentCoordinates } = this.state;
+    const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation };
+
     return (
       <AppContext.Provider value = {contextValue}>
         <>
@@ -62,3 +117,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default withScriptjs(App);
