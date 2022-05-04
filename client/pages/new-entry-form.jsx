@@ -278,8 +278,8 @@ export default class NewEntryForm extends React.Component {
                 </div>
                 <p className='my-0 fs-6'>{streetAddress}</p>
                 <p className='mt-0 fs-6'>{city}, {zipCode}</p>
-                <div className='col-md-12 col-lg-6 mb-4 p-md-2 new-entry  mt-2 border-radius-10px'>
-                  <img src={url} alt={caption} className='new-entry mt-2 border-radius-10px' />
+                <div className='col-md-12 col-lg-6 mb-4 p-md-2 mt-2 border-radius-10px'>
+                  <img src={url} alt={caption} className='new-entry-success mt-2 border-radius-10px' />
                 </div>
 
                   <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} page='#new-entry-success' />
