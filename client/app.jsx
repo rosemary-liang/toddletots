@@ -29,6 +29,7 @@ class App extends React.Component {
     this.useZipCoordinates = this.useZipCoordinates.bind(this);
     this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
     this.setNewActivityPin = this.setNewActivityPin.bind(this);
+    this.refreshActivities = this.refreshActivities.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +38,10 @@ class App extends React.Component {
       this.setState({ route });
     });
 
+    this.refreshActivities();
+  }
+
+  refreshActivities() {
     fetch('/api/activities')
       .then(res => res.json())
       .then(activities => {
@@ -105,10 +110,9 @@ class App extends React.Component {
 
   render() {
     // console.log('App this.state:', this.state);
-    // console.log('App this.state.newActivityPin:', this.state.newActivityPin);
-    const { useZipCoordinates, useCurrentLocation, setNewActivityPin } = this;
+    const { useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
     const { route, activities, currentCoordinates, newActivityPin } = this.state;
-    const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin };
+    const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities };
 
     return (
       <AppContext.Provider value = {contextValue}>

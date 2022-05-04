@@ -7,42 +7,39 @@ export default class NewEntryForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
       activityName: null,
-      streetAddress: null,
-      city: null,
-      zipCode: null,
+      streetAddress: '',
+      city: '',
+      zipCode: '',
       currentCoordinates: null,
       description: null,
-      ages2to5: null,
-      ages5to12: null,
+      ages2to5: false,
+      ages5to12: false,
       url: null,
       caption: null,
       errorMsg: '',
-      activityAdded: []
+      activityAdded: [],
+      activityAddedSuccess: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkCurrentCoordinates = this.checkCurrentCoordinates.bind(this);
-    // this.checkLocationPin = this.checkLocationPin.bind(this);
+    // this.resetForm = this.resetForm.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.checkLocationPin();
-  // }
-
-  // checkLocationPin() {
-  //   console.log('NewEntryForm this.context:', this.context);
-
-  //   const { streetAddress, city, zipCode } = this.context.newActivityPin;
-  //   this.setState({
-  //     streetAddress: streetAddress,
-  //     city: city,
-  //     zipCode: zipCode
-  //   });
-
-  // }
+  componentDidUpdate() {
+    if (this.state.streetAddress === '' && this.context.newActivityPin !== []) {
+      const { streetAddress, city, zipCode } = this.context.newActivityPin;
+      if (streetAddress && city && zipCode) {
+        this.setState({
+          streetAddress,
+          city,
+          zipCode
+        });
+      }
+    }
+  }
 
   handleInputChange(event) {
     const { value, name, type, checked } = event.target;
@@ -52,23 +49,15 @@ export default class NewEntryForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { streetAddress, city, zipCode, currentCoordinates } = this.state;
-    if (!streetAddress || !city || !zipCode || !currentCoordinates) {
-      const { streetAddress, city, zipCode, currentCoordinates } = this.context.newActivityPin;
-      this.setState({
-        streetAddress,
-        city,
-        zipCode,
-        currentCoordinates
-      }, () => {
-        this.checkCurrentCoordinates();
-      });
-    }
+    this.setState({ currentCoordinates: this.context.newActivityPin.currentCoordinates }, () => {
+      this.checkCurrentCoordinates();
+    });
+
   }
 
   checkCurrentCoordinates() {
     const { streetAddress, city, zipCode, currentCoordinates } = this.state;
-    if (currentCoordinates === null) {
+    if (!currentCoordinates) {
       const modifiedStreetAddress = streetAddress.replaceAll(' ', '+');
       const address = `${modifiedStreetAddress},+${city},+${zipCode}`;
       axios.post(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_MAPS_KEY}`)
@@ -78,7 +67,7 @@ export default class NewEntryForm extends React.Component {
             currentCoordinates,
             errorMsg: ''
           }, () => {
-            this.handleSubmit(event);
+            this.checkCurrentCoordinates();
           });
         })
         .catch(err => {
@@ -100,18 +89,40 @@ export default class NewEntryForm extends React.Component {
         .then(res => res.json())
         .then(activity => {
           if (activity) {
-
-            this.setState({ activityAdded: activity });
+            this.setState({
+              activityAdded: activity,
+              activityAddedSuccess: true
+            });
             this.context.setNewActivityPin([]);
+            this.context.refreshActivities();
           }
-        });
+        })
+        .catch(err => console.error(err));
     }
   }
+
+  // resetForm() {
+  //   this.setState({
+  //     activityName: null,
+  //     streetAddress: '',
+  //     city: '',
+  //     zipCode: '',
+  //     currentCoordinates: null,
+  //     description: null,
+  //     ages2to5: false,
+  //     ages5to12: false,
+  //     url: null,
+  //     caption: null,
+  //     errorMsg: '',
+  //     activityAdded: [],
+  //     activityAddedSuccess: false
+  //   });
+  // }
 
   render() {
     // console.log('NewEntryForm this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
-    const { errorMsg, activityAdded } = this.state;
+    const { errorMsg, activityAddedSuccess } = this.state;
     let url = 'https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg';
     let caption = 'placeholder image';
     if (this.state.url && this.state.caption) {
@@ -119,23 +130,7 @@ export default class NewEntryForm extends React.Component {
       caption = this.state.caption;
     }
 
-    let stAddressValue;
-    let cityValue;
-    let zipValue;
-
-    const { streetAddress, city, zipCode } = this.context.newActivityPin;
-    if (streetAddress && city && zipCode) {
-      stAddressValue = streetAddress;
-      cityValue = city;
-      zipValue = zipCode;
-
-    } else {
-      stAddressValue = '';
-      cityValue = '';
-      zipValue = '';
-    }
-
-    if (activityAdded.length === 0) {
+    if (!activityAddedSuccess) {
       return (
       <div className='text-decoration-none pb-5 bg-secondary rounded'>
         <div className="d-flex flex-column align-items-center ">
@@ -161,7 +156,7 @@ export default class NewEntryForm extends React.Component {
                       type="text"
                       name="streetAddress"
                       placeholder="street address"
-                      value={stAddressValue}
+                      value={this.state.streetAddress}
                       onChange={handleInputChange}
                         className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2'/>
                     <div className='d-flex my-2 justify-content-between'>
@@ -170,7 +165,7 @@ export default class NewEntryForm extends React.Component {
                           type="text"
                           name="city"
                           placeholder="city"
-                          value={cityValue}
+                          value={this.state.city}
                           onChange={handleInputChange}
                             className='col-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
                       <input
@@ -178,7 +173,7 @@ export default class NewEntryForm extends React.Component {
                         type="text"
                         name="zipCode"
                         placeholder="zip"
-                        value={zipValue}
+                        value={this.state.zipCode}
                         onChange={handleInputChange}
                             className='col-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
                     </div>
@@ -251,9 +246,7 @@ export default class NewEntryForm extends React.Component {
       </div>
       );
     } else {
-      const { activityName, streetAddress, city, zipCode, ages2to5, ages5to12, description, images } = activityAdded;
-      const { url, caption } = images;
-
+      const { activityName, streetAddress, city, zipCode, ages2to5, ages5to12, description, url, caption } = this.state.activityAdded;
       return (
         <div className='text-decoration-none pb-5 bg-secondary rounded'>
           <div className="d-flex flex-column align-items-center ">
@@ -281,7 +274,8 @@ export default class NewEntryForm extends React.Component {
               </div>
               <div className='my-2 d-flex justify-content-end me-2'>
                 <a href="#" className='text-decoration-none'>
-                  <button className='px-2 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm'>see all activities</button>
+                  <button
+                   className='px-2 py-1 bg-white border-radius-10px text-primary border-0 fw-bold shadow-sm'>see all activities</button>
                 </a>
               </div>
             </div>

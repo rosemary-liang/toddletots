@@ -112,3 +112,5 @@ function Activity(props) {
       </div>
   );
 }
+
+Home.contextType = AppContext;
