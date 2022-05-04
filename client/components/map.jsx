@@ -36,7 +36,7 @@ export default function Map() {
   const [markers, setMarker] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
 
-  const prepopulatedAddress = {};
+  const pin = {};
 
   const useSelectedAddress = () => {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${selected.lat},${selected.lng}&key=${process.env.GOOGLE_MAPS_KEY}`)
@@ -56,16 +56,12 @@ export default function Map() {
 
         const stateAndZip = _.split(formattedStreetAddress[2], ' ');
         const zip = stateAndZip[1];
-
-        prepopulatedAddress.streetAddress = formattedStreetAddress[0];
-        prepopulatedAddress.city = formattedStreetAddress[1];
-        prepopulatedAddress.zip = zip;
+        pin.streetAddress = formattedStreetAddress[0];
+        pin.city = formattedStreetAddress[1];
+        pin.zip = zip;
+        context.setNewActivityPin(pin);
         // console.log('formattedStreetAddress:', formattedStreetAddress);
-        // console.log('prepopulatedAddress:', prepopulatedAddress);
-        // const splitAddress = _.split(fullAddress, ',');
-        // console.log(splitAddress);
-        // prepopulatedAddress.fullAddress = fullAddress;
-        // console.log(prepopulatedAddress);
+
       })
       .catch(err => console.error(err));
   };
@@ -171,7 +167,7 @@ export default function Map() {
               position={{ lat: selected.lat, lng: selected.lng }}
               onCloseClick={() => { setSelected(null); }}>
               <div className='my-2'>
-                <a href="#new-entry-form" onClick={useSelectedAddress} className='text-decoration-none px-2 py-1 fw-bold text-white bg-secondary border-radius-90px'> Add new entry using this location</a>
+                <a href="#new-entry-form" onClick={useSelectedAddress} className='text-decoration-none px-2 py-1 fw-bold text-white bg-secondary border-radius-90px'> Add new activity here</a>
               </div>
             </InfoWindow>)
             : null}
