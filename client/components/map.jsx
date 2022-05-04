@@ -42,7 +42,6 @@ export default function Map() {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${selected.lat},${selected.lng}&key=${process.env.GOOGLE_MAPS_KEY}`)
       .then(result => result.json())
       .then(data => {
-        // console.log('data:', data);
         const streetAddressElement = data.results.find(element => element.types.includes('street_address'));
         let formattedStreetAddress;
 
@@ -58,17 +57,18 @@ export default function Map() {
         const zip = stateAndZip[1];
         pin.streetAddress = formattedStreetAddress[0];
         pin.city = formattedStreetAddress[1];
-        pin.zip = zip;
+        pin.zipCode = zip;
+        pin.currentCoordinates = {
+          lat: selected.lat,
+          lng: selected.lng
+        };
         context.setNewActivityPin(pin);
-        // console.log('formattedStreetAddress:', formattedStreetAddress);
-
       })
       .catch(err => console.error(err));
   };
 
   const onMapClick = React.useCallback(event => {
     setMarker(current => [
-
       {
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),

@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import AppContext from '../lib/app-context';
 import AgeRange from '../components/age-range';
 
 export default class NewEntryForm extends React.Component {
@@ -23,7 +24,25 @@ export default class NewEntryForm extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.checkCurrentCoordinates = this.checkCurrentCoordinates.bind(this);
+    // this.checkLocationPin = this.checkLocationPin.bind(this);
   }
+
+  // componentDidMount() {
+  //   this.checkLocationPin();
+  // }
+
+  // checkLocationPin() {
+  //   console.log('NewEntryForm this.context:', this.context);
+
+  //   const { streetAddress, city, zipCode } = this.context.newActivityPin;
+  //   this.setState({
+  //     streetAddress: streetAddress,
+  //     city: city,
+  //     zipCode: zipCode
+  //   });
+
+  // }
 
   handleInputChange(event) {
     const { value, name, type, checked } = event.target;
@@ -34,7 +53,21 @@ export default class NewEntryForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const { streetAddress, city, zipCode, currentCoordinates } = this.state;
+    if (!streetAddress || !city || !zipCode || !currentCoordinates) {
+      const { streetAddress, city, zipCode, currentCoordinates } = this.context.newActivityPin;
+      this.setState({
+        streetAddress,
+        city,
+        zipCode,
+        currentCoordinates
+      }, () => {
+        this.checkCurrentCoordinates();
+      });
+    }
+  }
 
+  checkCurrentCoordinates() {
+    const { streetAddress, city, zipCode, currentCoordinates } = this.state;
     if (currentCoordinates === null) {
       const modifiedStreetAddress = streetAddress.replaceAll(' ', '+');
       const address = `${modifiedStreetAddress},+${city},+${zipCode}`;
@@ -69,10 +102,10 @@ export default class NewEntryForm extends React.Component {
           if (activity) {
 
             this.setState({ activityAdded: activity });
+            this.context.setNewActivityPin([]);
           }
         });
     }
-
   }
 
   render() {
@@ -84,6 +117,22 @@ export default class NewEntryForm extends React.Component {
     if (this.state.url && this.state.caption) {
       url = this.state.url;
       caption = this.state.caption;
+    }
+
+    let stAddressValue;
+    let cityValue;
+    let zipValue;
+
+    const { streetAddress, city, zipCode } = this.context.newActivityPin;
+    if (streetAddress && city && zipCode) {
+      stAddressValue = streetAddress;
+      cityValue = city;
+      zipValue = zipCode;
+
+    } else {
+      stAddressValue = '';
+      cityValue = '';
+      zipValue = '';
     }
 
     if (activityAdded.length === 0) {
@@ -112,6 +161,7 @@ export default class NewEntryForm extends React.Component {
                       type="text"
                       name="streetAddress"
                       placeholder="street address"
+                      value={stAddressValue}
                       onChange={handleInputChange}
                         className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2'/>
                     <div className='d-flex my-2 justify-content-between'>
@@ -120,6 +170,7 @@ export default class NewEntryForm extends React.Component {
                           type="text"
                           name="city"
                           placeholder="city"
+                          value={cityValue}
                           onChange={handleInputChange}
                             className='col-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
                       <input
@@ -127,6 +178,7 @@ export default class NewEntryForm extends React.Component {
                         type="text"
                         name="zipCode"
                         placeholder="zip"
+                        value={zipValue}
                         onChange={handleInputChange}
                             className='col-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
                     </div>
@@ -240,3 +292,5 @@ export default class NewEntryForm extends React.Component {
 
   }
 }
+
+NewEntryForm.contextType = AppContext;
