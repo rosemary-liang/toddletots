@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import _ from 'lodash';
 import Search from './search';
 import Carousel from './carousel';
 import AppContext from '../lib/app-context';
@@ -41,8 +42,29 @@ export default function Map() {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${selected.lat},${selected.lng}&key=${process.env.GOOGLE_MAPS_KEY}`)
       .then(result => result.json())
       .then(data => {
-        const fullAddress = data.results[0].formatted_address;
-        prepopulatedAddress.fullAddress = fullAddress;
+        // console.log('data:', data);
+        const streetAddressElement = data.results.find(element => element.types.includes('street_address'));
+        let formattedStreetAddress;
+
+        if (streetAddressElement) {
+          formattedStreetAddress = _.split(streetAddressElement.formatted_address, ', ');
+        }
+        if (!streetAddressElement) {
+          const premiseElement = data.results.find(element => element.types.includes('premise'));
+          formattedStreetAddress = _.split(premiseElement.formatted_address, ', ');
+        }
+
+        const stateAndZip = _.split(formattedStreetAddress[2], ' ');
+        const zip = stateAndZip[1];
+
+        prepopulatedAddress.streetAddress = formattedStreetAddress[0];
+        prepopulatedAddress.city = formattedStreetAddress[1];
+        prepopulatedAddress.zip = zip;
+        // console.log('formattedStreetAddress:', formattedStreetAddress);
+        // console.log('prepopulatedAddress:', prepopulatedAddress);
+        // const splitAddress = _.split(fullAddress, ',');
+        // console.log(splitAddress);
+        // prepopulatedAddress.fullAddress = fullAddress;
         // console.log(prepopulatedAddress);
       })
       .catch(err => console.error(err));
