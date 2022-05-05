@@ -154,6 +154,10 @@ class ActivityDetail extends React.Component {
 
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
 
+    const { bookmark } = this.state;
+    const bookmarkColorClass = bookmark
+      ? 'fa-solid fa-bookmark text-primary'
+      : 'fa-solid fa-bookmark text-gray';
     // add if statement to control bookmark color
     return (
   <>
@@ -169,7 +173,7 @@ class ActivityDetail extends React.Component {
           <p className='h4 text-brown fw-bold'>{activityName}</p>
           <div className='d-flex justify-content-end h4 text-gray'>
             <button onClick={this.handleBookmark} className='bg-transparent border-0 text-gray fw-bold mx-3'>
-              <i className="fa-solid fa-bookmark"></i></button>
+              <i className={bookmarkColorClass}></i></button>
 
               <button onClick={this.handleClick} className='bg-transparent border-0 text-gray fw-bold '><i className="fa-solid fa-pencil"></i></button>
 
