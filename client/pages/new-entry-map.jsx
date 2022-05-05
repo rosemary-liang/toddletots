@@ -22,7 +22,7 @@ export default class NewEntryMap extends React.Component {
               <a href='#' className='bg-transparent border-0 h1 text-white fw-bold position-absolute top-0 start-0'><i className="fa-solid fa-arrow-left"></i></a>
               <p className='ms-5 text-white fw-bold'>Drop A Pin to Add Activity</p>
             </div>
-            <div className='w-100 map-placeholder p-1 bg-white'>
+            <div className='w-100 map-placeholder p-1 border-0'>
               <Map />
             </div>
             <div className='d-flex justify-content-center my-4'>

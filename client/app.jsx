@@ -20,13 +20,16 @@ class App extends React.Component {
       user: null,
       route: parseRoute(window.location.hash),
       activities: [],
-      currentCoordinates: []
+      currentCoordinates: [],
+      newActivityPin: []
     };
 
     this.sortActivitiesByDistance = this.sortActivitiesByDistance.bind(this);
     this.useCurrentLocation = this.useCurrentLocation.bind(this);
     this.useZipCoordinates = this.useZipCoordinates.bind(this);
     this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this);
+    this.setNewActivityPin = this.setNewActivityPin.bind(this);
+    this.refreshActivities = this.refreshActivities.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +38,10 @@ class App extends React.Component {
       this.setState({ route });
     });
 
+    this.refreshActivities();
+  }
+
+  refreshActivities() {
     fetch('/api/activities')
       .then(res => res.json())
       .then(activities => {
@@ -77,7 +84,10 @@ class App extends React.Component {
     this.setState({ currentCoordinates: zipCoordinates }, () => {
       this.sortActivitiesByDistance();
     });
+  }
 
+  setNewActivityPin(newActivityPin) {
+    this.setState({ newActivityPin });
   }
 
   renderPage() {
@@ -100,9 +110,9 @@ class App extends React.Component {
 
   render() {
     // console.log('App this.state:', this.state);
-    const { useZipCoordinates, useCurrentLocation } = this;
-    const { route, activities, currentCoordinates } = this.state;
-    const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation };
+    const { useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
+    const { route, activities, currentCoordinates, newActivityPin } = this.state;
+    const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities };
 
     return (
       <AppContext.Provider value = {contextValue}>

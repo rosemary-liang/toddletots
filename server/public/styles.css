@@ -109,7 +109,6 @@
 
 .new-entry-success {
   object-fit: cover;
-  height: 300px;
   width: 100%;
 }
 
@@ -151,11 +150,6 @@
 
   .carousel {
     max-width: 450px;
-  }
-
-  img.new-entry-success {
-    height: 350px;
-    width: 100%;
   }
 
   .searchbar {

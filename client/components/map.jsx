@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import _ from 'lodash';
 import Search from './search';
 import Carousel from './carousel';
 import AppContext from '../lib/app-context';
@@ -35,9 +36,39 @@ export default function Map() {
   const [markers, setMarker] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
 
+  const pin = {};
+
+  const useSelectedAddress = () => {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${selected.lat},${selected.lng}&key=${process.env.GOOGLE_MAPS_KEY}`)
+      .then(result => result.json())
+      .then(data => {
+        const streetAddressElement = data.results.find(element => element.types.includes('street_address'));
+        let formattedStreetAddress;
+
+        if (streetAddressElement) {
+          formattedStreetAddress = _.split(streetAddressElement.formatted_address, ', ');
+        }
+        if (!streetAddressElement) {
+          const premiseElement = data.results.find(element => element.types.includes('premise'));
+          formattedStreetAddress = _.split(premiseElement.formatted_address, ', ');
+        }
+
+        const stateAndZip = _.split(formattedStreetAddress[2], ' ');
+        const zip = stateAndZip[1];
+        pin.streetAddress = formattedStreetAddress[0];
+        pin.city = formattedStreetAddress[1];
+        pin.zipCode = zip;
+        pin.currentCoordinates = {
+          lat: selected.lat,
+          lng: selected.lng
+        };
+        context.setNewActivityPin(pin);
+      })
+      .catch(err => console.error(err));
+  };
+
   const onMapClick = React.useCallback(event => {
     setMarker(current => [
-
       {
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),
@@ -74,7 +105,6 @@ export default function Map() {
       zoom={12}
       center={center}
       options={options}
-      // onClick={onMapClick}
       onLoad={onMapLoad}
       >
         {activities.map(activity => (
@@ -136,16 +166,8 @@ export default function Map() {
             ? (<InfoWindow
               position={{ lat: selected.lat, lng: selected.lng }}
               onCloseClick={() => { setSelected(null); }}>
-              <div>
-                <h6 className='text-brown fw-bold'>{selected.activityName}</h6>
-                <p className='m-0'>{selected.streetAddress}</p>
-                <p>{selected.city}</p>
-                <a href={`#activity-details?activityId=${selected.activityId}`}
-                  className='text-decoration-none px-2 py-1 bg-primary text-white fw-bold border-radius-10px my-2'>see activity details</a>
-                <div className='home-map mt-3'>
-                  <Carousel images={selected.images} />
-                </div>
-
+              <div className='my-2'>
+                <a href="#new-entry-form" onClick={useSelectedAddress} className='text-decoration-none px-2 py-1 fw-bold text-white bg-secondary border-radius-90px'> Add new activity here</a>
               </div>
             </InfoWindow>)
             : null}
