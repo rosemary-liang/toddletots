@@ -203,11 +203,11 @@
 
   .new-entry,
   .carousel-image {
-    height: 330px;
+    height: 290px;
   }
 
   .new-entry-success {
-    height: 300px;
+    height: 290px;
     width: 45%;
     top: 4rem;
     right: 1.5rem;
@@ -225,7 +225,7 @@
 
   .new-entry,
   .carousel-image {
-    height: 360px;
+    height: 300px;
   }
 
   .new-entry-success {
