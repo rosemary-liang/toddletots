@@ -1,4 +1,5 @@
 import React from 'react';
+import AppContext from '../lib/app-context';
 import axios from 'axios';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
@@ -60,24 +61,81 @@ export default class ActivityDetails extends React.Component {
         </>
       );
     }
-
   }
 }
 
 class ActivityDetail extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      bookmark: false
+    };
+
     this.handleClick = this.handleClick.bind(this);
+    this.handleBookmark = this.handleBookmark.bind(this);
+  }
+
+  componentDidMount() {
+    const { activityId } = this.props.activity;
+    const userId = this.context.userId;
+    if (!isNaN(userId)) {
+      fetch(`/api/bookmarks/${userId}/${activityId}`)
+        .then(result => result.json())
+        .then(data => {
+          const bookmark = data.length !== 0;
+          this.setState({ bookmark });
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
   }
 
   handleClick() {
     this.props.setEditClicked(true);
   }
 
-  render() {
-    const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
-    // console.log('props.activity:', this.props.activity);
+  handleBookmark() {
+    // have this return true or false?
+    this.checkLoggedIn();
 
+    const { bookmark } = this.state;
+    const userId = this.context.userId;
+    const { activityId } = this.props.activity;
+    const method = bookmark ? 'DELETE' : 'POST';
+
+    fetch(`/api/bookmarks/${userId}/${activityId}`, {
+      method: method
+    })
+      .then(result => {
+        result.json();
+        const newStatus = !bookmark;
+        this.setState({ bookmark: newStatus });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  checkLoggedIn() {
+    const userId = this.context.userId;
+    if (!isNaN(userId)) {
+      // show error tooltip or modal and do nothing?;
+      // return
+
+    }
+  }
+
+  render() {
+    // console.log('ActivityDetail this.state:', this.state);
+
+    const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
+
+    const { bookmark } = this.state;
+    const bookmarkColorClass = bookmark
+      ? 'fa-solid fa-bookmark text-primary'
+      : 'fa-solid fa-bookmark text-gray';
+    // add if statement to control bookmark color
     return (
   <>
     <div className="container bg-secondary pt-2  pb-3 px-3 rounded">
@@ -91,7 +149,8 @@ class ActivityDetail extends React.Component {
         <div className='d-flex justify-content-between'>
           <p className='h4 text-brown fw-bold'>{activityName}</p>
           <div className='d-flex justify-content-end h4 text-gray'>
-            <button className='bg-transparent border-0 text-gray fw-bold mx-3'><i className="fa-solid fa-bookmark"></i></button>
+            <button onClick={this.handleBookmark} className='bg-transparent border-0 text-gray fw-bold mx-3'>
+              <i className={bookmarkColorClass}></i></button>
 
               <button onClick={this.handleClick} className='bg-transparent border-0 text-gray fw-bold '><i className="fa-solid fa-pencil"></i></button>
 
@@ -355,3 +414,7 @@ class EditActivity extends React.Component {
     }
   }
 }
+
+ActivityDetails.contextType = AppContext;
+ActivityDetail.contextType = AppContext;
+EditActivity.contextType = AppContext;

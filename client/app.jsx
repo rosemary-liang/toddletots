@@ -17,7 +17,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
+      userId: 1,
       route: parseRoute(window.location.hash),
       activities: [],
       currentCoordinates: [],
@@ -111,8 +111,8 @@ class App extends React.Component {
   render() {
     // console.log('App this.state:', this.state);
     const { useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
-    const { route, activities, currentCoordinates, newActivityPin } = this.state;
-    const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities };
+    const { route, activities, currentCoordinates, newActivityPin, userId } = this.state;
+    const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId };
 
     return (
       <AppContext.Provider value = {contextValue}>
