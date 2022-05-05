@@ -75,39 +75,52 @@ class ActivityDetail extends React.Component {
     this.handleBookmark = this.handleBookmark.bind(this);
   }
 
+  componentDidMount() {
+    const { activityId } = this.props.activity;
+    const userId = this.context.userId;
+    if (!isNaN(userId)) {
+      fetch(`/api/bookmarks/${userId}/${activityId}`)
+        .then(result => result.json())
+        .then(data => {
+          // console.log('bookmark typeof:', typeof data);
+          // console.log('bookmark.length:', data.length);
+          // if bookmark.length is empty, status is true, else false
+          const bookmark = data.length !== 0;
+          this.setState({ bookmark });
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }
+
   handleClick() {
     this.props.setEditClicked(true);
   }
 
   handleBookmark() {
-    // check if bookmark exists
-    const { activityId } = this.props.activity;
-    const userId = this.context.userId;
-    if (!isNaN(userId)) {
-      // fetch(`/api/bookmarks/${userId}/${activityId}`, {
-      //   method: 'GET',
-      //   body: JSON.stringify({
-      //     activityId: activityId,
-      //     userId: userId
-      //   })
-      // })
-      fetch(`/api/bookmarks/${userId}/${activityId}`)
-        .then(bookmark => {
-          return bookmark;
-          // if bookmark does/not exist then do other queries
-        });
-      // catch errors and then add new bookmark
-    // .then(bookmark => console.log(bookmark));
-    } else {
-      // show error message that user must be logged in to use bookmarks
-    }
+
+  //   // check if bookmark exists
+  //   const { activityId } = this.props.activity;
+  //   const userId = this.context.userId;
+  //   if (!isNaN(userId)) {
+  //     fetch(`/api/bookmarks/${userId}/${activityId}`)
+  //       .then(bookmark => {
+  //         return bookmark;
+  //       })
+  //       .catch(err => {
+  //         console.error(err);
+  //       });
+  //   } else {
+  //     // if userId is NaN, show error message modal that user must be logged in to use bookmarks
   }
 
   render() {
+    // console.log('ActivityDetail this.state:', this.state);
+
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
 
     // add if statement to control bookmark color
-
     return (
   <>
     <div className="container bg-secondary pt-2  pb-3 px-3 rounded">

@@ -238,7 +238,6 @@ app.delete('/api/activities/:activityId', (req, res, next) => {
 });
 
 app.get('/api/bookmarks/:userId/:activityId', (req, res, next) => {
-  // console.log(req.params);
   const userId = Number(req.params.userId);
   const activityId = Number(req.params.activityId);
   if (!userId) {
@@ -250,8 +249,8 @@ app.get('/api/bookmarks/:userId/:activityId', (req, res, next) => {
   const params = [userId, activityId];
   const sql = `
     select
-      "bookmarkId"
-      "activityId"
+      "bookmarkId",
+      "activityId",
       "userId"
 
     from "bookmarks"
@@ -263,7 +262,10 @@ app.get('/api/bookmarks/:userId/:activityId', (req, res, next) => {
       const bookmark = result.rows;
       res.json(bookmark);
     })
-    .catch(err => next(err));
+    .catch(err => {
+      next(err);
+      // res.json('no bookmark found');
+    });
 });
 
 app.use(errorMiddleware);
