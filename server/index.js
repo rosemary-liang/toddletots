@@ -109,6 +109,36 @@ app.get('/api/activities/:activityId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/bookmarks/:userId/:activityId', (req, res, next) => {
+  const userId = Number(req.params.userId);
+  const activityId = Number(req.params.activityId);
+  if (!userId) {
+    throw new ClientError(400, `cannot find bookmark with userId ${userId}`);
+  }
+  if (!activityId) {
+    throw new ClientError(400, `cannot find bookmark with activityId ${activityId}`);
+  }
+  const params = [userId, activityId];
+  const sql = `
+    select
+      "bookmarkId",
+      "activityId",
+      "userId"
+
+    from "bookmarks"
+    where "userId" = $1
+    and "activityId" = $2
+  `;
+  db.query(sql, params)
+    .then(result => {
+      const bookmark = result.rows;
+      res.json(bookmark);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 app.post('/api/activities', (req, res, next) => {
   const userId = 1;
   const { activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, currentCoordinates, url, caption } = req.body;
@@ -159,6 +189,35 @@ app.post('/api/activities', (req, res, next) => {
 
     })
     .catch(err => next(err));
+});
+
+app.post('/api/bookmarks/:userId/:activityId', (req, res, next) => {
+  const userId = Number(req.params.userId);
+  const activityId = Number(req.params.activityId);
+  if (!userId) {
+    throw new ClientError(400, `cannot find bookmark with userId ${userId}`);
+  }
+  if (!activityId) {
+    throw new ClientError(400, `cannot find bookmark with activityId ${activityId}`);
+  }
+  const params = [userId, activityId];
+  const sql = `
+    insert into "bookmarks"
+    (
+      "userId",
+      "activityId"
+    )
+    values ($1, $2)
+    returning *
+  `;
+  db.query(sql, params)
+    .then(result => {
+      const bookmark = result.rows;
+      res.json(bookmark);
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 app.put('/api/activities/:activityId', (req, res, next) => {
@@ -235,37 +294,6 @@ app.delete('/api/activities/:activityId', (req, res, next) => {
         .catch(err => next(err));
     })
     .catch(err => next(err));
-});
-
-app.get('/api/bookmarks/:userId/:activityId', (req, res, next) => {
-  const userId = Number(req.params.userId);
-  const activityId = Number(req.params.activityId);
-  if (!userId) {
-    throw new ClientError(400, `cannot find bookmark with userId ${userId}`);
-  }
-  if (!activityId) {
-    throw new ClientError(400, `cannot find bookmark with activityId ${activityId}`);
-  }
-  const params = [userId, activityId];
-  const sql = `
-    select
-      "bookmarkId",
-      "activityId",
-      "userId"
-
-    from "bookmarks"
-    where "userId" = $1
-    and "activityId" = $2
-  `;
-  db.query(sql, params)
-    .then(result => {
-      const bookmark = result.rows;
-      res.json(bookmark);
-    })
-    .catch(err => {
-      next(err);
-      // res.json('no bookmark found');
-    });
 });
 
 app.use(errorMiddleware);

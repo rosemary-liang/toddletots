@@ -99,20 +99,54 @@ class ActivityDetail extends React.Component {
   }
 
   handleBookmark() {
+    // have this return true or false?
+    this.checkLoggedIn();
 
-  //   // check if bookmark exists
-  //   const { activityId } = this.props.activity;
-  //   const userId = this.context.userId;
-  //   if (!isNaN(userId)) {
-  //     fetch(`/api/bookmarks/${userId}/${activityId}`)
-  //       .then(bookmark => {
-  //         return bookmark;
-  //       })
-  //       .catch(err => {
-  //         console.error(err);
-  //       });
-  //   } else {
-  //     // if userId is NaN, show error message modal that user must be logged in to use bookmarks
+    const { bookmark } = this.state;
+    const userId = this.context.userId;
+    const { activityId } = this.props.activity;
+
+    if (bookmark) {
+      // unbookmark it with delete request
+      // fetch(`/api/bookmarks/${userId}/${activityId}`, {
+      //   method: 'POST'
+      // })
+      //   .then(result => result.json())
+      //   .then(data => {
+      //     console.log('data:', data);
+      //     // console.log('bookmark.length:', data.length);
+      //     // if bookmark.length is empty, status is true, else false
+      //     const bookmark = data.length !== 0;
+      //     this.setState({ bookmark });
+      //   })
+      //   .catch(err => {
+      //     console.error(err);
+      //   });
+    }
+    if (!bookmark) {
+      // bookmark it with post request
+      fetch(`/api/bookmarks/${userId}/${activityId}`, {
+        method: 'POST'
+      })
+        .then(result => result.json())
+        .then(data => {
+          // console.log('data:', data);
+          const bookmark = data.length !== 0;
+          this.setState({ bookmark });
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }
+
+  checkLoggedIn() {
+    const userId = this.context.userId;
+    if (!isNaN(userId)) {
+      // show error modal;
+      // return
+
+    }
   }
 
   render() {
