@@ -296,6 +296,32 @@ app.delete('/api/activities/:activityId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.delete('/api/bookmarks/:userId/:activityId', (req, res, next) => {
+  const userId = Number(req.params.userId);
+  const activityId = Number(req.params.activityId);
+  if (!userId) {
+    throw new ClientError(400, `cannot find bookmark with userId ${userId}`);
+  }
+  if (!activityId) {
+    throw new ClientError(400, `cannot find bookmark with activityId ${activityId}`);
+  }
+  const params = [userId, activityId];
+  const sql = `
+    delete from "bookmarks"
+    where "userId" = $1
+    and   "activityId" = $2
+    returning *
+  `;
+  db.query(sql, params)
+    .then(result => {
+      const bookmark = result.rows;
+      res.json(bookmark);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

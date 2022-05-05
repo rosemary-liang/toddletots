@@ -82,9 +82,6 @@ class ActivityDetail extends React.Component {
       fetch(`/api/bookmarks/${userId}/${activityId}`)
         .then(result => result.json())
         .then(data => {
-          // console.log('bookmark typeof:', typeof data);
-          // console.log('bookmark.length:', data.length);
-          // if bookmark.length is empty, status is true, else false
           const bookmark = data.length !== 0;
           this.setState({ bookmark });
         })
@@ -105,45 +102,25 @@ class ActivityDetail extends React.Component {
     const { bookmark } = this.state;
     const userId = this.context.userId;
     const { activityId } = this.props.activity;
+    const method = bookmark ? 'DELETE' : 'POST';
 
-    if (bookmark) {
-      // unbookmark it with delete request
-      // fetch(`/api/bookmarks/${userId}/${activityId}`, {
-      //   method: 'POST'
-      // })
-      //   .then(result => result.json())
-      //   .then(data => {
-      //     console.log('data:', data);
-      //     // console.log('bookmark.length:', data.length);
-      //     // if bookmark.length is empty, status is true, else false
-      //     const bookmark = data.length !== 0;
-      //     this.setState({ bookmark });
-      //   })
-      //   .catch(err => {
-      //     console.error(err);
-      //   });
-    }
-    if (!bookmark) {
-      // bookmark it with post request
-      fetch(`/api/bookmarks/${userId}/${activityId}`, {
-        method: 'POST'
+    fetch(`/api/bookmarks/${userId}/${activityId}`, {
+      method: method
+    })
+      .then(result => {
+        result.json();
+        const newStatus = !bookmark;
+        this.setState({ bookmark: newStatus });
       })
-        .then(result => result.json())
-        .then(data => {
-          // console.log('data:', data);
-          const bookmark = data.length !== 0;
-          this.setState({ bookmark });
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    }
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   checkLoggedIn() {
     const userId = this.context.userId;
     if (!isNaN(userId)) {
-      // show error modal;
+      // show error tooltip or modal and do nothing?;
       // return
 
     }
