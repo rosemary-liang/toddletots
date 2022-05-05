@@ -1,4 +1,5 @@
 import React from 'react';
+import AppContext from '../lib/app-context';
 import axios from 'axios';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
@@ -60,23 +61,42 @@ export default class ActivityDetails extends React.Component {
         </>
       );
     }
-
   }
 }
 
 class ActivityDetail extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      bookmark: false
+    };
+
     this.handleClick = this.handleClick.bind(this);
+    this.handleBookmark = this.handleBookmark.bind(this);
   }
 
   handleClick() {
     this.props.setEditClicked(true);
   }
 
+  handleBookmark() {
+    // check if bookmark exists
+    const { activityId } = this.props.activity;
+    const { userId } = this.context.userId;
+    fetch('/api/bookmarks', {
+      body: JSON.stringify({
+        activityId: activityId,
+        userId: userId
+      })
+    })
+      .then(results => results.json());
+    // .then(bookmark => console.log(bookmark));
+  }
+
   render() {
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
-    // console.log('props.activity:', this.props.activity);
+
+    // add if statement to control bookmark color
 
     return (
   <>
@@ -91,7 +111,8 @@ class ActivityDetail extends React.Component {
         <div className='d-flex justify-content-between'>
           <p className='h4 text-brown fw-bold'>{activityName}</p>
           <div className='d-flex justify-content-end h4 text-gray'>
-            <button className='bg-transparent border-0 text-gray fw-bold mx-3'><i className="fa-solid fa-bookmark"></i></button>
+            <button className='bg-transparent border-0 text-gray fw-bold mx-3'>
+              <i className="fa-solid fa-bookmark"></i></button>
 
               <button onClick={this.handleClick} className='bg-transparent border-0 text-gray fw-bold '><i className="fa-solid fa-pencil"></i></button>
 
@@ -355,3 +376,7 @@ class EditActivity extends React.Component {
     }
   }
 }
+
+ActivityDetails.contextType = AppContext;
+ActivityDetail.contextType = AppContext;
+EditActivity.contextType = AppContext;
