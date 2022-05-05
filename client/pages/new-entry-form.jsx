@@ -6,33 +6,17 @@ import AgeRange from '../components/age-range';
 export default class NewEntryForm extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   activityName: null,
-    //   streetAddress: '',
-    //   city: '',
-    //   zipCode: '',
-    //   currentCoordinates: null,
-    //   description: null,
-    //   ages2to5: false,
-    //   ages5to12: false,
-    //   url: null,
-    //   caption: null,
-    //   errorMsg: '',
-    //   activityAdded: [],
-    //   activityAddedSuccess: false
-    // };
-
     this.state = {
-      activityName: 'Wow',
-      streetAddress: '15 sweet shade',
-      city: 'irvine',
-      zipCode: '92606',
+      activityName: null,
+      streetAddress: '',
+      city: '',
+      zipCode: '',
       currentCoordinates: null,
-      description: 'wow so cool',
-      ages2to5: true,
+      description: null,
+      ages2to5: false,
       ages5to12: false,
-      url: 'http://d279m997dpfwgl.cloudfront.net/wp/2019/10/AP_18169701089570-1000x694.jpg',
-      caption: 'dog',
+      url: null,
+      caption: null,
       errorMsg: '',
       activityAdded: [],
       activityAddedSuccess: false
@@ -41,7 +25,6 @@ export default class NewEntryForm extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkCurrentCoordinates = this.checkCurrentCoordinates.bind(this);
-    // this.resetForm = this.resetForm.bind(this);
   }
 
   componentDidUpdate() {
@@ -117,24 +100,6 @@ export default class NewEntryForm extends React.Component {
     }
   }
 
-  // resetForm() {
-  //   this.setState({
-  //     activityName: null,
-  //     streetAddress: '',
-  //     city: '',
-  //     zipCode: '',
-  //     currentCoordinates: null,
-  //     description: null,
-  //     ages2to5: false,
-  //     ages5to12: false,
-  //     url: null,
-  //     caption: null,
-  //     errorMsg: '',
-  //     activityAdded: [],
-  //     activityAddedSuccess: false
-  //   });
-  // }
-
   render() {
     // console.log('NewEntryForm this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
@@ -161,14 +126,14 @@ export default class NewEntryForm extends React.Component {
                   <div className='d-flex flex-column col-md-12 col-lg-6'>
 
                     <input
-                      // required
+                      required
                       type="text"
                       name="activityName"
                       placeholder='activity name'
                       onChange={handleInputChange}
                       className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
                     <input
-                      // required
+                      required
                       type="text"
                       name="streetAddress"
                       placeholder="street address"
@@ -177,7 +142,7 @@ export default class NewEntryForm extends React.Component {
                         className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2'/>
                     <div className='d-flex my-2 justify-content-between'>
                         <input
-                          // required
+                          required
                           type="text"
                           name="city"
                           placeholder="city"
@@ -185,7 +150,7 @@ export default class NewEntryForm extends React.Component {
                           onChange={handleInputChange}
                             className='col-8 border-0 border-gray border-radius-10px entry-form-single fw-bold' />
                       <input
-                        // required
+                        required
                         type="text"
                         name="zipCode"
                         placeholder="zip"
@@ -194,7 +159,7 @@ export default class NewEntryForm extends React.Component {
                             className='col-4 border-0 border-gray border-radius-10px entry-form-single fw-bold ms-1' />
                     </div>
                     <textarea
-                      // required
+                      required
                       name="description"
                       placeholder="description"
                       rows="10"
@@ -226,16 +191,15 @@ export default class NewEntryForm extends React.Component {
                   </div>
 
                 <div className='add-images-container col-lg-6 ms-lg-4 px-lg-2'>
-
                     <input
-                      // required
+                      required
                       type="text"
                       name="url"
                       placeholder='image url'
                       onChange={handleInputChange}
                       className='w-100 border-0 border-radius-10px entry-form-single fw-bold my-2' />
                     <input
-                      // required
+                      required
                       type="text"
                       name="caption"
                       placeholder='caption'
@@ -245,9 +209,7 @@ export default class NewEntryForm extends React.Component {
                       <img onChange={handleInputChange} src={url} alt={caption} className='new-entry w-100 mt-2 border-radius-10px'/>
                     </div>
                   </div>
-
               </div>
-
               <div className='d-flex justify-content-end mt-3'>
                 <input
                   type='submit' value='submit'
@@ -281,9 +243,7 @@ export default class NewEntryForm extends React.Component {
                 <div className='col-md-12 col-lg-6 mb-4 p-md-2 mt-2 border-radius-10px'>
                   <img src={url} alt={caption} className='new-entry-success mt-2 border-radius-10px' />
                 </div>
-
                   <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} page='#new-entry-success' />
-
                 <div className='mt-lg-5'>
                   <p className='fw-bold text-brown'>Description</p>
                   <p className='fs-6'> {description}</p>

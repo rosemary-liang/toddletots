@@ -19,12 +19,9 @@ export default function Home() {
     });
   };
 
-  // const [center, setCenter] = React.useState(currentCoordinates);
-
   const handleZip = zipCoordinates => {
     context.useZipCoordinates(zipCoordinates);
     setUseCurrentLocation(false);
-
   };
 
   const [useCurrentLocation, setUseCurrentLocation] = useState(true);
