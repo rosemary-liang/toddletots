@@ -21,7 +21,8 @@ class App extends React.Component {
       route: parseRoute(window.location.hash),
       activities: [],
       currentCoordinates: [],
-      newActivityPin: []
+      newActivityPin: [],
+      bookmarks: []
     };
 
     this.sortActivitiesByDistance = this.sortActivitiesByDistance.bind(this);
@@ -95,6 +96,9 @@ class App extends React.Component {
     if (route.path === '') {
       return <Home />;
     }
+    if (route.path === 'bookmarks') {
+      return <Home />;
+    }
     if (route.path === 'activity-details') {
       const activityId = route.params.get('activityId');
       return <ActivityDetails activityId={activityId} />;
@@ -111,8 +115,8 @@ class App extends React.Component {
   render() {
     // console.log('App this.state:', this.state);
     const { useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
-    const { route, activities, currentCoordinates, newActivityPin, userId } = this.state;
-    const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId };
+    const { route, activities, currentCoordinates, newActivityPin, userId, bookmarks } = this.state;
+    const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId, bookmarks };
 
     return (
       <AppContext.Provider value = {contextValue}>

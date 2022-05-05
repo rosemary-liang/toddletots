@@ -9,8 +9,12 @@ import Map from '../components/map';
 export default function Home() {
 
   const context = useContext(AppContext);
-  const { activities, currentCoordinates } = context;
+  const { activities, bookmarks, currentCoordinates, route } = context;
   // console.log('Home context:', context);
+
+  let activitiesList;
+  if (route.path === '') { activitiesList = activities; }
+  if (route.path === 'bookmarks') { activitiesList = bookmarks; }
 
   const [view, setView] = React.useState('list');
   const updateView = () => {
@@ -78,7 +82,7 @@ export default function Home() {
                 <Search handleZip={handleZip}/>
 
               {
-                activities.map(activity => (
+                activitiesList.map(activity => (
                   <div key={activity.activityId}><Activity activity={activity} /> </div>
                 ))
               }
