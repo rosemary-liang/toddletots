@@ -82,15 +82,25 @@ class ActivityDetail extends React.Component {
   handleBookmark() {
     // check if bookmark exists
     const { activityId } = this.props.activity;
-    const { userId } = this.context.userId;
-    fetch('/api/bookmarks', {
-      body: JSON.stringify({
-        activityId: activityId,
-        userId: userId
-      })
-    })
-      .then(results => results.json());
+    const userId = this.context.userId;
+    if (!isNaN(userId)) {
+      // fetch(`/api/bookmarks/${userId}/${activityId}`, {
+      //   method: 'GET',
+      //   body: JSON.stringify({
+      //     activityId: activityId,
+      //     userId: userId
+      //   })
+      // })
+      fetch(`/api/bookmarks/${userId}/${activityId}`)
+        .then(bookmark => {
+          return bookmark;
+          // if bookmark does/not exist then do other queries
+        });
+      // catch errors and then add new bookmark
     // .then(bookmark => console.log(bookmark));
+    } else {
+      // show error message that user must be logged in to use bookmarks
+    }
   }
 
   render() {
@@ -111,7 +121,7 @@ class ActivityDetail extends React.Component {
         <div className='d-flex justify-content-between'>
           <p className='h4 text-brown fw-bold'>{activityName}</p>
           <div className='d-flex justify-content-end h4 text-gray'>
-            <button className='bg-transparent border-0 text-gray fw-bold mx-3'>
+            <button onClick={this.handleBookmark} className='bg-transparent border-0 text-gray fw-bold mx-3'>
               <i className="fa-solid fa-bookmark"></i></button>
 
               <button onClick={this.handleClick} className='bg-transparent border-0 text-gray fw-bold '><i className="fa-solid fa-pencil"></i></button>
