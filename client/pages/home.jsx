@@ -22,17 +22,19 @@ export default function Home() {
   let activitiesList;
   let pageTitle;
   let noEntries;
+  let backButton;
 
   if (route.path === '') {
     activitiesList = activities;
     pageTitle = 'Fun Activities Nearby';
     noEntries = 'activities';
+    backButton = '#';
 
   } else if (route.path === 'bookmarks') {
     activitiesList = bookmarks;
     pageTitle = 'Bookmarks Nearby';
     noEntries = 'bookmarks';
-
+    backButton = '#bookmarks';
   }
 
   const [view, setView] = React.useState('list');
@@ -127,7 +129,7 @@ export default function Home() {
                 <div className={iconClass}>
                   <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
                   <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
-                  <a href="#" onClick={updateView} data-tip data-for={id} className='me-2'>
+                  <a href={backButton} onClick={updateView} data-tip data-for={id} className='me-2'>
                     <i className={icon}></i>
                   </a>
                   <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
