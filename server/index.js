@@ -138,17 +138,12 @@ app.get('/api/bookmarks/:userId', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       const bookmarks = result.rows;
-      const bookmarkActivityIds = bookmarks.map(bookmark => { return bookmark.activityId; });
+      const bookmarkActivityIds = bookmarks.map(bookmark => { return parseInt(bookmark.activityId); });
       const paramsImages = bookmarkActivityIds;
-      let finalParamsImages;
       if (paramsImages.length === 0) {
         res.json(paramsImages);
+
       } else {
-        if (paramsImages.length === 1) {
-          finalParamsImages = paramsImages;
-        } else {
-          finalParamsImages = [paramsImages];
-        }
 
         const sqlImages = `
          select
@@ -158,9 +153,10 @@ app.get('/api/bookmarks/:userId', (req, res, next) => {
           "activityId"
 
         from "images"
-        where "activityId" in ($1)
+        where "activityId" = any($1::int[])
       `;
-        db.query(sqlImages, finalParamsImages)
+
+        db.query(sqlImages, [paramsImages])
           .then(resultImages => {
             const images = resultImages.rows;
             const finalData = bookmarks.map(bookmark => {
