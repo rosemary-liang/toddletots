@@ -13,21 +13,26 @@ export default function Home() {
     activities,
     bookmarks,
     currentCoordinates,
-    route
+    route,
+    refreshActivities
   } = context;
+
+  useEffect(() => { refreshActivities(); }, []);
 
   let activitiesList;
   let pageTitle;
+  let noEntries;
 
   if (route.path === '') {
     activitiesList = activities;
     pageTitle = 'Fun Activities Nearby';
+    noEntries = 'activities';
 
-  }
-
-  if (route.path === 'bookmarks') {
+  } else if (route.path === 'bookmarks') {
     activitiesList = bookmarks;
     pageTitle = 'Bookmarks Nearby';
+    noEntries = 'bookmarks';
+
   }
 
   const [view, setView] = React.useState('list');
@@ -82,7 +87,7 @@ export default function Home() {
           <div className="container  ">
             <div className="  mt-4 mx-1 mx-md-4">
               <div className=' d-flex justify-content-between h2 mb-0 w-100'>
-                <p className='ms-1 text-white fw-bold'>Fun Activities Nearby</p>
+                <p className='ms-1 text-white fw-bold'>{pageTitle}</p>
                 <div className={iconClass}>
                   <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
                   <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
@@ -98,7 +103,7 @@ export default function Home() {
 
                 {
                   <div className='row bg-white border-radius-20px mb-4 py-4 cursor-pointer '>
-                    <p>No activities yet</p>
+                    <p className='text-center fw-bold text-brown'>No {noEntries} yet</p>
                   </div>
                 }
               </div>

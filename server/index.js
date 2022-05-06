@@ -140,7 +140,17 @@ app.get('/api/bookmarks/:userId', (req, res, next) => {
       const bookmarks = result.rows;
       const bookmarkActivityIds = bookmarks.map(bookmark => { return bookmark.activityId; });
       const paramsImages = bookmarkActivityIds;
-      const sqlImages = `
+      let finalParamsImages;
+      if (paramsImages.length === 0) {
+        res.json(paramsImages);
+      } else {
+        if (paramsImages.length === 1) {
+          finalParamsImages = paramsImages;
+        } else {
+          finalParamsImages = [paramsImages];
+        }
+
+        const sqlImages = `
          select
           "imageId",
           "url",
@@ -148,20 +158,20 @@ app.get('/api/bookmarks/:userId', (req, res, next) => {
           "activityId"
 
         from "images"
-        where "activityId" in (${paramsImages.join(',')})
+        where "activityId" in ($1)
       `;
-
-      db.query(sqlImages)
-        .then(resultImages => {
-          const images = resultImages.rows;
-          const finalData = bookmarks.map(bookmark => {
-            const filteredImages = images.filter(image => bookmark.activityId === image.activityId);
-            bookmark.images = filteredImages;
-            return bookmark;
-          });
-          res.json(finalData);
-        })
-        .catch(err => next(err));
+        db.query(sqlImages, finalParamsImages)
+          .then(resultImages => {
+            const images = resultImages.rows;
+            const finalData = bookmarks.map(bookmark => {
+              const filteredImages = images.filter(image => bookmark.activityId === image.activityId);
+              bookmark.images = filteredImages;
+              return bookmark;
+            });
+            res.json(finalData);
+          })
+          .catch(err => next(err));
+      }
     })
     .catch(err => next(err));
 });
