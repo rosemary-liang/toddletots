@@ -63,7 +63,7 @@ class App extends React.Component {
   }
 
   sortActivitiesByDistance() {
-    const { currentCoordinates, activities } = this.state;
+    const { currentCoordinates, activities, bookmarks } = this.state;
     const activitiesWithDistance = activities.map(activity => {
       const activityCoordinates = { lat: activity.lat, lng: activity.lng };
       const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(currentCoordinates, activityCoordinates);
@@ -73,6 +73,16 @@ class App extends React.Component {
     });
     const sortedDistanceArray = _.orderBy(activitiesWithDistance, 'distance', 'asc');
     this.setState({ activities: sortedDistanceArray });
+
+    const bookmarksWithDistance = bookmarks.map(activity => {
+      const activityCoordinates = { lat: activity.lat, lng: activity.lng };
+      const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(currentCoordinates, activityCoordinates);
+      const distanceMiles = distanceMeters * 0.000621371;
+      activity.distance = distanceMiles.toFixed(1);
+      return activity;
+    });
+    const sortedDistanceArrayBookmarks = _.orderBy(bookmarksWithDistance, 'distance', 'asc');
+    this.setState({ activities: sortedDistanceArrayBookmarks });
   }
 
   getCurrentCoordinates() {
