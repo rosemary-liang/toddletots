@@ -117,18 +117,51 @@ app.get('/api/bookmarks/:userId', (req, res, next) => {
   const params = [userId];
   const sql = `
     select
-      "bookmarkId",
-      "activityId",
-      "userId"
+      "b"."bookmarkId",
+      "b"."activityId",
+      "b"."userId",
+      "a"."activityName",
+      "a"."streetAddress",
+      "a"."city",
+      "a"."zipCode",
+      "a"."lat",
+      "a"."lng",
+      "a"."description",
+      "a"."ages2to5",
+      "a"."ages5to12"
 
-    from "bookmarks"
-    where "userId" = $1
-    returning *
+    from "bookmarks" as "b"
+    join "activities" as "a" using ("activityId")
+    where "b"."userId" = $1
   `;
+
   db.query(sql, params)
     .then(result => {
       const bookmarks = result.rows;
-      res.json(bookmarks);
+      const bookmarkActivityIds = bookmarks.map(bookmark => { return bookmark.activityId; });
+      const paramsImages = bookmarkActivityIds;
+      const sqlImages = `
+         select
+          "imageId",
+          "url",
+          "caption",
+          "activityId"
+
+        from "images"
+        where "activityId" in (${paramsImages.join(',')})
+      `;
+
+      db.query(sqlImages)
+        .then(resultImages => {
+          const images = resultImages.rows;
+          const finalData = bookmarks.map(bookmark => {
+            const filteredImages = images.filter(image => bookmark.activityId === image.activityId);
+            bookmark.images = filteredImages;
+            return bookmark;
+          });
+          res.json(finalData);
+        })
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 });

@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import _ from 'lodash';
 import ReactTooltip from 'react-tooltip';
 import AppContext from '../lib/app-context';
 import Search from '../components/search';
@@ -10,21 +9,18 @@ import Map from '../components/map';
 export default function Home() {
 
   const context = useContext(AppContext);
-  const { activities, bookmarks, currentCoordinates, route } = context;
+  const {
+    activities,
+    bookmarks,
+    currentCoordinates,
+    route
+  } = context;
   // console.log('Home context:', context);
 
   let activitiesList;
-  if (route.path === '') { activitiesList = activities; }
-  if (route.path === 'bookmarks') {
-    const bookmarkedActivities = bookmarks.map(bookmark => {
-      const bookmarkedActivities = _.filter(activities, { activityId: bookmark.activityId });
-      return bookmarkedActivities;
-    });
-    // console.log('bookmarkedActivities', bookmarkedActivities);
-    return bookmarkedActivities;
 
-    // activitiesList = bookmarks;
-  }
+  if (route.path === '') { activitiesList = activities; }
+  if (route.path === 'bookmarks') { activitiesList = bookmarks; }
 
   const [view, setView] = React.useState('list');
   const updateView = () => {
@@ -123,5 +119,3 @@ function Activity(props) {
       </div>
   );
 }
-
-Home.contextType = AppContext;
