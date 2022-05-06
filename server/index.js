@@ -109,6 +109,23 @@ app.get('/api/activities/:activityId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/bookmarks', (req, res, next) => {
+  const sql = `
+    select
+      "bookmarkId",
+      "activityId",
+      "userId"
+
+    from "bookmarks"
+  `;
+  db.query(sql)
+    .then(result => {
+      const bookmarks = result.rows;
+      res.json(bookmarks);
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/bookmarks/:userId/:activityId', (req, res, next) => {
   const userId = Number(req.params.userId);
   const activityId = Number(req.params.activityId);
@@ -134,9 +151,7 @@ app.get('/api/bookmarks/:userId/:activityId', (req, res, next) => {
       const bookmark = result.rows;
       res.json(bookmark);
     })
-    .catch(err => {
-      next(err);
-    });
+    .catch(err => next(err));
 });
 
 app.post('/api/activities', (req, res, next) => {
@@ -215,9 +230,7 @@ app.post('/api/bookmarks/:userId/:activityId', (req, res, next) => {
       const bookmark = result.rows;
       res.json(bookmark);
     })
-    .catch(err => {
-      next(err);
-    });
+    .catch(err => next(err));
 });
 
 app.put('/api/activities/:activityId', (req, res, next) => {

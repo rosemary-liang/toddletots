@@ -51,6 +51,12 @@ class App extends React.Component {
         });
       })
       .catch(err => console.error(err));
+
+    fetch('/api/bookmarks')
+      .then(res => res.json())
+      .then(bookmarks => {
+        this.setState({ bookmarks });
+      });
   }
 
   sortActivitiesByDistance() {
@@ -114,6 +120,7 @@ class App extends React.Component {
 
   render() {
     // console.log('App this.state:', this.state);
+    // console.log('App this.state.bookmarks:', this.state.bookmarks);
     const { useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
     const { route, activities, currentCoordinates, newActivityPin, userId, bookmarks } = this.state;
     const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId, bookmarks };
