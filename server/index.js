@@ -109,6 +109,69 @@ app.get('/api/activities/:activityId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/bookmarks/:userId', (req, res, next) => {
+  const userId = Number(req.params.userId);
+  if (!userId) {
+    throw new ClientError(400, `cannot find bookmark with userId ${userId}`);
+  }
+  const params = [userId];
+  const sql = `
+    select
+      "b"."bookmarkId",
+      "b"."activityId",
+      "b"."userId",
+      "a"."activityName",
+      "a"."streetAddress",
+      "a"."city",
+      "a"."zipCode",
+      "a"."lat",
+      "a"."lng",
+      "a"."description",
+      "a"."ages2to5",
+      "a"."ages5to12"
+
+    from "bookmarks" as "b"
+    join "activities" as "a" using ("activityId")
+    where "b"."userId" = $1
+  `;
+
+  db.query(sql, params)
+    .then(result => {
+      const bookmarks = result.rows;
+      const bookmarkActivityIds = bookmarks.map(bookmark => { return parseInt(bookmark.activityId); });
+      const paramsImages = bookmarkActivityIds;
+      if (paramsImages.length === 0) {
+        res.json(paramsImages);
+
+      } else {
+
+        const sqlImages = `
+         select
+          "imageId",
+          "url",
+          "caption",
+          "activityId"
+
+        from "images"
+        where "activityId" = any($1::int[])
+      `;
+
+        db.query(sqlImages, [paramsImages])
+          .then(resultImages => {
+            const images = resultImages.rows;
+            const finalData = bookmarks.map(bookmark => {
+              const filteredImages = images.filter(image => bookmark.activityId === image.activityId);
+              bookmark.images = filteredImages;
+              return bookmark;
+            });
+            res.json(finalData);
+          })
+          .catch(err => next(err));
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/bookmarks/:userId/:activityId', (req, res, next) => {
   const userId = Number(req.params.userId);
   const activityId = Number(req.params.activityId);
@@ -134,9 +197,7 @@ app.get('/api/bookmarks/:userId/:activityId', (req, res, next) => {
       const bookmark = result.rows;
       res.json(bookmark);
     })
-    .catch(err => {
-      next(err);
-    });
+    .catch(err => next(err));
 });
 
 app.post('/api/activities', (req, res, next) => {
@@ -215,9 +276,7 @@ app.post('/api/bookmarks/:userId/:activityId', (req, res, next) => {
       const bookmark = result.rows;
       res.json(bookmark);
     })
-    .catch(err => {
-      next(err);
-    });
+    .catch(err => next(err));
 });
 
 app.put('/api/activities/:activityId', (req, res, next) => {
