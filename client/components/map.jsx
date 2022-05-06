@@ -95,7 +95,7 @@ export default function Map() {
   if (loadError) return 'Error loading maps';
   if (!isLoaded) return 'Loading maps...';
 
-  if (path === '') {
+  if (path === '' || path === 'bookmarks') {
     return (
     <div
     className='container ps-5 row d-flex justify-content-center w-100'>

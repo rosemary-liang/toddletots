@@ -15,12 +15,20 @@ export default function Home() {
     currentCoordinates,
     route
   } = context;
-  // console.log('Home context:', context);
 
   let activitiesList;
+  let pageTitle;
 
-  if (route.path === '') { activitiesList = activities; }
-  if (route.path === 'bookmarks') { activitiesList = bookmarks; }
+  if (route.path === '') {
+    activitiesList = activities;
+    pageTitle = 'Fun Activities Nearby';
+
+  }
+
+  if (route.path === 'bookmarks') {
+    activitiesList = bookmarks;
+    pageTitle = 'Bookmarks Nearby';
+  }
 
   const [view, setView] = React.useState('list');
   const updateView = () => {
@@ -67,13 +75,50 @@ export default function Home() {
     iconClass = '';
   }
 
-  return (
+  if (activitiesList.length === 0) {
+    return (
+      <>
+        <div className='text-decoration-none container '>
+          <div className="container  ">
+            <div className="  mt-4 mx-1 mx-md-4">
+              <div className=' d-flex justify-content-between h2 mb-0 w-100'>
+                <p className='ms-1 text-white fw-bold'>Fun Activities Nearby</p>
+                <div className={iconClass}>
+                  <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
+                  <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
+                  <a href="#" onClick={updateView} data-tip data-for={id} className='me-2'>
+                    <i className={icon}></i>
+                  </a>
+                  <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
+                </div>
+              </div>
+
+              <div className={listDisplay}>
+                <Search handleZip={handleZip} />
+
+                {
+                  <div className='row bg-white border-radius-20px mb-4 py-4 cursor-pointer '>
+                    <p>No activities yet</p>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={mapDisplay}>
+          <Map currentCoordinates={currentCoordinates} />
+        </div>
+      </>
+    );
+  } else {
+
+    return (
     <>
       <div className='text-decoration-none container '>
         <div className="container  ">
             <div className="  mt-4 mx-1 mx-md-4">
               <div className=' d-flex justify-content-between h2 mb-0 w-100'>
-                <p className='ms-1 text-white fw-bold'>Fun Activities Nearby</p>
+                <p className='ms-1 text-white fw-bold'>{pageTitle}</p>
                 <div className={iconClass}>
                   <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
                   <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
@@ -100,7 +145,9 @@ export default function Home() {
         <Map currentCoordinates={currentCoordinates} />
       </div>
     </>
-  );
+    );
+  }
+
 }
 
 function Activity(props) {
