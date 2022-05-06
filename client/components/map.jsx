@@ -27,7 +27,7 @@ const options = {
 
 export default function Map() {
   const context = useContext(AppContext);
-  const activities = context.activities;
+  const { activities, bookmarks } = context;
   const path = context.route.path;
   // console.log(activities);
   // const center = homeContext.currentCoordinates;
@@ -95,7 +95,15 @@ export default function Map() {
   if (loadError) return 'Error loading maps';
   if (!isLoaded) return 'Loading maps...';
 
+  let activitiesList;
   if (path === '' || path === 'bookmarks') {
+    if (path === '') {
+      activitiesList = activities;
+    }
+    if (path === 'bookmarks') {
+      activitiesList = bookmarks;
+    }
+
     return (
     <div
     className='container ps-5 row d-flex justify-content-center w-100'>
@@ -107,7 +115,7 @@ export default function Map() {
       options={options}
       onLoad={onMapLoad}
       >
-        {activities.map(activity => (
+        {activitiesList.map(activity => (
         <Marker
         key={activity.activityId}
         position={{ lat: activity.lat, lng: activity.lng }}
