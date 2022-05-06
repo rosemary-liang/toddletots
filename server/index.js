@@ -109,7 +109,12 @@ app.get('/api/activities/:activityId', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/bookmarks', (req, res, next) => {
+app.get('/api/bookmarks/:userId', (req, res, next) => {
+  const userId = Number(req.params.userId);
+  if (!userId) {
+    throw new ClientError(400, `cannot find bookmark with userId ${userId}`);
+  }
+  const params = [userId];
   const sql = `
     select
       "bookmarkId",
@@ -117,8 +122,10 @@ app.get('/api/bookmarks', (req, res, next) => {
       "userId"
 
     from "bookmarks"
+    where "userId" = $1
+    returning *
   `;
-  db.query(sql)
+  db.query(sql, params)
     .then(result => {
       const bookmarks = result.rows;
       res.json(bookmarks);

@@ -52,11 +52,14 @@ class App extends React.Component {
       })
       .catch(err => console.error(err));
 
-    fetch('/api/bookmarks')
-      .then(res => res.json())
-      .then(bookmarks => {
-        this.setState({ bookmarks });
-      });
+    const { userId } = this.state;
+    if (userId) {
+      fetch(`/api/bookmarks/${userId}`)
+        .then(res => res.json())
+        .then(bookmarks => {
+          this.setState({ bookmarks });
+        });
+    }
   }
 
   sortActivitiesByDistance() {
