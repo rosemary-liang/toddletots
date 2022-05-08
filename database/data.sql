@@ -30,8 +30,8 @@ insert into "activities" (
   '3300 Park Ave',
   'Tustin',
   92782,
-  33.703203945718606,
-  -117.81749149260851,
+  33.70259297325489,
+  -117.81778799463638,
   'Amazing playground! Brand new, maintained very well, lot of areas for kids to play! I especially like how there are different sections for different ages. They even have a smaller playplace for the very young toddlers. This playground is enormous! The designers of this playground covered every fun, entertaining, and interactive feature a playground could have, while honoring the Marine Corp and blimp history.
   \r\n One of the cool things about this playground is that it is perfect for all ages since it has a smaller section for toddlers and the bigger area for all the other ages including teenagers. The kids can climb on the spider webs, slide down the various size slides, spin, balance, swing, and even play a tune. There are also benches, tables, bbq grills, and a big green area for playing ball, running around, or just to relax and have a picnic. In the garden area you will not find flowers, but you will have benches where you can sit and read about the history of the area.',
   'true',
@@ -42,8 +42,8 @@ insert into "activities" (
   '1 Beech Tree Ln',
   'Irvine',
   92612,
-  33.660372181185224,
-  -117.82025108659401,
+  33.660398971227984,
+  -117.82035837515703,
   'Totally enclosed play area with a staff member at the gate. Dirt, water, sand, playground, and toys like giants legos and little dump trucks to play with. Some chairs around for parents and a little shade, but will be hot and sunny in the summer. The street address will park you to the side of the adventure playground. There is a closer parking lot  across from the entrance you can maybe drop a pin to get a little closer if you need to. Bathrooms are there, although a little rough. A few shady picnic tables at the front, although they filled up fast and no one seemed to move away from them the whole time I was there. But there is a huge park outside the adventure playground that is ideal for picnicking and playing.
   \r\n The parking lot is limited in space because it is next to a public library, but thankfully the parking lot is separated. If the parking lot were to be full, the overflow would surely be the park lot. We went during the weekend in the afternoon, so my observation was that it is full in the mornings. The location has two restroom with changing tables, and it is deceiving at a glance. The outside appears to be a run down CONNEX but the inside looks like a well maintained public restroom. The door is not automatic but it is large enough to push in a stroller alone.',
   true,
@@ -54,8 +54,8 @@ insert into "activities" (
   '375 Magnet',
   'Irvine',
   92618,
-  33.68044385566136,
-  -117.73518891542894,
+ 33.68049742323183,
+ -117.73526401748518,
   'Parasol Park is a compact community space that has a combination basketballvolleyball court, shaded areas with picnic tables, community planting beds, and landscaped areas along the perimeter, complete with faux footbridges to give the impression that you are entering a nature retreat. There is also a building that may have once been the subdivision sales office and could now be a community center.
   \r\n The wooden play structures do not have any slides and the ladders into them maybe challenging for littles to climb. Zipline too scary for some littles. I do not recall any swings. There are resident amenities like community garden and ping pong tables and pool. Not much shade either. Street parking. Just across the street is Bosque Trail, another option that has play equipment and bathrooms.',
   true,

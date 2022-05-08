@@ -97,14 +97,9 @@ class ActivityDetail extends React.Component {
   }
 
   handleDirections() {
-    const { lat, lng } = this.props.activity;
-    // make below active after testing
-    // const { currentCoordinates } = this.context;
-    // window.open(`https://www.google.com/maps/dir/?api=1&origin=${currentCoordinates.lat},${currentCoordinates.lng}&destination=${lat},${lng}`);
-
-    // make below inactive after testing
-    const center = { lat: 33.6846, lng: -117.8265 };
-    window.open(`https://www.google.com/maps/dir/?api=1&origin=${center.lat},${center.lng}&destination=${lat},${lng}`);
+    const { streetAddress, city, zipCode } = this.props.activity;
+    const modifiedStreetAddress = streetAddress.replace(' ', '+');
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${modifiedStreetAddress}+${city}+${zipCode}`);
   }
 
   handleBookmark() {
