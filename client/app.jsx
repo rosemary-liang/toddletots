@@ -18,6 +18,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       userId: 1,
+      isAuthorizing: true,
       route: parseRoute(window.location.hash),
       activities: [],
       currentCoordinates: [],
@@ -25,6 +26,8 @@ class App extends React.Component {
       bookmarks: []
     };
 
+    this.handleSignIn = this.handleSignIn.bind(this);
+    this.handleSignOut = this.handleSignOut.bind(this);
     this.sortActivitiesByDistance = this.sortActivitiesByDistance.bind(this);
     this.sortBookmarksByDistance = this.sortBookmarksByDistance.bind(this);
     this.useCurrentLocation = this.useCurrentLocation.bind(this);
@@ -41,6 +44,17 @@ class App extends React.Component {
     });
 
     this.refreshActivities();
+  }
+
+  handleSignIn(result) {
+    const { user, token } = result;
+    window.localStorage.setItem('react-context-jwt', token);
+    this.setState({ user });
+  }
+
+  handleSignOut() {
+    window.localStorage.removeItem('react-context-jwt');
+    this.setState({ user: null });
   }
 
   refreshActivities() {
@@ -143,9 +157,9 @@ class App extends React.Component {
   render() {
     // console.log('App this.state:', this.state);
     // console.log('App this.state.bookmarks:', this.state.bookmarks);
-    const { useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
+    const { handleSignIn, handleSignOut, useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
     const { route, activities, currentCoordinates, newActivityPin, userId, bookmarks } = this.state;
-    const contextValue = { route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId, bookmarks };
+    const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId, bookmarks };
 
     return (
       <AppContext.Provider value = {contextValue}>
