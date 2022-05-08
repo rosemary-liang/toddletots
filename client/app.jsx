@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { withScriptjs } from 'react-google-maps';
 import Home from './pages/home';
 import AppContext from './lib/app-context';
+import AuthPage from './pages/auth';
 import ActivityDetails from './pages/activity-details';
 import NewEntryMap from './pages/new-entry-map';
 import NewEntryForm from './pages/new-entry-form';
@@ -141,6 +142,10 @@ class App extends React.Component {
     if (route.path === 'bookmarks') {
       return <Home />;
     }
+    if (route.path === 'sign-in' || route.path === 'sign-up') {
+      return <AuthPage />;
+    }
+
     if (route.path === 'activity-details') {
       const activityId = route.params.get('activityId');
       return <ActivityDetails activityId={activityId} />;
@@ -151,12 +156,10 @@ class App extends React.Component {
     if (route.path === 'new-entry-form') {
       return <NewEntryForm />;
     }
-
   }
 
   render() {
     // console.log('App this.state:', this.state);
-    // console.log('App this.state.bookmarks:', this.state.bookmarks);
     const { handleSignIn, handleSignOut, useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
     const { route, activities, currentCoordinates, newActivityPin, userId, bookmarks } = this.state;
     const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId, bookmarks };
