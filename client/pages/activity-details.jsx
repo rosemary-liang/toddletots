@@ -72,6 +72,7 @@ class ActivityDetail extends React.Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleDirections = this.handleDirections.bind(this);
     this.handleBookmark = this.handleBookmark.bind(this);
   }
 
@@ -93,6 +94,17 @@ class ActivityDetail extends React.Component {
 
   handleClick() {
     this.props.setEditClicked(true);
+  }
+
+  handleDirections() {
+    const { lat, lng } = this.props.activity;
+    // make below active after testing
+    // const { currentCoordinates } = this.context;
+    // window.open(`https://www.google.com/maps/dir/?api=1&origin=${currentCoordinates.lat},${currentCoordinates.lng}&destination=${lat},${lng}`);
+
+    // make below inactive after testing
+    const center = { lat: 33.6846, lng: -117.8265 };
+    window.open(`https://www.google.com/maps/dir/?api=1&origin=${center.lat},${center.lng}&destination=${lat},${lng}`);
   }
 
   handleBookmark() {
@@ -162,7 +174,9 @@ class ActivityDetail extends React.Component {
           <p className='m-0'>{city}, {zipCode}</p>
         </div>
         <div>
-          <button className='rounded bg-primary border-0 text-white fw-bold mt-4 mb-5 py-1 px-3'>get directions</button>
+          <button
+          onClick={this.handleDirections}
+          className='rounded bg-primary border-0 text-white fw-bold mt-4 mb-5 py-1 px-3'>get directions</button>
         </div>
         <div className='d-lg-flex flex-lg-row-reverse justify-content-md-end position-relative'>
           <div className=' carousel-overlap w-100 d-flex justify-content-center align-content-start'>
