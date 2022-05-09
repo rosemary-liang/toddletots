@@ -72,6 +72,7 @@ class ActivityDetail extends React.Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleDirections = this.handleDirections.bind(this);
     this.handleBookmark = this.handleBookmark.bind(this);
   }
 
@@ -93,6 +94,12 @@ class ActivityDetail extends React.Component {
 
   handleClick() {
     this.props.setEditClicked(true);
+  }
+
+  handleDirections() {
+    const { streetAddress, city, zipCode } = this.props.activity;
+    const modifiedStreetAddress = streetAddress.replace(' ', '+');
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${modifiedStreetAddress}+${city}+${zipCode}`);
   }
 
   handleBookmark() {
@@ -162,7 +169,9 @@ class ActivityDetail extends React.Component {
           <p className='m-0'>{city}, {zipCode}</p>
         </div>
         <div>
-          <button className='rounded bg-primary border-0 text-white fw-bold mt-4 mb-5 py-1 px-3'>get directions</button>
+          <button
+          onClick={this.handleDirections}
+          className='rounded bg-primary border-0 text-white fw-bold mt-4 mb-5 py-1 px-3'>get directions</button>
         </div>
         <div className='d-lg-flex flex-lg-row-reverse justify-content-md-end position-relative'>
           <div className=' carousel-overlap w-100 d-flex justify-content-center align-content-start'>
