@@ -6,10 +6,7 @@ export default class AuthForm extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      email: ''
+      password: ''
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -55,14 +52,14 @@ export default class AuthForm extends React.Component {
       : 'Log In';
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='d-flex flex-column auth-form'>
         <input
         required
         type='text'
         name='username'
         placeholder='username'
         onChange={handleInputChange}
-        className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
+        className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2 w-sm-100' />
 
         <input
           required
@@ -71,30 +68,9 @@ export default class AuthForm extends React.Component {
           placeholder='password'
           onChange={handleInputChange}
           className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
-        <input
-          required
-          type='text'
-          name='firstName'
-          placeholder='first name'
-          onChange={handleInputChange}
-          className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
-        <input
-          required
-          type='text'
-          name='lastName'
-          placeholder='last name'
-          onChange={handleInputChange}
-          className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
-        <input
-          required
-          type='email'
-          name='email'
-          placeholder='email'
-          onChange={handleInputChange}
-          className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
 
-          <div>
-            <a href={altActionHref}>{altActionText}</a>
+          <div className='d-flex justify-content-between mt-2 mb-4'>
+            <a href={altActionHref} className='fw-bold text-brown'>{altActionText}</a>
             <button type="submit" className=''> {submitButtonText}</button>
 
           </div>

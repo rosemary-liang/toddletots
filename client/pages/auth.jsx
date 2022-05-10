@@ -14,8 +14,8 @@ export default class AuthPage extends React.Component {
     if (user) return <Redirect to="" />;
 
     return (
-      <div className='container bg-secondary border-radius-10px'>
-        <div className='d-flex flex-column align-items-center'>
+      <div className='container d-flex flex-column align-items-center '>
+        <div className=' auth-container bg-secondary border-radius-10px d-flex flex-column align-items-center'>
           <header className='text-white fw-bold fs-2'>{header}</header>
           <AuthForm
           key={route.path}

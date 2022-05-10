@@ -1,15 +1,10 @@
 insert into "users" (
   "username",
   "hashedPassword",
-  "firstName",
-  "lastName",
-  "email"
+
 ) values (
   'demo',
   'temp',
-  'Demo',
-  'Account',
-  'demo@example.com'
 );
 
 

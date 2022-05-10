@@ -130,6 +130,14 @@
   right: 25%;
 }
 
+.auth-form {
+  width: 80%;
+}
+
+.auth-container {
+  width: 90%;
+}
+
 @media only screen and (max-width: 768px) {
   .custom-dialog-delete {
     left: 15%;
@@ -168,6 +176,14 @@
   .carousel-overlap {
     transform: scale(1.2);
   }
+
+  .auth-form {
+    width: 80%;
+  }
+
+  .auth-container {
+    width: 65%;
+  }
 }
 
 @media only screen and (min-width: 992px) {
@@ -191,6 +207,14 @@
     right: 1.5rem;
     position: absolute;
   }
+
+  .auth-form {
+    width: 80%;
+  }
+
+  .auth-container {
+    width: 50%;
+  }
 }
 
 @media only screen and (min-width: 1200px) {
@@ -213,6 +237,14 @@
     right: 1.5rem;
     position: absolute;
   }
+
+  .auth-form {
+    width: 80%;
+  }
+
+  .auth-container {
+    width: 40%;
+  }
 }
 
 @media only screen and (min-width: 1400px) {
@@ -234,5 +266,13 @@
     top: 4rem;
     right: 1.5rem;
     position: absolute;
+  }
+
+  .auth-form {
+    width: 80%;
+  }
+
+  .auth-container {
+    width: 35%;
   }
 }
