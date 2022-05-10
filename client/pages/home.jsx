@@ -55,7 +55,7 @@ export default function Home() {
     if (useCurrentLocation) {
       setUseCurrentLocation(context.useCurrentLocation());
     }
-  }, []);
+  }, [useCurrentLocation]);
 
   let id;
   let icon;
@@ -113,7 +113,7 @@ export default function Home() {
           </div>
         </div>
         <div className={mapDisplay}>
-          <Map currentCoordinates={currentCoordinates} />
+          <Map currentCoordinates={currentCoordinates} view={view} />
         </div>
       </>
     );
@@ -137,7 +137,7 @@ export default function Home() {
             </div>
 
             <div className={listDisplay}>
-                <Search handleZip={handleZip}/>
+                <Search handleZip={handleZip} view={view}/>
 
               {
                 activitiesList.map(activity => (
@@ -149,7 +149,7 @@ export default function Home() {
         </div>
       </div>
       <div className={mapDisplay}>
-        <Map currentCoordinates={currentCoordinates} />
+        <Map currentCoordinates={currentCoordinates} view={view} />
       </div>
     </>
     );

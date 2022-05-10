@@ -4,6 +4,7 @@ const db = require('./db');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
+const argon2 = require('argon2');
 
 const app = express();
 
@@ -26,9 +27,7 @@ app.get('/api/activities', (req, res, next) => {
       "userId"
 
     from "activities"
-
   `;
-
   db.query(sqlActivities)
     .then(resultActivities => {
       const activities = resultActivities.rows;
@@ -42,7 +41,6 @@ app.get('/api/activities', (req, res, next) => {
 
         from "images"
       `;
-
       db.query(sqlImages)
         .then(resultImages => {
           const images = resultImages.rows;
@@ -275,6 +273,29 @@ app.post('/api/bookmarks/:userId/:activityId', (req, res, next) => {
     .then(result => {
       const bookmark = result.rows;
       res.json(bookmark);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/auth/sign-up', (req, res, next) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    throw new ClientError(400, 'username and password are required fields');
+  }
+  argon2
+    .hash(password)
+    .then(hashedPassword => {
+      const sql = `
+        insert into "users" ("username", "hashedPassword")
+        values ($1, $2)
+        returning "userId", "username", "createdAt"
+      `;
+      const params = [username, hashedPassword];
+      return db.query(sql, params);
+    })
+    .then(result => {
+      const [user] = result.rows;
+      res.status(201).json(user);
     })
     .catch(err => next(err));
 });
