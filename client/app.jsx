@@ -127,6 +127,7 @@ class App extends React.Component {
   useZipCoordinates(zipCoordinates) {
     this.setState({ currentCoordinates: zipCoordinates }, () => {
       this.sortActivitiesByDistance();
+      this.sortBookmarksByDistance();
     });
   }
 

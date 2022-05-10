@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import AppContext from '../lib/app-context';
+import React from 'react';
+// import AppContext from '../lib/app-context';
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -15,8 +15,7 @@ import {
 } from '@reach/combobox';
 import '@reach/combobox/styles.css';
 
-export default function Search({ panTo, handleZip }) {
-  const context = useContext(AppContext);
+export default function Search({ panTo, handleZip, view }) {
 
   const {
     ready,
@@ -42,14 +41,12 @@ export default function Search({ panTo, handleZip }) {
     try {
       const results = await getGeocode({ address });
       const { lat, lng } = await getLatLng(results[0]);
-      // if map view pan, if list view use handle zip and pass in this obj
-      if (context.currentView === 'list') {
+      if (view === 'list') {
         handleZip({ lat, lng });
       }
-      if (context.currentView === 'map') {
+      if (view === 'map') {
         panTo({ lat, lng });
       }
-
     } catch (error) {
       console.error(error);
     }
@@ -68,8 +65,8 @@ export default function Search({ panTo, handleZip }) {
         <ComboboxPopover>
           <ComboboxList>
             {status === 'OK' &&
-              data.map(({ id, description }) => (
-                <ComboboxOption key={id} value={description} />
+              data.map(({ reference, description }) => (
+                <ComboboxOption key={reference} value={description} />
               ))}
           </ComboboxList>
         </ComboboxPopover>

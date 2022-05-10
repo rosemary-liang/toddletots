@@ -25,7 +25,7 @@ const options = {
 
 };
 
-export default function Map() {
+export default function Map({ view }) {
   const context = useContext(AppContext);
   const { activities, bookmarks } = context;
   const path = context.route.path;
@@ -107,7 +107,7 @@ export default function Map() {
     return (
     <div
     className='container ps-5 row d-flex justify-content-center w-100'>
-      <Search panTo={panTo} />
+      <Search panTo={panTo} view={view}/>
       <GoogleMap
       mapContainerStyle={mapContainerStyle}
       zoom={12}
