@@ -60,7 +60,6 @@ export default class AuthForm extends React.Component {
         placeholder='username'
         onChange={handleInputChange}
         className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2 w-sm-100' />
-
         <input
           required
           type='password'
@@ -68,13 +67,10 @@ export default class AuthForm extends React.Component {
           placeholder='password'
           onChange={handleInputChange}
           className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
-
           <div className='d-flex justify-content-between mt-2 mb-4'>
             <a href={altActionHref} className='fw-bold text-brown'>{altActionText}</a>
-            <button type="submit" className=''> {submitButtonText}</button>
-
+            <button type="submit" className='bg-white border-0 border-radius-10px px-3 py-1 fw-bold text-primary'> {submitButtonText}</button>
           </div>
-
       </form>
     );
   }

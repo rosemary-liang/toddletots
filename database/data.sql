@@ -1,10 +1,9 @@
 insert into "users" (
   "username",
-  "hashedPassword",
-
+  "hashedPassword"
 ) values (
   'demo',
-  'temp',
+  'temp'
 );
 
 
