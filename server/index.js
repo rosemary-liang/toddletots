@@ -200,8 +200,10 @@ app.get('/api/bookmarks/:userId/:activityId', (req, res, next) => {
 });
 
 app.post('/api/activities', (req, res, next) => {
-  const userId = 1;
   const { activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, currentCoordinates, url, caption } = req.body;
+
+  const userId = !req.body.userId ? 1 : req.body.userId;
+
   const { lat, lng } = currentCoordinates;
 
   const sqlActivities = `
