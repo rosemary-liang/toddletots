@@ -27,11 +27,11 @@ const options = {
 
 export default function Map({ view }) {
   const context = useContext(AppContext);
-  const { activities, bookmarks } = context;
+  const { activities, bookmarks, currentCoordinates } = context;
   const path = context.route.path;
-  // console.log(activities);
-  // const center = homeContext.currentCoordinates;
-  const center = { lat: 33.6846, lng: -117.8265 };
+  const center = currentCoordinates;
+  // const center = { lat: 33.6846, lng: -117.8265 };
+  // testing const center is in Irvine
 
   const [markers, setMarker] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
