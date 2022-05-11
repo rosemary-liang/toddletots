@@ -101,7 +101,6 @@ export default class NewEntryForm extends React.Component {
   }
 
   render() {
-    // console.log('NewEntryForm this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
     const { errorMsg, activityAddedSuccess } = this.state;
     let url = 'https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg';

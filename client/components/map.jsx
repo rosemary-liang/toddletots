@@ -28,8 +28,6 @@ export default function Map({ view }) {
   const { activities, bookmarks, currentCoordinates } = context;
   const path = context.route.path;
   const center = currentCoordinates;
-  // const center = { lat: 33.6846, lng: -117.8265 };
-  // testing const center is in Irvine
 
   const [markers, setMarker] = React.useState([]);
   const [selected, setSelected] = React.useState(null);

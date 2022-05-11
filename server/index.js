@@ -83,7 +83,6 @@ app.get('/api/activities/:activityId', (req, res, next) => {
   db.query(sqlActivities, params)
     .then(result => {
       const [activity] = result.rows;
-      // res.json(activity);
       const sqlImages = `
          select
           "imageId",
@@ -226,7 +225,6 @@ app.post('/api/activities', (req, res, next) => {
   const paramsActivities = [userId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, lat, lng];
   db.query(sqlActivities, paramsActivities)
     .then(newActivity => {
-      // console.log(newActivity);
       const [activity] = newActivity.rows;
       const newActivityId = activity.activityId;
       const sqlImages = `
@@ -242,7 +240,6 @@ app.post('/api/activities', (req, res, next) => {
       const paramsImages = [newActivityId, url, caption];
       db.query(sqlImages, paramsImages)
         .then(resultImages => {
-          // console.log(resultImages);
           const [image] = resultImages.rows;
           activity.images = image;
           res.json(activity);

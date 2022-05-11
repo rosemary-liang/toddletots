@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../lib';
 
-// update class colors depending on hash routing
-
 export default function Footer() {
   const context = useContext(AppContext);
   const { route } = context;

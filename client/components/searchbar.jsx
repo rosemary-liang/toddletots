@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-// import { withScriptjs } from 'react-google-maps';
 
 export default class SearchBar extends React.Component {
   constructor(props) {
@@ -60,7 +59,6 @@ export default class SearchBar extends React.Component {
   }
 
   render() {
-    // console.log('Searchbar this.state', this.state);
     return (
     <>
       <div>
