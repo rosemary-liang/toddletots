@@ -11,6 +11,7 @@ import NewEntryMap from './pages/new-entry-map';
 import NewEntryForm from './pages/new-entry-form';
 import Header from './components/header';
 import Footer from './components/footer';
+import decodeToken from './lib/decode-token';
 import './scss/style.scss';
 import { parseRoute } from './lib';
 
@@ -18,7 +19,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 1,
+      user: null,
       isAuthorizing: true,
       route: parseRoute(window.location.hash),
       activities: [],
@@ -45,6 +46,10 @@ class App extends React.Component {
     });
 
     this.refreshActivities();
+
+    const token = window.localStorage.getItem('react-context-jwt');
+    const user = token ? decodeToken(token) : null;
+    this.setState({ user, isAuthorizing: false });
   }
 
   handleSignIn(result) {
@@ -160,6 +165,8 @@ class App extends React.Component {
   }
 
   render() {
+    // console.log('App this.state:', this.state);
+    if (this.state.isAuthorizing) return null;
     const { handleSignIn, handleSignOut, useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
     const { route, activities, currentCoordinates, newActivityPin, userId, bookmarks } = this.state;
     const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId, bookmarks };
