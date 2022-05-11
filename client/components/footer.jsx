@@ -9,13 +9,13 @@ export default function Footer() {
         <a href="#">
           <i className="fa-solid fa-house"></i>
         </a>
-        <a href="#add-new">
+        <a href="#new-entry-map">
           <i className="fa-solid fa-circle-plus"></i>
         </a>
-        <a href="#">
+        <a href="#bookmarks">
           <i className="fa-solid fa-bookmark"></i>
         </a>
-        <a href="#">
+        <a href="#sign-in">
           <i className="fa-solid fa-user"></i>
         </a>
       </div>

@@ -4,7 +4,6 @@ import axios from 'axios';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
 import DeleteModal from '../components/delete-modal';
-import Redirect from '../components/redirect';
 
 export default class ActivityDetails extends React.Component {
   constructor(props) {
@@ -36,7 +35,6 @@ export default class ActivityDetails extends React.Component {
   }
 
   render() {
-    // console.log('ActivityDetail this.state:', this.state);
     const { activity, editClicked } = this.state;
 
     if (!activity) {
@@ -81,20 +79,16 @@ class ActivityDetail extends React.Component {
     const { activityId } = this.props.activity;
     if (this.context.user) {
       const userId = this.context.user;
-      if (!isNaN(userId)) {
-        fetch(`/api/bookmarks/${userId}/${activityId}`)
-          .then(result => result.json())
-          .then(data => {
-            const bookmark = data.length !== 0;
-            this.setState({ bookmark });
-          })
-          .catch(err => {
-            console.error(err);
-          });
-      }
-    }
-    if (!this.context.user) {
-      return <Redirect to="sign-in" />;
+
+      fetch(`/api/bookmarks/${userId}/${activityId}`)
+        .then(result => result.json())
+        .then(data => {
+          const bookmark = data.length !== 0;
+          this.setState({ bookmark });
+        })
+        .catch(err => {
+          console.error(err);
+        });
     }
   }
 
@@ -110,7 +104,8 @@ class ActivityDetail extends React.Component {
 
   handleBookmark() {
     if (!this.context.user) {
-      return <Redirect to="sign-in" />;
+      location.hash = 'sign-in';
+      return;
     }
 
     if (this.context.user) {
@@ -134,14 +129,13 @@ class ActivityDetail extends React.Component {
   }
 
   render() {
-    // console.log('ActivityDetail this.state:', this.state);
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
 
     const { bookmark } = this.state;
     const bookmarkColorClass = bookmark
       ? 'fa-solid fa-bookmark text-primary'
       : 'fa-solid fa-bookmark text-gray';
-    // add if statement to control bookmark color
+
     return (
   <>
     <div className="container bg-secondary pt-2  pb-3 px-3 rounded">
@@ -288,8 +282,6 @@ class EditActivity extends React.Component {
   }
 
   render() {
-    // console.log('this.props:', this.props);
-    // console.log('this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
     const { activityId, errorMsg, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, url, caption } = this.state;
 

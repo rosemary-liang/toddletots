@@ -165,8 +165,6 @@ class App extends React.Component {
   }
 
   render() {
-    // console.log('App this.state:', this.state);
-    // console.log(this.state.user);
     if (this.state.isAuthorizing) return null;
     const { handleSignIn, handleSignOut, useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
     const { route, activities, currentCoordinates, newActivityPin, user, bookmarks } = this.state;
