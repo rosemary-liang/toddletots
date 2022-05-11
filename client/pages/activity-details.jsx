@@ -93,6 +93,9 @@ class ActivityDetail extends React.Component {
           });
       }
     }
+    if (!this.context.user) {
+      return <Redirect to="sign-in" />;
+    }
   }
 
   handleClick() {
@@ -106,17 +109,13 @@ class ActivityDetail extends React.Component {
   }
 
   handleBookmark() {
-    // have this return true or false?
-    this.checkLoggedIn();
-
     if (!this.context.user) {
-      return <Redirect to="" />;
+      return <Redirect to="sign-in" />;
     }
 
     if (this.context.user) {
-
       const { bookmark } = this.state;
-      const userId = this.context.user;
+      const { userId } = this.context.user;
       const { activityId } = this.props.activity;
       const method = bookmark ? 'DELETE' : 'POST';
 
@@ -136,7 +135,6 @@ class ActivityDetail extends React.Component {
 
   render() {
     // console.log('ActivityDetail this.state:', this.state);
-
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
 
     const { bookmark } = this.state;

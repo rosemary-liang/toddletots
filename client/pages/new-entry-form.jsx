@@ -236,7 +236,6 @@ export default class NewEntryForm extends React.Component {
               <div className='col-12 p-2 bg-white row border-radius-10px mb-4 fs-5 position-relative'>
                 <div className='d-flex justify-content-between align-content-center align-items-center'>
                   <p className='text-brown fw-bold pt-2'>{activityName}</p>
-                  <button className='bg-transparent border-0'><i className="fa-solid fa-pencil text-gray"></i></button>
                 </div>
                 <p className='my-0 fs-6'>{streetAddress}</p>
                 <p className='mt-0 fs-6'>{city}, {zipCode}</p>
