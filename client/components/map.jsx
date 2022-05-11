@@ -151,7 +151,7 @@ export default function Map({ view }) {
     return (
       <div
         className='container ps-5 row d-flex justify-content-center w-100'>
-        <Search panTo={panTo} />
+        <Search panTo={panTo} view={view} />
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={12}
