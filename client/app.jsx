@@ -73,8 +73,8 @@ class App extends React.Component {
       })
       .catch(err => console.error(err));
 
-    const { userId } = this.state;
-    if (userId) {
+    if (this.state.user) {
+      const { userId } = this.state.user;
       fetch(`/api/bookmarks/${userId}`)
         .then(res => res.json())
         .then(bookmarks => {
@@ -166,10 +166,11 @@ class App extends React.Component {
 
   render() {
     // console.log('App this.state:', this.state);
+    // console.log(this.state.user);
     if (this.state.isAuthorizing) return null;
     const { handleSignIn, handleSignOut, useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
-    const { route, activities, currentCoordinates, newActivityPin, userId, bookmarks } = this.state;
-    const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId, bookmarks };
+    const { route, activities, currentCoordinates, newActivityPin, user, bookmarks } = this.state;
+    const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, user, bookmarks };
 
     return (
       <AppContext.Provider value = {contextValue}>

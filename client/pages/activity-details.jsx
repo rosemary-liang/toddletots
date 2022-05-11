@@ -4,6 +4,7 @@ import axios from 'axios';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
 import DeleteModal from '../components/delete-modal';
+import Redirect from '../components/redirect';
 
 export default class ActivityDetails extends React.Component {
   constructor(props) {
@@ -78,17 +79,19 @@ class ActivityDetail extends React.Component {
 
   componentDidMount() {
     const { activityId } = this.props.activity;
-    const userId = this.context.userId;
-    if (!isNaN(userId)) {
-      fetch(`/api/bookmarks/${userId}/${activityId}`)
-        .then(result => result.json())
-        .then(data => {
-          const bookmark = data.length !== 0;
-          this.setState({ bookmark });
-        })
-        .catch(err => {
-          console.error(err);
-        });
+    if (this.context.user) {
+      const userId = this.context.user;
+      if (!isNaN(userId)) {
+        fetch(`/api/bookmarks/${userId}/${activityId}`)
+          .then(result => result.json())
+          .then(data => {
+            const bookmark = data.length !== 0;
+            this.setState({ bookmark });
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }
     }
   }
 
@@ -106,30 +109,28 @@ class ActivityDetail extends React.Component {
     // have this return true or false?
     this.checkLoggedIn();
 
-    const { bookmark } = this.state;
-    const userId = this.context.userId;
-    const { activityId } = this.props.activity;
-    const method = bookmark ? 'DELETE' : 'POST';
+    if (!this.context.user) {
+      return <Redirect to="" />;
+    }
 
-    fetch(`/api/bookmarks/${userId}/${activityId}`, {
-      method: method
-    })
-      .then(result => {
-        result.json();
-        const newStatus = !bookmark;
-        this.setState({ bookmark: newStatus });
+    if (this.context.user) {
+
+      const { bookmark } = this.state;
+      const userId = this.context.user;
+      const { activityId } = this.props.activity;
+      const method = bookmark ? 'DELETE' : 'POST';
+
+      fetch(`/api/bookmarks/${userId}/${activityId}`, {
+        method: method
       })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-
-  checkLoggedIn() {
-    const userId = this.context.userId;
-    if (!isNaN(userId)) {
-      // show error tooltip or modal and do nothing?;
-      // return
-
+        .then(result => {
+          result.json();
+          const newStatus = !bookmark;
+          this.setState({ bookmark: newStatus });
+        })
+        .catch(err => {
+          console.error(err);
+        });
     }
   }
 
@@ -222,9 +223,7 @@ class EditActivity extends React.Component {
 
   componentDidMount() {
     const { activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images, userId } = this.props.activity;
-
     const { imageId, url, caption } = images[0];
-
     this.setState({ activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images, url, caption, imageId, userId });
   }
 

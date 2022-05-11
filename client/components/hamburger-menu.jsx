@@ -28,11 +28,11 @@ export default function HamburgerMenu() {
             <a href="#new-entry-map" onClick={handleClose} className='text-decoration-none text-brown'>Add New Activity</a>
             <a href="#bookmarks" onClick={handleClose} className='text-decoration-none text-brown'>Bookmarks</a>
             {
-              context.userId === null &&
+              context.user === null &&
               <a href="#sign-in" onClick={handleClose} className='text-decoration-none text-brown'>Sign In</a>
             }
             {
-              context.userId !== null &&
+              context.user !== null &&
               <a href="#sign-out" onClick={signOut} className='text-decoration-none text-brown'>Sign Out</a>
             }
           </div>
