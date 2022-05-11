@@ -4,7 +4,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import { withScriptjs } from 'react-google-maps';
 import Home from './pages/home';
-import AppContext from './lib/app-context';
+import { parseRoute, AppContext, decodeToken } from './lib';
 import AuthPage from './pages/auth';
 import ActivityDetails from './pages/activity-details';
 import NewEntryMap from './pages/new-entry-map';
@@ -12,13 +12,12 @@ import NewEntryForm from './pages/new-entry-form';
 import Header from './components/header';
 import Footer from './components/footer';
 import './scss/style.scss';
-import { parseRoute } from './lib';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 1,
+      user: null,
       isAuthorizing: true,
       route: parseRoute(window.location.hash),
       activities: [],
@@ -45,6 +44,10 @@ class App extends React.Component {
     });
 
     this.refreshActivities();
+
+    const token = window.localStorage.getItem('react-context-jwt');
+    const user = token ? decodeToken(token) : null;
+    this.setState({ user, isAuthorizing: false });
   }
 
   handleSignIn(result) {
@@ -68,8 +71,8 @@ class App extends React.Component {
       })
       .catch(err => console.error(err));
 
-    const { userId } = this.state;
-    if (userId) {
+    if (this.state.user) {
+      const { userId } = this.state.user;
       fetch(`/api/bookmarks/${userId}`)
         .then(res => res.json())
         .then(bookmarks => {
@@ -160,9 +163,10 @@ class App extends React.Component {
   }
 
   render() {
+    if (this.state.isAuthorizing) return null;
     const { handleSignIn, handleSignOut, useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
-    const { route, activities, currentCoordinates, newActivityPin, userId, bookmarks } = this.state;
-    const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId, bookmarks };
+    const { route, activities, currentCoordinates, newActivityPin, user, bookmarks } = this.state;
+    const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, user, bookmarks };
 
     return (
       <AppContext.Provider value = {contextValue}>

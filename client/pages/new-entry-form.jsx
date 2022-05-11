@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import AgeRange from '../components/age-range';
 
 export default class NewEntryForm extends React.Component {
@@ -101,7 +101,6 @@ export default class NewEntryForm extends React.Component {
   }
 
   render() {
-    // console.log('NewEntryForm this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
     const { errorMsg, activityAddedSuccess } = this.state;
     let url = 'https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg';
@@ -236,7 +235,6 @@ export default class NewEntryForm extends React.Component {
               <div className='col-12 p-2 bg-white row border-radius-10px mb-4 fs-5 position-relative'>
                 <div className='d-flex justify-content-between align-content-center align-items-center'>
                   <p className='text-brown fw-bold pt-2'>{activityName}</p>
-                  <button className='bg-transparent border-0'><i className="fa-solid fa-pencil text-gray"></i></button>
                 </div>
                 <p className='my-0 fs-6'>{streetAddress}</p>
                 <p className='mt-0 fs-6'>{city}, {zipCode}</p>

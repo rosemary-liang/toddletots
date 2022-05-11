@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AppContext } from '../lib';
 import Modal from 'react-bootstrap/Modal';
 
 export default function HamburgerMenu() {
+  const context = useContext(AppContext);
+  const signOut = () => {
+    context.handleSignOut();
+    handleClose();
+  };
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -19,8 +26,14 @@ export default function HamburgerMenu() {
             <a href="#" onClick={handleClose} className='text-decoration-none text-brown' >Home</a>
             <a href="#new-entry-map" onClick={handleClose} className='text-decoration-none text-brown'>Add New Activity</a>
             <a href="#bookmarks" onClick={handleClose} className='text-decoration-none text-brown'>Bookmarks</a>
-            <a href="#sign-in" onClick={handleClose} className='text-decoration-none text-brown'>Sign In</a>
-            <a href="#sign-out" onClick={handleClose} className='text-decoration-none text-brown'>Sign Out</a>
+            {
+              context.user === null &&
+              <a href="#sign-in" onClick={handleClose} className='text-decoration-none text-brown'>Sign In</a>
+            }
+            {
+              context.user !== null &&
+              <a href="#" onClick={signOut} className='text-decoration-none text-brown'>Sign Out</a>
+            }
           </div>
         </Modal.Body>
       </Modal>

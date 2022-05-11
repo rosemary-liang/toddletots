@@ -1,5 +1,5 @@
 import React from 'react';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 
 export default class AuthForm extends React.Component {
   constructor(props) {
@@ -39,7 +39,6 @@ export default class AuthForm extends React.Component {
   }
 
   render() {
-    // console.log('this.state:', this.state);
     const { action } = this.props;
     const { handleInputChange, handleSubmit } = this;
     const altActionHref = action === 'sign-up'

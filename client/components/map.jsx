@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import _ from 'lodash';
 import Search from './search';
 import Carousel from './carousel';
-import AppContext from '../lib/app-context';
+import { AppContext, mapStyles } from '../lib';
 
 import {
   GoogleMap,
@@ -10,8 +10,6 @@ import {
   Marker,
   InfoWindow
 } from '@react-google-maps/api';
-
-import mapStyles from '../lib/map-styles';
 
 const libraries = ['places'];
 const mapContainerStyle = {
@@ -30,8 +28,6 @@ export default function Map({ view }) {
   const { activities, bookmarks, currentCoordinates } = context;
   const path = context.route.path;
   const center = currentCoordinates;
-  // const center = { lat: 33.6846, lng: -117.8265 };
-  // testing const center is in Irvine
 
   const [markers, setMarker] = React.useState([]);
   const [selected, setSelected] = React.useState(null);

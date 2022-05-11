@@ -31,9 +31,6 @@ export default function AgeRange(props) {
     pClassName = 'd-inline-block text-black ms-4 fw-normal';
   }
 
-  // pass hash route here, if # then this
-  // if activityDetails then this
-
   return (
   <div className={className}>
     <p className='text-brown fw-bold'>Age Range</p>

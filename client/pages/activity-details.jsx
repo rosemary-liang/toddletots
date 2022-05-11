@@ -1,5 +1,5 @@
 import React from 'react';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import axios from 'axios';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
@@ -35,7 +35,6 @@ export default class ActivityDetails extends React.Component {
   }
 
   render() {
-    // console.log('ActivityDetail this.state:', this.state);
     const { activity, editClicked } = this.state;
 
     if (!activity) {
@@ -78,8 +77,9 @@ class ActivityDetail extends React.Component {
 
   componentDidMount() {
     const { activityId } = this.props.activity;
-    const userId = this.context.userId;
-    if (!isNaN(userId)) {
+    if (this.context.user) {
+      const userId = this.context.user;
+
       fetch(`/api/bookmarks/${userId}/${activityId}`)
         .then(result => result.json())
         .then(data => {
@@ -103,46 +103,39 @@ class ActivityDetail extends React.Component {
   }
 
   handleBookmark() {
-    // have this return true or false?
-    this.checkLoggedIn();
+    if (!this.context.user) {
+      location.hash = 'sign-in';
+      return;
+    }
 
-    const { bookmark } = this.state;
-    const userId = this.context.userId;
-    const { activityId } = this.props.activity;
-    const method = bookmark ? 'DELETE' : 'POST';
+    if (this.context.user) {
+      const { bookmark } = this.state;
+      const { userId } = this.context.user;
+      const { activityId } = this.props.activity;
+      const method = bookmark ? 'DELETE' : 'POST';
 
-    fetch(`/api/bookmarks/${userId}/${activityId}`, {
-      method: method
-    })
-      .then(result => {
-        result.json();
-        const newStatus = !bookmark;
-        this.setState({ bookmark: newStatus });
+      fetch(`/api/bookmarks/${userId}/${activityId}`, {
+        method: method
       })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-
-  checkLoggedIn() {
-    const userId = this.context.userId;
-    if (!isNaN(userId)) {
-      // show error tooltip or modal and do nothing?;
-      // return
-
+        .then(result => {
+          result.json();
+          const newStatus = !bookmark;
+          this.setState({ bookmark: newStatus });
+        })
+        .catch(err => {
+          console.error(err);
+        });
     }
   }
 
   render() {
-    // console.log('ActivityDetail this.state:', this.state);
-
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
 
     const { bookmark } = this.state;
     const bookmarkColorClass = bookmark
       ? 'fa-solid fa-bookmark text-primary'
       : 'fa-solid fa-bookmark text-gray';
-    // add if statement to control bookmark color
+
     return (
   <>
     <div className="container bg-secondary pt-2  pb-3 px-3 rounded">
@@ -222,9 +215,7 @@ class EditActivity extends React.Component {
 
   componentDidMount() {
     const { activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images, userId } = this.props.activity;
-
     const { imageId, url, caption } = images[0];
-
     this.setState({ activityId, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, images, url, caption, imageId, userId });
   }
 
@@ -291,8 +282,6 @@ class EditActivity extends React.Component {
   }
 
   render() {
-    // console.log('this.props:', this.props);
-    // console.log('this.state:', this.state);
     const { handleInputChange, handleSubmit } = this;
     const { activityId, errorMsg, activityName, streetAddress, city, zipCode, description, ages2to5, ages5to12, url, caption } = this.state;
 
