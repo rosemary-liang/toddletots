@@ -1,13 +1,12 @@
 import React, { useState, useContext } from 'react';
 import AppContext from '../lib/app-context';
-import Redirect from './redirect';
 import Modal from 'react-bootstrap/Modal';
 
 export default function HamburgerMenu() {
   const context = useContext(AppContext);
   const signOut = () => {
     context.handleSignOut();
-    return <Redirect to="" />;
+    handleClose();
   };
 
   const [show, setShow] = useState(false);
@@ -33,7 +32,7 @@ export default function HamburgerMenu() {
             }
             {
               context.user !== null &&
-              <a href="#sign-out" onClick={signOut} className='text-decoration-none text-brown'>Sign Out</a>
+              <a href="#" onClick={signOut} className='text-decoration-none text-brown'>Sign Out</a>
             }
           </div>
         </Modal.Body>
