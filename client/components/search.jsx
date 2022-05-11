@@ -1,5 +1,5 @@
-import React from 'react';
-// import AppContext from '../lib/app-context';
+import React, { useContext } from 'react';
+import AppContext from '../lib/app-context';
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -16,6 +16,8 @@ import {
 import '@reach/combobox/styles.css';
 
 export default function Search({ panTo, handleZip, view }) {
+
+  const context = useContext(AppContext);
 
   const {
     ready,
@@ -44,7 +46,7 @@ export default function Search({ panTo, handleZip, view }) {
       if (view === 'list') {
         handleZip({ lat, lng });
       }
-      if (view === 'map') {
+      if (view === 'map' || context.route.path === 'new-entry-map') {
         panTo({ lat, lng });
       }
     } catch (error) {

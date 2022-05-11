@@ -1,20 +1,9 @@
 import React from 'react';
 import Map from '../components/map';
-// import axios from 'axios';
-// import SearchBar from '../components/searchbar';
-// import ReactTooltip from 'react-tooltip';
 
-export default class NewEntryMap extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentCoordinates: null
-    };
-  }
+export default function NewEntryMap() {
 
-  render() {
-
-    return (
+  return (
       <div className='text-decoration-none pb-5 bg-secondary rounded'>
         <div className="d-flex flex-column align-items-center ">
           <div className="mt-2 w-100 px-4 d-flex flex-column justify-content-center">
@@ -33,21 +22,6 @@ export default class NewEntryMap extends React.Component {
           </div>
         </div>
       </div>
-    );
-  }
+  );
+
 }
-
-// function HandleZip(zipCoordinates) {
-//   this.setState({ currentCoordinates: zipCoordinates });
-// }
-
-// function UseCurrentLocation() {
-//   axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.GOOGLE_MAPS_KEY}`)
-//     .then(data => {
-//       const currentCoordinates = data.data.location;
-//       this.setState({ currentCoordinates }, function () {
-//         this.sortActivitiesByDistance(currentCoordinates);
-//       });
-//     })
-//     .catch(err => console.error(err));
-// }

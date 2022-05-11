@@ -160,7 +160,6 @@ class App extends React.Component {
   }
 
   render() {
-    // console.log('App this.state:', this.state);
     const { handleSignIn, handleSignOut, useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
     const { route, activities, currentCoordinates, newActivityPin, userId, bookmarks } = this.state;
     const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, userId, bookmarks };
