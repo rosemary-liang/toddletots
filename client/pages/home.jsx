@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import Search from '../components/search';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';

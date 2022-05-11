@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import AgeRange from '../components/age-range';
 
 export default class NewEntryForm extends React.Component {

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import Modal from 'react-bootstrap/Modal';
 
 export default function HamburgerMenu() {

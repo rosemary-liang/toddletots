@@ -1,5 +1,5 @@
 import React from 'react';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import axios from 'axios';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';

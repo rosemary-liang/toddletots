@@ -1,5 +1,5 @@
 import React from 'react';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 import AuthForm from '../components/auth-form';
 import Redirect from '../components/redirect';
 

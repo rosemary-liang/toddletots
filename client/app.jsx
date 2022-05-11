@@ -4,16 +4,14 @@ import axios from 'axios';
 import _ from 'lodash';
 import { withScriptjs } from 'react-google-maps';
 import Home from './pages/home';
-import AppContext from './lib/app-context';
+import { parseRoute, AppContext, decodeToken } from './lib';
 import AuthPage from './pages/auth';
 import ActivityDetails from './pages/activity-details';
 import NewEntryMap from './pages/new-entry-map';
 import NewEntryForm from './pages/new-entry-form';
 import Header from './components/header';
 import Footer from './components/footer';
-import decodeToken from './lib/decode-token';
 import './scss/style.scss';
-import { parseRoute } from './lib';
 
 class App extends React.Component {
   constructor(props) {

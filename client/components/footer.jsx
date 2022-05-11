@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import AppContext from '../lib/app-context';
+import { AppContext } from '../lib';
 
 // update class colors depending on hash routing
 
