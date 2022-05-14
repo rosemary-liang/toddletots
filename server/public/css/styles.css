@@ -102,9 +102,18 @@
 }
 
 .new-entry,
-.carousel-image {
+.carousel-image,
+.new-entry-success {
   object-fit: cover;
-  height: 230px;
+}
+
+.carousel-image {
+  height: 180px;
+  max-width: 260px;
+}
+
+.new-entry, {
+  height: 180px;
 }
 
 .new-entry-success {
@@ -138,6 +147,10 @@
   width: 90%;
 }
 
+.min-width {
+  min-width: 375px;
+}
+
 @media only screen and (max-width: 768px) {
   .custom-dialog-delete {
     left: 15%;
@@ -154,6 +167,11 @@
 @media only screen and (min-width: 768px) {
   .custom-dialog-menu {
     width: 25% !important;
+  }
+
+  .carousel-image {
+    height: 210px;
+    max-width: 290px;
   }
 
   .carousel {
@@ -194,10 +212,9 @@
     transform: scale(1.2);
   }
 
-  .new-entry,
   .carousel-image {
-    height: 300px;
-    width: 100%;
+    height: 220px;
+    max-width: 300px;
   }
 
   .new-entry-success {
@@ -225,7 +242,6 @@
     transform: scale(1.3);
   }
 
-  .new-entry,
   .carousel-image {
     height: 290px;
   }
@@ -255,9 +271,9 @@
     transform: scale(1.3);
   }
 
-  .new-entry,
   .carousel-image {
     height: 300px;
+    max-width: 350px;
   }
 
   .new-entry-success {

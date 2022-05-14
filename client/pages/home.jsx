@@ -26,7 +26,7 @@ export default function Home() {
 
   if (route.path === '') {
     activitiesList = activities;
-    pageTitle = 'Fun Activities Nearby';
+    pageTitle = 'Activities Nearby';
     noEntries = 'activities';
     backButton = '#';
 
@@ -87,8 +87,8 @@ export default function Home() {
       <>
         <div className='text-decoration-none container '>
           <div className="container  ">
-            <div className="  mt-4 mx-1 mx-md-4">
-              <div className=' d-flex justify-content-between h2 mb-0 w-100'>
+            <div className="  mt-2 mx-1 mx-md-4">
+              <div className=' d-flex justify-content-between fs-3 mb-0 w-100'>
                 <p className='ms-1 text-white fw-bold'>{pageTitle}</p>
                 <div className={iconClass}>
                   <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
@@ -123,8 +123,8 @@ export default function Home() {
     <>
       <div className='text-decoration-none container '>
         <div className="container  ">
-            <div className="  mt-4 mx-1 mx-md-4">
-              <div className=' d-flex justify-content-between h2 mb-0 w-100'>
+            <div className="  mt- mx-1 mx-md-4">
+              <div className=' d-flex justify-content-between fs-3 mb-0 w-100'>
                 <p className='ms-1 text-white fw-bold'>{pageTitle}</p>
                 <div className={iconClass}>
                   <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
@@ -166,7 +166,7 @@ function Activity(props) {
           <div className='text-brown fs-5 fw-bold'>{activityName}</div>
           <p className='text-gray fs-6 fw-bold'>{distance} miles</p>
         </div>
-        <div className='d-flex justify-content-sm-center justify-content-lg-between'>
+        <div className='d-flex justify-content-center justify-content-lg-between'>
           <Carousel images={images}/>
           <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} page="#" />
           </div>

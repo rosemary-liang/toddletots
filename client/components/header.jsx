@@ -3,7 +3,7 @@ import HamburgerMenu from './hamburger-menu';
 
 export default function Header() {
   return (
-    <header className='mb-2'>
+    <header className='mb-1'>
       <nav>
         <div className="container bg-primary h1 d-flex justify-content-between align-items-center rounded">
           <div className='position-relative'>
