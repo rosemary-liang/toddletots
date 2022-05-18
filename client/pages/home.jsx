@@ -82,81 +82,6 @@ export default function Home() {
     iconClass = '';
   }
 
-  // if (activitiesList.length === 0) {
-  //   return (
-  //     <>
-  //       <div className='text-decoration-none container '>
-  //         <div className="">
-  //           <div className="mt-2 mx-1 mx-md-4">
-  //             <div className='d-flex justify-content-between fs-3 mb-0 w-100'>
-  //               <p className='ms-1 text-white fw-bold'>{pageTitle}</p>
-  //               <div className={iconClass}>
-  //                 <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
-  //                 <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
-  //                 <a href="#" onClick={updateView} data-tip data-for={id} className='me-2'>
-  //                   <i className={icon}></i>
-  //                 </a>
-  //                 <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
-  //               </div>
-  //             </div>
-
-  //             <div className={listDisplay}>
-  //               <Search handleZip={handleZip} />
-  //               <div className='container'>
-  //               {
-  //                 <div className='row bg-white border-radius-20px mb-4 py-4 cursor-pointer '>
-  //                   <p className='text-center fw-bold text-brown'>No {noEntries} yet</p>
-  //                 </div>
-  //               }
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //       <div className={mapDisplay}>
-  //         <Map currentCoordinates={currentCoordinates} view={view} />
-  //       </div>
-  //     </>
-  //   );
-  // } else {
-
-  //   return (
-  //   <>
-  //     <div className='text-decoration-none container '>
-  //       <div className="">
-  //           <div className="mt- mx-1 mx-md-4">
-  //             <div className='d-flex justify-content-between fs-3 mb-0 w-100'>
-  //               <p className='ms-1 text-white fw-bold'>{pageTitle}</p>
-  //               <div className={iconClass}>
-  //                 <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
-  //                 <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
-  //                 <a href={backButton} onClick={updateView} data-tip data-for={id} className='me-2'>
-  //                   <i className={icon}></i>
-  //                 </a>
-  //                 <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
-  //               </div>
-  //           </div>
-
-  //           <div className={listDisplay}>
-  //               <Search handleZip={handleZip} view={view}/>
-  //               <div className='container'>
-  //             {
-  //               activitiesList.map(activity => (
-  //                 <div key={activity.activityId}><Activity activity={activity} /> </div>
-  //               ))
-  //             }
-  //               </div>
-  //             </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <div className={mapDisplay}>
-  //       <Map currentCoordinates={currentCoordinates} view={view} />
-  //     </div>
-  //   </>
-  //   );
-  // }
-
   return (
       <>
         <div className='text-decoration-none container '>
@@ -211,9 +136,9 @@ function Activity(props) {
 
   return (
       <div onClick={() => { location.hash = `#activity-details?activityId=${activityId}`; }} className='row bg-white border-radius-20px mb-4 py-4 cursor-pointer '>
-        <div className='ps-5'>
-          <div className='text-brown fs-5 fw-bold'>{activityName}</div>
-          <p className='text-gray fs-6 fw-bold'>{distance} miles</p>
+        <div className='ps-5 mb-3'>
+          <div className='text-brown fs-6 fw-bold'>{activityName}</div>
+          <div className='text-gray fs-7 fw-bold '>{distance} miles</div>
         </div>
         <div className='d-flex justify-content-center justify-content-lg-between'>
           <Carousel images={images}/>

@@ -61,8 +61,8 @@ export default function Search({ panTo, handleZip, view }) {
           value={value}
           onChange={handleInput}
           disabled={!ready}
-          placeholder="Search your location"
-          className='w-100 border-radius-90px fs-5 border-0 text-center'
+          placeholder="Search"
+          className='w-100 border-radius-90px fs-6 border-0 text-center'
         />
         <ComboboxPopover>
           <ComboboxList>

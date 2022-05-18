@@ -21,13 +21,13 @@ export default function AgeRange(props) {
   let className;
   let pClassName;
   if (page === '#') {
-    className = 'home-age-range fs-5 fw-bold p-5 w-50';
+    className = 'home-age-range fs-6 fw-bold p-5 ms-5  w-50';
     pClassName = 'd-inline-block text-black ms-4';
   } else if (page === '#activities') {
-    className = 'h5 fw-bold mt-5';
+    className = 'h6 fw-bold mt-5';
     pClassName = 'd-inline-block text-black ms-4 fw-normal';
   } else if (page === '#new-entry-success') {
-    className = ' d-inline-block h5 fw-bold mt-5';
+    className = ' d-inline-block h6 fw-bold mt-5';
     pClassName = 'd-inline-block text-black ms-4 fw-normal';
   }
 

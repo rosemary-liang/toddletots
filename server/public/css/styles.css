@@ -68,6 +68,10 @@
   border: 1px solid black;
 }
 
+.fs-7 {
+  font-size: 0.9rem;
+}
+
 .text-brown {
   color: #c26f30;
 }
