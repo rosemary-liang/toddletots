@@ -67,7 +67,6 @@ export default function Home() {
   let tooltip;
   let listDisplay;
   let mapDisplay;
-  // let iconClass;
 
   if (view === 'list') {
     id = 'home-map-view';
@@ -75,7 +74,6 @@ export default function Home() {
     tooltip = 'Map view';
     listDisplay = '';
     mapDisplay = 'd-none';
-    // iconClass = '';
   }
 
   if (view === 'map') {
@@ -84,12 +82,9 @@ export default function Home() {
     tooltip = 'List view';
     listDisplay = 'd-none';
     mapDisplay = '';
-    // iconClass = '';
   }
 
-  const currentLocationTooltip = usingCurrentLocation ? 'Already using curr. location' : 'Use current location';
-
-  const iconClass = usingCurrentLocation ? 'd-none' : '';
+  const currentLocationTooltip = usingCurrentLocation ? 'Already on current location' : 'Use current location';
 
   return (
       <>
@@ -98,8 +93,8 @@ export default function Home() {
             <div className="mt- mx-1 mx-md-4">
               <div className='d-flex justify-content-between fs-3 mb-0 w-100'>
                 <p className='ms-1 text-white fw-bold'>{pageTitle}</p>
-                <div >
-                  <button onClick={() => setUseCurrentLocation(true)} className={`${iconClass} mx-2 bg-transparent border-0 text-white`} data-tip data-for={currentLocationTooltip} ><i className="fa-solid fa-crosshairs"></i></button>
+                <div>
+                  <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for={currentLocationTooltip} ><i className="fa-solid fa-crosshairs"></i></button>
                   <ReactTooltip id={currentLocationTooltip} place='top' effect='solid' className='fs-8 p-1'
                   >{currentLocationTooltip}</ReactTooltip>
                   <a href={backButton} onClick={updateView} data-tip data-for={id} className='me-2'>

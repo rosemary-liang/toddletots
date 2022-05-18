@@ -27,7 +27,7 @@ export default function Search({ panTo, handleZip, view }) {
     clearSuggestions
   } = usePlacesAutocomplete({
     requestOptions: {
-      location: { lat: () => 43.6532, lng: () => -79.3832 },
+      location: { lat: () => 33.6846, lng: () => -117.8265 },
       radius: 100 * 1000
     }
   });
