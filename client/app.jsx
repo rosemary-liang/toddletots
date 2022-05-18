@@ -21,6 +21,7 @@ class App extends React.Component {
       isAuthorizing: true,
       route: parseRoute(window.location.hash),
       activities: [],
+      usingCurrentLocation: true,
       currentCoordinates: [],
       newActivityPin: [],
       bookmarks: []
@@ -119,7 +120,10 @@ class App extends React.Component {
     this.getCurrentCoordinates()
       .then(data => {
         const currentCoordinates = data.data.location;
-        this.setState({ currentCoordinates }, () => {
+        this.setState({
+          currentCoordinates,
+          usingCurrentLocation: true
+        }, () => {
           this.sortActivitiesByDistance();
           this.sortBookmarksByDistance();
         });
@@ -128,7 +132,10 @@ class App extends React.Component {
   }
 
   useZipCoordinates(zipCoordinates) {
-    this.setState({ currentCoordinates: zipCoordinates }, () => {
+    this.setState({
+      currentCoordinates: zipCoordinates,
+      usingCurrentLocation: false
+    }, () => {
       this.sortActivitiesByDistance();
       this.sortBookmarksByDistance();
     });
@@ -165,8 +172,8 @@ class App extends React.Component {
   render() {
     if (this.state.isAuthorizing) return null;
     const { handleSignIn, handleSignOut, useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
-    const { route, activities, currentCoordinates, newActivityPin, user, bookmarks } = this.state;
-    const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, user, bookmarks };
+    const { route, activities, currentCoordinates, usingCurrentLocation, newActivityPin, user, bookmarks } = this.state;
+    const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, usingCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, user, bookmarks };
 
     return (
       <AppContext.Provider value = {contextValue}>

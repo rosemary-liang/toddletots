@@ -14,7 +14,8 @@ export default function Home() {
     bookmarks,
     currentCoordinates,
     route,
-    refreshActivities
+    refreshActivities,
+    usingCurrentLocation
   } = context;
 
   useEffect(() => { refreshActivities(); }, []);
@@ -86,6 +87,8 @@ export default function Home() {
     iconClass = '';
   }
 
+  const currentLocationTooltip = usingCurrentLocation ? 'Already using current location' : 'Use current location';
+
   return (
       <>
         <div className='text-decoration-none container '>
@@ -94,8 +97,8 @@ export default function Home() {
               <div className='d-flex justify-content-between fs-3 mb-0 w-100'>
                 <p className='ms-1 text-white fw-bold'>{pageTitle}</p>
                 <div className={iconClass}>
-                  <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
-                  <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
+                  <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for={currentLocationTooltip} ><i className="fa-solid fa-crosshairs"></i></button>
+                  <ReactTooltip id={currentLocationTooltip} place='top' effect='solid'>{currentLocationTooltip}</ReactTooltip>
                   <a href={backButton} onClick={updateView} data-tip data-for={id} className='me-2'>
                     <i className={`fa-solid ${icon} text-white`}></i>
                   </a>

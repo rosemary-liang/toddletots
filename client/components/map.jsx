@@ -25,13 +25,9 @@ const options = {
 
 export default function Map({ view }) {
   const context = useContext(AppContext);
-  const { activities, bookmarks } = context;
+  const { activities, bookmarks, currentCoordinates } = context;
   const path = context.route.path;
-  const center = { lat: 33.704904294782, lng: -117.78683534213995 };
-  // const center = context.currentCoordinates;
-  // do not use currentCoordinates as default center because user will perceive a bug when clicking the "use current location" button and no visible change occurs because they are already viewing their current location.
-
-  // used a location in Tustin/Irvine so that the map will shift when user clicks the button.
+  const center = currentCoordinates;
 
   const [markers, setMarker] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
