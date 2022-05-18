@@ -244,6 +244,7 @@
 
   .carousel-image {
     height: 290px;
+    max-width: 350px;
   }
 
   .new-entry-success {
@@ -273,7 +274,7 @@
 
   .carousel-image {
     height: 300px;
-    max-width: 350px;
+    max-width: 370px;
   }
 
   .new-entry-success {

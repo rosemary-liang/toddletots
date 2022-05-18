@@ -86,9 +86,9 @@ export default function Home() {
     return (
       <>
         <div className='text-decoration-none container '>
-          <div className="container  ">
-            <div className="  mt-2 mx-1 mx-md-4">
-              <div className=' d-flex justify-content-between fs-3 mb-0 w-100'>
+          <div className="">
+            <div className="mt-2 mx-1 mx-md-4">
+              <div className='d-flex justify-content-between fs-3 mb-0 w-100'>
                 <p className='ms-1 text-white fw-bold'>{pageTitle}</p>
                 <div className={iconClass}>
                   <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
@@ -102,12 +102,13 @@ export default function Home() {
 
               <div className={listDisplay}>
                 <Search handleZip={handleZip} />
-
+                <div className='container'>
                 {
                   <div className='row bg-white border-radius-20px mb-4 py-4 cursor-pointer '>
                     <p className='text-center fw-bold text-brown'>No {noEntries} yet</p>
                   </div>
                 }
+                </div>
               </div>
             </div>
           </div>
@@ -122,9 +123,9 @@ export default function Home() {
     return (
     <>
       <div className='text-decoration-none container '>
-        <div className="container  ">
-            <div className="  mt- mx-1 mx-md-4">
-              <div className=' d-flex justify-content-between fs-3 mb-0 w-100'>
+        <div className="">
+            <div className="mt- mx-1 mx-md-4">
+              <div className='d-flex justify-content-between fs-3 mb-0 w-100'>
                 <p className='ms-1 text-white fw-bold'>{pageTitle}</p>
                 <div className={iconClass}>
                   <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
@@ -138,12 +139,13 @@ export default function Home() {
 
             <div className={listDisplay}>
                 <Search handleZip={handleZip} view={view}/>
-
+                <div className='container'>
               {
                 activitiesList.map(activity => (
                   <div key={activity.activityId}><Activity activity={activity} /> </div>
                 ))
               }
+                </div>
               </div>
           </div>
         </div>
