@@ -78,8 +78,7 @@ class ActivityDetail extends React.Component {
   componentDidMount() {
     const { activityId } = this.props.activity;
     if (this.context.user) {
-      const userId = this.context.user;
-
+      const { userId } = this.context.user;
       fetch(`/api/bookmarks/${userId}/${activityId}`)
         .then(result => result.json())
         .then(data => {
