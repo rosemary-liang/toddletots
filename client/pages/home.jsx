@@ -44,6 +44,10 @@ export default function Home() {
     });
   };
 
+  useEffect(() => {
+    setView('list');
+  }, [route.path]);
+
   const handleZip = zipCoordinates => {
     context.useZipCoordinates(zipCoordinates);
     setUseCurrentLocation(false);
