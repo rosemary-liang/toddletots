@@ -2,10 +2,6 @@
   height: 100vh;
 }
 
-.h-100vh {
-  height: 100vh;
-}
-
 .fa-tree-1 {
   left: 8px;
   top: 7px;
@@ -106,11 +102,6 @@
   color: #fe6666;
   background-color: #f6d4d4;
   border: #eba6a6 2px solid;
-}
-
-.pb-page {
-  padding-bottom: 4rem;
-  margin-bottom: 1rem;
 }
 
 .new-entry,

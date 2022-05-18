@@ -178,7 +178,7 @@ class App extends React.Component {
     return (
       <AppContext.Provider value = {contextValue}>
         <>
-          <div className="container rounded-2 bg-primary d-flex flex-column pb-page min-width h-100vh">
+          <div className="container rounded-2 bg-primary d-flex flex-column min-width pb-5 pb-md-2">
             <Header />
            { this.renderPage() }
            <Footer />

@@ -102,10 +102,9 @@ export default function Map({ view }) {
 
     return (
       <>
-        <div className='container px-3'>
+        <div className='container px-3 px-sm-4 px-md-5'>
           <Search panTo={panTo} view={view} />
-          </div>
-
+        </div>
         <div
         className='container ps-5 row d-flex justify-content-center w-100'>
           <GoogleMap
