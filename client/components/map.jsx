@@ -102,11 +102,11 @@ export default function Map({ view }) {
 
     return (
       <>
-        <div className='container px-3 px-sm-4 px-md-5'>
+        <div className='container px-3 px-sm-4 '>
           <Search panTo={panTo} view={view} />
         </div>
         <div
-        className='container ps-5 row d-flex justify-content-center w-100'>
+        className='container ps-5 row d-flex justify-content-center w-100 pb-4'>
           <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={12}
