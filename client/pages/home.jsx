@@ -100,7 +100,7 @@ export default function Home() {
               </div>
 
               <div className={listDisplay}>
-                <Search handleZip={handleZip} view={view} />
+              <Search handleZip={handleZip} view={view} />
                 <div className='container'>
                   {activitiesList.length === 0
                     ? <div>

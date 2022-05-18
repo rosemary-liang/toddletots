@@ -14,7 +14,7 @@ import {
 const libraries = ['places'];
 const mapContainerStyle = {
   width: '100vw',
-  height: '70vh'
+  height: '65vh'
 
 };
 const options = {
@@ -101,45 +101,50 @@ export default function Map({ view }) {
     }
 
     return (
-    <div
-    className='container ps-5 row d-flex justify-content-center w-100'>
-      <Search panTo={panTo} view={view}/>
-      <GoogleMap
-      mapContainerStyle={mapContainerStyle}
-      zoom={12}
-      center={center}
-      options={options}
-      onLoad={onMapLoad}
-      >
-        {activitiesList.map(activity => (
-        <Marker
-        key={activity.activityId}
-        position={{ lat: activity.lat, lng: activity.lng }}
-        onClick={() => {
-          setSelected(activity);
-        }}
-        />
-        ))}
+      <>
+        <div className='container px-3'>
+          <Search panTo={panTo} view={view} />
+          </div>
 
-        {selected
-          ? (<InfoWindow
-          position={{ lat: selected.lat, lng: selected.lng }}
-          onCloseClick={() => { setSelected(null); }}>
-            <div>
-              <h6 className='text-brown fw-bold'>{selected.activityName}</h6>
-              <p className='m-0'>{selected.streetAddress}</p>
-              <p>{selected.city}</p>
-              <a href={`#activity-details?activityId=${selected.activityId}`}
-              className='text-decoration-none px-2 py-1 bg-primary text-white fw-bold border-radius-10px my-2'>see activity details</a>
-              <div className='home-map mt-3'>
-                <Carousel images={selected.images} />
-              </div>
-            </div>
-        </InfoWindow>)
-          : null}
+        <div
+        className='container ps-5 row d-flex justify-content-center w-100'>
+          <GoogleMap
+          mapContainerStyle={mapContainerStyle}
+          zoom={12}
+          center={center}
+          options={options}
+          onLoad={onMapLoad}
+          >
+            {activitiesList.map(activity => (
+            <Marker
+            key={activity.activityId}
+            position={{ lat: activity.lat, lng: activity.lng }}
+            onClick={() => {
+              setSelected(activity);
+            }}
+            />
+            ))}
 
-      </GoogleMap>
-    </div>
+            {selected
+              ? (<InfoWindow
+              position={{ lat: selected.lat, lng: selected.lng }}
+              onCloseClick={() => { setSelected(null); }}>
+                <div>
+                  <h6 className='text-brown fw-bold'>{selected.activityName}</h6>
+                  <p className='m-0'>{selected.streetAddress}</p>
+                  <p>{selected.city}</p>
+                  <a href={`#activity-details?activityId=${selected.activityId}`}
+                  className='text-decoration-none px-2 py-1 bg-primary text-white fw-bold border-radius-10px my-2'>see activity details</a>
+                  <div className='home-map mt-3'>
+                    <Carousel images={selected.images} />
+                  </div>
+                </div>
+            </InfoWindow>)
+              : null}
+
+          </GoogleMap>
+        </div>
+      </>
     );
   }
 
