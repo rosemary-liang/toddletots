@@ -66,7 +66,7 @@ export default function Home() {
 
   if (view === 'list') {
     id = 'home-map-view';
-    icon = 'fa-solid fa-map text-white';
+    icon = 'fa-map';
     tooltip = 'Map view';
     listDisplay = '';
     mapDisplay = 'd-none';
@@ -75,7 +75,7 @@ export default function Home() {
 
   if (view === 'map') {
     id = 'list-map-view';
-    icon = 'fa-solid fa-list text-white';
+    icon = 'fa-list';
     tooltip = 'List view';
     listDisplay = 'd-none';
     mapDisplay = '';
@@ -93,7 +93,7 @@ export default function Home() {
                   <button onClick={() => setUseCurrentLocation(true)} className='mx-2 bg-transparent border-0 text-white' data-tip data-for='use-current-location' ><i className="fa-solid fa-crosshairs"></i></button>
                   <ReactTooltip id='use-current-location' place='top' effect='solid'>Use current location</ReactTooltip>
                   <a href={backButton} onClick={updateView} data-tip data-for={id} className='me-2'>
-                    <i className={icon}></i>
+                    <i className={`fa-solid ${icon} text-white`}></i>
                   </a>
                   <ReactTooltip id={id} place='top' effect='solid'>{tooltip}</ReactTooltip>
                 </div>

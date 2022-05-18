@@ -129,13 +129,15 @@ export default function Map({ view }) {
               ? (<InfoWindow
               position={{ lat: selected.lat, lng: selected.lng }}
               onCloseClick={() => { setSelected(null); }}>
-                <div>
+                <div className='w-100'>
                   <h6 className='text-brown fw-bold'>{selected.activityName}</h6>
                   <p className='m-0'>{selected.streetAddress}</p>
                   <p>{selected.city}</p>
                   <a href={`#activity-details?activityId=${selected.activityId}`}
-                  className='text-decoration-none px-2 py-1 bg-primary text-white fw-bold border-radius-10px my-2'>see activity details</a>
-                  <div className='home-map mt-3'>
+                  className='text-decoration-none px-2 py-1 bg-primary text-white fw-bold border-radius-10px my-2 fs-6'>
+                    <p className='d-inline'>see more</p>
+                  </a>
+                  <div className='home-map mt-3 d-none d-sm-block'>
                     <Carousel images={selected.images} />
                   </div>
                 </div>
