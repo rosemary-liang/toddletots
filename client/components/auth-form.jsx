@@ -55,6 +55,7 @@ export default class AuthForm extends React.Component {
     const submitButtonText = action === 'sign-up'
       ? 'Register'
       : 'Log In';
+    const loaderClass = this.state.isLoading ? '' : 'd-none';
 
     return (
       <form onSubmit={handleSubmit} className='d-flex flex-column auth-form'>
@@ -72,14 +73,17 @@ export default class AuthForm extends React.Component {
           placeholder='password'
           onChange={handleInputChange}
           className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
-          <div className='d-flex justify-content-between align-items-center mt-2 mb-4'>
-            <a href={altActionHref} className='fw-bold text-brown'>{altActionText}</a>
-            <div className='position-relative'>
-              <div className="lds-ring position-absolute"><div></div><div></div><div></div><div></div></div>
-              <button type="submit" className='bg-white border-0 border-radius-10px px-3 py-1 fw-bold text-primary'> {submitButtonText}</button>
-            </div>
 
+        <div></div>
+
+        <div className='d-flex justify-content-between align-items-center mt-2 mb-4'>
+          <a href={altActionHref} className='fw-bold text-brown'>{altActionText}</a>
+          <div className='position-relative'>
+            <div className={`${loaderClass} lds-ring position-absolute`}><div></div><div></div><div></div><div></div></div>
+            <button type="submit" className='bg-white border-0 border-radius-10px px-3 py-1 fw-bold text-primary'> {submitButtonText}</button>
           </div>
+
+        </div>
 
       </form>
     );
