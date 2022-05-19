@@ -397,13 +397,22 @@ app.delete('/api/activities/:activityId', (req, res, next) => {
     `;
   db.query(sqlImages, params)
     .then(result => {
-      const sqlActivities = `
-    delete from "activities"
-    where "activityId" = $1
-    returning *
-  `;
-      db.query(sqlActivities, params)
-        .then(result => res.sendStatus(204))
+      const sqlBookmarks = `
+      delete from "bookmarks"
+      where "activityId" = $1
+      returning *
+      `;
+      db.query(sqlBookmarks, params)
+        .then(result => {
+          const sqlActivities = `
+          delete from "activities"
+          where "activityId" = $1
+          returning *
+        `;
+          db.query(sqlActivities, params)
+            .then(result => res.sendStatus(204))
+            .catch(err => next(err));
+        })
         .catch(err => next(err));
     })
     .catch(err => next(err));
