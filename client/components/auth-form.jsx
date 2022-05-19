@@ -6,7 +6,8 @@ export default class AuthForm extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      isLoading: false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,23 +20,27 @@ export default class AuthForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { action } = this.props;
-    const req = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state)
-    };
-    fetch(`/api/auth/${action}`, req)
-      .then(res => res.json())
-      .then(result => {
-        if (action === 'sign-up') {
-          window.location.hash = 'sign-in';
-        } else if (result.user && result.token) {
-          this.props.onSignIn(result);
-        }
-      });
+    this.setState({ isLoading: true }, () => {
+      const { action } = this.props;
+      const req = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state)
+      };
+      fetch(`/api/auth/${action}`, req)
+        .then(res => res.json())
+        .then(result => {
+          if (action === 'sign-up') {
+            window.location.hash = 'sign-in';
+          } else if (result.user && result.token) {
+            this.props.onSignIn(result);
+          }
+        })
+        .then(this.setState({ isLoading: false }))
+        .catch(err => console.error(err));
+    });
   }
 
   render() {
@@ -67,10 +72,15 @@ export default class AuthForm extends React.Component {
           placeholder='password'
           onChange={handleInputChange}
           className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
-          <div className='d-flex justify-content-between mt-2 mb-4'>
+          <div className='d-flex justify-content-between align-items-center mt-2 mb-4'>
             <a href={altActionHref} className='fw-bold text-brown'>{altActionText}</a>
-            <button type="submit" className='bg-white border-0 border-radius-10px px-3 py-1 fw-bold text-primary'> {submitButtonText}</button>
+            <div className='position-relative'>
+              <div className="lds-ring position-absolute"><div></div><div></div><div></div><div></div></div>
+              <button type="submit" className='bg-white border-0 border-radius-10px px-3 py-1 fw-bold text-primary'> {submitButtonText}</button>
+            </div>
+
           </div>
+
       </form>
     );
   }
