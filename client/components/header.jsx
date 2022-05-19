@@ -18,7 +18,6 @@ export default function Header() {
             <a href="#" className="h1 fw-bold mt-1 text-white text-decoration-none">ToddleTots</a>
           </div>
           <div className="user">
-            {/* <a href="#user"><i className="fa-solid fa-user text-white"></i></a> */}
           </div>
         </div>
       </nav>

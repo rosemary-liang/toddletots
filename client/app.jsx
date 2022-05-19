@@ -11,6 +11,7 @@ import NewEntryMap from './pages/new-entry-map';
 import NewEntryForm from './pages/new-entry-form';
 import Header from './components/header';
 import Footer from './components/footer';
+import Loading from './components/loading';
 import './scss/style.scss';
 
 class App extends React.Component {
@@ -20,6 +21,7 @@ class App extends React.Component {
       user: null,
       isAuthorizing: true,
       route: parseRoute(window.location.hash),
+      isLoading: true,
       activities: [],
       usingCurrentLocation: true,
       currentCoordinates: [],
@@ -93,7 +95,10 @@ class App extends React.Component {
         return activity;
       });
       const sortedDistanceArray = _.orderBy(activitiesWithDistance, 'distance', 'asc');
-      this.setState({ activities: sortedDistanceArray });
+      this.setState({
+        activities: sortedDistanceArray,
+        isLoading: false
+      });
     }
   }
 
@@ -146,6 +151,8 @@ class App extends React.Component {
   }
 
   renderPage() {
+
+    if (this.state.isLoading) return <Loading />;
     const { route } = this.state;
     if (route.path === '') {
       return <Home />;
@@ -171,6 +178,7 @@ class App extends React.Component {
 
   render() {
     if (this.state.isAuthorizing) return null;
+
     const { handleSignIn, handleSignOut, useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
     const { route, activities, currentCoordinates, usingCurrentLocation, newActivityPin, user, bookmarks } = this.state;
     const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, usingCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, user, bookmarks };
