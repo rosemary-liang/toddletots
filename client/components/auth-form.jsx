@@ -7,7 +7,8 @@ export default class AuthForm extends React.Component {
     this.state = {
       username: '',
       password: '',
-      isLoading: false
+      isLoading: false,
+      errorMsg: ''
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,7 +21,10 @@ export default class AuthForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({ isLoading: true }, () => {
+    this.setState({
+      isLoading: true,
+      errorMsg: ''
+    }, () => {
       const { action } = this.props;
       const req = {
         method: 'POST',
@@ -32,10 +36,13 @@ export default class AuthForm extends React.Component {
       fetch(`/api/auth/${action}`, req)
         .then(res => res.json())
         .then(result => {
-          if (action === 'sign-up') {
-            window.location.hash = 'sign-in';
-          } else if (result.user && result.token) {
-            this.props.onSignIn(result);
+          // console.log(result.error);
+          if (result.error) { this.setState({ errorMsg: result.error }); } else {
+            if (action === 'sign-up') {
+              window.location.hash = 'sign-in';
+            } else if (result.user && result.token) {
+              this.props.onSignIn(result);
+            }
           }
         })
         .then(this.setState({ isLoading: false }))
@@ -44,6 +51,7 @@ export default class AuthForm extends React.Component {
   }
 
   render() {
+    // console.log('this.state:', this.state);
     const { action } = this.props;
     const { handleInputChange, handleSubmit } = this;
     const altActionHref = action === 'sign-up'
@@ -74,9 +82,9 @@ export default class AuthForm extends React.Component {
           onChange={handleInputChange}
           className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
 
-        <div></div>
+        <p className='text-danger'>{this.state.errorMsg}</p>
 
-        <div className='d-flex justify-content-between align-items-center mt-2 mb-4'>
+        <div className='d-flex justify-content-between align-items-center mb-4'>
           <a href={altActionHref} className='fw-bold text-brown'>{altActionText}</a>
           <div className='position-relative'>
             <div className={`${loaderClass} lds-ring position-absolute`}><div></div><div></div><div></div><div></div></div>

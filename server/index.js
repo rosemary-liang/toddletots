@@ -299,8 +299,8 @@ app.post('/api/auth/sign-up', (req, res, next) => {
       res.status(201).json(user);
     })
     .catch(err => {
-      if (err.code === 23505) {
-        throw new ClientError(401, 'username already in use');
+      if (err.code === '23505') {
+        next(new ClientError(401, 'username already in use'));
       }
       next(err);
     });
