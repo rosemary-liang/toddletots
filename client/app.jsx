@@ -113,7 +113,10 @@ class App extends React.Component {
         return activity;
       });
       const sortedDistanceArrayBookmarks = _.orderBy(bookmarksWithDistance, 'distance', 'asc');
-      this.setState({ bookmarks: sortedDistanceArrayBookmarks });
+      this.setState({
+        bookmarks: sortedDistanceArrayBookmarks,
+        isLoading: false
+      });
     }
   }
 

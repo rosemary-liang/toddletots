@@ -4,15 +4,16 @@ import axios from 'axios';
 import Carousel from '../components/carousel';
 import AgeRange from '../components/age-range';
 import DeleteModal from '../components/delete-modal';
+import Loading from '../components/loading';
 
 export default class ActivityDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: true,
       activity: null,
       editClicked: false
     };
-
     this.setEditClicked = this.setEditClicked.bind(this);
   }
 
@@ -23,7 +24,10 @@ export default class ActivityDetails extends React.Component {
   fetchActivities() {
     fetch(`api/activities/${this.props.activityId}`)
       .then(results => results.json())
-      .then(activity => this.setState({ activity }));
+      .then(activity => this.setState({
+        activity,
+        isLoading: false
+      }));
   }
 
   setEditClicked(newStatus) {
@@ -35,28 +39,26 @@ export default class ActivityDetails extends React.Component {
   }
 
   render() {
-    const { activity, editClicked } = this.state;
-
-    if (!activity) {
-      return null;
-    }
+    const { activity, editClicked, isLoading } = this.state;
+    if (isLoading) return <Loading />;
+    if (!activity) return null;
 
     if (!editClicked) {
       return (
-      <>
-      <ActivityDetail
-      activity={this.state.activity}
-      setEditClicked= {this.setEditClicked}/>
-      </>
+        <>
+          <ActivityDetail
+          activity={this.state.activity}
+          setEditClicked= {this.setEditClicked}/>
+        </>
       );
     }
-
     if (editClicked) {
       return (
         <>
-        <EditActivity
-        activity={this.state.activity}
-        setEditClicked={this.setEditClicked} />
+          <EditActivity
+          activity={this.state.activity}
+          setEditClicked={this.setEditClicked}
+          setIsLoading={this.setIsLoading} />
         </>
       );
     }
@@ -69,7 +71,6 @@ class ActivityDetail extends React.Component {
     this.state = {
       bookmark: false
     };
-
     this.handleClick = this.handleClick.bind(this);
     this.handleDirections = this.handleDirections.bind(this);
     this.handleBookmark = this.handleBookmark.bind(this);
@@ -129,7 +130,6 @@ class ActivityDetail extends React.Component {
 
   render() {
     const { activityName, streetAddress, city, zipCode, description, images, ages2to5, ages5to12 } = this.props.activity;
-
     const { bookmark } = this.state;
     const bookmarkColorClass = bookmark
       ? 'fa-solid fa-bookmark text-primary'
@@ -150,12 +150,9 @@ class ActivityDetail extends React.Component {
           <div className='d-flex justify-content-end h4 text-gray'>
             <button onClick={this.handleBookmark} className='bg-transparent border-0 text-gray fw-bold mx-3'>
               <i className={bookmarkColorClass}></i></button>
-
               <button onClick={this.handleClick} className='bg-transparent border-0 text-gray fw-bold '><i className="fa-solid fa-pencil"></i></button>
-
           </div>
         </div>
-
         <div className="address">
           <p className='m-0'>{streetAddress}</p>
           <p className='m-0'>{city}, {zipCode}</p>
@@ -173,7 +170,6 @@ class ActivityDetail extends React.Component {
             <AgeRange ages2to5={ages2to5} ages5to12={ages5to12} page='#activities' />
           </div>
         </div>
-
         <div className='mt-2 mt-lg-5'>
           <p className='text-brown fw-bold h5'>Description</p>
           <p>{description}</p>
@@ -189,7 +185,7 @@ class EditActivity extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      isLoading: false,
       activityId: null,
       activityName: null,
       streetAddress: null,
@@ -207,7 +203,6 @@ class EditActivity extends React.Component {
       errorMsg: '',
       activityEdited: []
     };
-
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -226,6 +221,7 @@ class EditActivity extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.setState({ isLoading: true });
     const { streetAddress, city, zipCode, currentCoordinates, modifiedImage } = this.state;
 
     if (currentCoordinates === null) {
@@ -274,6 +270,7 @@ class EditActivity extends React.Component {
         .then(activity => {
           if (activity) {
             this.props.setEditClicked(false);
+            this.setState({ isLoading: false });
           }
         })
         .catch(err => console.error(err));

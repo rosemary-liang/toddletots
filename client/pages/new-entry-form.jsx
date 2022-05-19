@@ -18,6 +18,7 @@ export default class NewEntryForm extends React.Component {
       url: null,
       caption: null,
       errorMsg: '',
+      isLoading: false,
       activityAdded: [],
       activityAddedSuccess: false
     };
@@ -48,7 +49,10 @@ export default class NewEntryForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({ currentCoordinates: this.context.newActivityPin.currentCoordinates }, () => {
+    this.setState({
+      currentCoordinates: this.context.newActivityPin.currentCoordinates,
+      isLoading: true
+    }, () => {
       this.checkCurrentCoordinates();
     });
 
@@ -90,7 +94,8 @@ export default class NewEntryForm extends React.Component {
           if (activity) {
             this.setState({
               activityAdded: activity,
-              activityAddedSuccess: true
+              activityAddedSuccess: true,
+              isLoading: false
             });
             this.context.setNewActivityPin([]);
             this.context.refreshActivities();
