@@ -80,7 +80,8 @@ class ActivityDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bookmark: false
+      bookmark: false,
+      bookmarkErrorMsg: ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleDirections = this.handleDirections.bind(this);
@@ -114,29 +115,34 @@ class ActivityDetail extends React.Component {
   }
 
   handleBookmark() {
-    if (!this.context.user) {
-      location.hash = 'sign-in';
-      return;
-    }
+    this.setState({ bookmarkErrorMsg: '' }, () => {
+      if (!this.context.user) {
+        location.hash = 'sign-in';
+        return;
+      }
+      if (this.context.user) {
+        const { bookmark } = this.state;
+        const { userId } = this.context.user;
+        const { activityId } = this.props.activity;
+        const method = bookmark ? 'DELETE' : 'POST';
 
-    if (this.context.user) {
-      const { bookmark } = this.state;
-      const { userId } = this.context.user;
-      const { activityId } = this.props.activity;
-      const method = bookmark ? 'DELETE' : 'POST';
-
-      fetch(`/api/bookmarks/${userId}/${activityId}`, {
-        method: method
-      })
-        .then(result => {
-          result.json();
-          const newStatus = !bookmark;
-          this.setState({ bookmark: newStatus });
+        fetch(`/api/bookmarks/${userId}/${activityId}`, {
+          method: method
         })
-        .catch(err => {
-          console.error(err);
-        });
-    }
+          .then(res => res.json())
+          .then(result => {
+            if (result.error) {
+              this.setState({ bookmarkErrorMsg: result.error });
+            } else {
+              const newStatus = !bookmark;
+              this.setState({ bookmark: newStatus });
+            }
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }
+    });
   }
 
   render() {
