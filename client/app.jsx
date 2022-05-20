@@ -12,6 +12,7 @@ import NewEntryForm from './pages/new-entry-form';
 import Header from './components/header';
 import Footer from './components/footer';
 import Loading from './components/loading';
+import NetworkError from './components/network-connection-error';
 import './scss/style.scss';
 
 class App extends React.Component {
@@ -22,6 +23,7 @@ class App extends React.Component {
       isAuthorizing: true,
       route: parseRoute(window.location.hash),
       isLoading: true,
+      errorMsg: false,
       activities: [],
       usingCurrentLocation: true,
       currentCoordinates: [],
@@ -65,12 +67,18 @@ class App extends React.Component {
   }
 
   refreshActivities() {
+    if (this.state.errorMsg) { this.setState({ errorMsg: false }); }
+
     fetch('/api/activities')
       .then(res => res.json())
       .then(activities => {
-        this.setState({ activities }, () => {
-          this.useCurrentLocation();
-        });
+        if (activities.error) {
+          this.setState({ errorMsg: true });
+        } else {
+          this.setState({ activities }, () => {
+            this.useCurrentLocation();
+          });
+        }
       })
       .catch(err => console.error(err));
 
@@ -79,8 +87,13 @@ class App extends React.Component {
       fetch(`/api/bookmarks/${userId}`)
         .then(res => res.json())
         .then(bookmarks => {
-          this.setState({ bookmarks });
-        });
+          if (bookmarks.error) {
+            this.setState({ errorMsg: true });
+          } else {
+            this.setState({ bookmarks });
+          }
+        })
+        .catch(err => console.error(err));
     }
   }
 
@@ -154,8 +167,9 @@ class App extends React.Component {
   }
 
   renderPage() {
-
     if (this.state.isLoading) return <Loading />;
+    if (this.state.errorMsg) return <NetworkError />;
+
     const { route } = this.state;
     if (route.path === '') {
       return <Home />;
@@ -166,7 +180,6 @@ class App extends React.Component {
     if (route.path === 'sign-in' || route.path === 'sign-up') {
       return <AuthPage />;
     }
-
     if (route.path === 'activity-details') {
       const activityId = route.params.get('activityId');
       return <ActivityDetails activityId={activityId} />;

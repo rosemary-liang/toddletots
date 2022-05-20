@@ -11,6 +11,7 @@ export default class ActivityDetails extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
+      errorMsg: false,
       activity: null,
       editClicked: false
     };
