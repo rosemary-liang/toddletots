@@ -18,14 +18,12 @@ I loved seeing the joy on their faces when we arrived at a new activity and coul
 - CSS3
 - Babel
 - Heroku
-- JSON web token
-- Argon2
 - Axios
 - Lodash
-- Sass - customization of Bootstrap theme colors
+- Sass
 - Reach Comobobox & use-places-autocomplete for the Search component
-- API - react-google-maps for the geometry library to calculate spherical distance
-- API - @react-google-maps/api for map rendering
+- react-google-maps for the geometry library to calculate spherical distance
+- @react-google-maps/api for map rendering
 
 
 ## Live Demo
