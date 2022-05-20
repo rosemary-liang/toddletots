@@ -36,8 +36,9 @@ export default class AuthForm extends React.Component {
       fetch(`/api/auth/${action}`, req)
         .then(res => res.json())
         .then(result => {
-          // console.log(result.error);
-          if (result.error) { this.setState({ errorMsg: result.error }); } else {
+          if (result.error) {
+            this.setState({ errorMsg: result.error });
+          } else {
             if (action === 'sign-up') {
               window.location.hash = 'sign-in';
             } else if (result.user && result.token) {
@@ -51,7 +52,6 @@ export default class AuthForm extends React.Component {
   }
 
   render() {
-    // console.log('this.state:', this.state);
     const { action } = this.props;
     const { handleInputChange, handleSubmit } = this;
     const altActionHref = action === 'sign-up'
