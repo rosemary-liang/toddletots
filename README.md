@@ -2,6 +2,10 @@
 
 A full stack JavaScript application for parents and caregivers who want to find activities for kids.
 
+I wanted to build this project because of my prior experiences as a nanny for young children during the summer. After a morning of more academically-oriented activities, the kids could not wait to get out the house and have some fun. The key was finding activities that would keep all ages entertained, and most importantly, tire them out before their parents came home.
+
+I loved seeing the joy on their faces when we arrived at a new activity and could tell it was going to become one of their new favorites!
+
 ## Technologies Used
 
 - React.js
@@ -40,6 +44,11 @@ Try the application live at [https://toddletots.herokuapp.com/](https://toddleto
 - Users can see list view & map view of bookmarks
 - Users can get navigation directions to an activity
 - Users can sign up, sign in, and sign out
+
+
+## Stretch Features
+
+- Users can view indoor vs outdoor activities
 
 ## Preview
 
