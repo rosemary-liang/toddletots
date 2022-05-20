@@ -5,8 +5,8 @@ export default class AuthForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
+      username: 'demo',
+      password: '123',
       isLoading: false,
       errorMsg: ''
     };
@@ -73,6 +73,7 @@ export default class AuthForm extends React.Component {
         name='username'
         placeholder='username'
         onChange={handleInputChange}
+        value='demo'
         className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2 w-sm-100' />
         <input
           required
@@ -80,6 +81,7 @@ export default class AuthForm extends React.Component {
           name='password'
           placeholder='password'
           onChange={handleInputChange}
+          value='123'
           className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
 
         <p className='text-danger'>{this.state.errorMsg}</p>
