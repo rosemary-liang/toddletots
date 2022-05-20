@@ -11,8 +11,9 @@ export default class ActivityDetails extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      activity: null,
-      editClicked: false
+      activity: [],
+      editClicked: false,
+      errorMsg: ''
     };
     this.setEditClicked = this.setEditClicked.bind(this);
   }
@@ -24,10 +25,20 @@ export default class ActivityDetails extends React.Component {
   fetchActivities() {
     fetch(`api/activities/${this.props.activityId}`)
       .then(results => results.json())
-      .then(activity => this.setState({
-        activity,
-        isLoading: false
-      }));
+      .then(activity => {
+        if (activity.error) {
+          this.setState({
+            errorMsg: activity.error,
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            activity,
+            errorMsg: '',
+            isLoading: false
+          });
+        }
+      });
   }
 
   setEditClicked(newStatus) {
@@ -39,15 +50,15 @@ export default class ActivityDetails extends React.Component {
   }
 
   render() {
-    const { activity, editClicked, isLoading } = this.state;
+    const { activity, editClicked, isLoading, errorMsg } = this.state;
     if (isLoading) return <Loading />;
-    if (!activity) return null;
+    if (errorMsg !== '') return <p className='d-flex justify-content-center text-white'>{this.state.errorMsg}</p>;
 
     if (!editClicked) {
       return (
         <>
           <ActivityDetail
-          activity={this.state.activity}
+          activity={activity}
           setEditClicked= {this.setEditClicked}/>
         </>
       );
@@ -56,7 +67,7 @@ export default class ActivityDetails extends React.Component {
       return (
         <>
           <EditActivity
-          activity={this.state.activity}
+          activity={activity}
           setEditClicked={this.setEditClicked}
           setIsLoading={this.setIsLoading} />
         </>
