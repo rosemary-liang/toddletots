@@ -20,9 +20,9 @@ I loved seeing the joy on their faces when we arrived at a new activity and coul
 - Heroku
 - JSON web token
 - Argon2
-- Sass
 - Axios
 - Lodash
+- Sass - customization of Bootstrap theme colors
 - Reach Comobobox & use-places-autocomplete for the Search component
 - API - react-google-maps for the geometry library to calculate spherical distance
 - API - @react-google-maps/api for map rendering
