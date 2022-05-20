@@ -11,6 +11,9 @@ import NewEntryMap from './pages/new-entry-map';
 import NewEntryForm from './pages/new-entry-form';
 import Header from './components/header';
 import Footer from './components/footer';
+import Loading from './components/loading';
+import NetworkError from './components/network-connection-error';
+import NotFound from './pages/not-found';
 import './scss/style.scss';
 
 class App extends React.Component {
@@ -20,7 +23,10 @@ class App extends React.Component {
       user: null,
       isAuthorizing: true,
       route: parseRoute(window.location.hash),
+      isLoading: true,
+      errorMsg: false,
       activities: [],
+      usingCurrentLocation: true,
       currentCoordinates: [],
       newActivityPin: [],
       bookmarks: []
@@ -62,12 +68,18 @@ class App extends React.Component {
   }
 
   refreshActivities() {
+    if (this.state.errorMsg) { this.setState({ errorMsg: false }); }
+
     fetch('/api/activities')
       .then(res => res.json())
       .then(activities => {
-        this.setState({ activities }, () => {
-          this.useCurrentLocation();
-        });
+        if (activities.error) {
+          this.setState({ errorMsg: true });
+        } else {
+          this.setState({ activities }, () => {
+            this.useCurrentLocation();
+          });
+        }
       })
       .catch(err => console.error(err));
 
@@ -76,8 +88,13 @@ class App extends React.Component {
       fetch(`/api/bookmarks/${userId}`)
         .then(res => res.json())
         .then(bookmarks => {
-          this.setState({ bookmarks });
-        });
+          if (bookmarks.error) {
+            this.setState({ errorMsg: true });
+          } else {
+            this.setState({ bookmarks });
+          }
+        })
+        .catch(err => console.error(err));
     }
   }
 
@@ -92,7 +109,10 @@ class App extends React.Component {
         return activity;
       });
       const sortedDistanceArray = _.orderBy(activitiesWithDistance, 'distance', 'asc');
-      this.setState({ activities: sortedDistanceArray });
+      this.setState({
+        activities: sortedDistanceArray,
+        isLoading: false
+      });
     }
   }
 
@@ -107,7 +127,10 @@ class App extends React.Component {
         return activity;
       });
       const sortedDistanceArrayBookmarks = _.orderBy(bookmarksWithDistance, 'distance', 'asc');
-      this.setState({ bookmarks: sortedDistanceArrayBookmarks });
+      this.setState({
+        bookmarks: sortedDistanceArrayBookmarks,
+        isLoading: false
+      });
     }
   }
 
@@ -119,7 +142,10 @@ class App extends React.Component {
     this.getCurrentCoordinates()
       .then(data => {
         const currentCoordinates = data.data.location;
-        this.setState({ currentCoordinates }, () => {
+        this.setState({
+          currentCoordinates,
+          usingCurrentLocation: true
+        }, () => {
           this.sortActivitiesByDistance();
           this.sortBookmarksByDistance();
         });
@@ -128,7 +154,10 @@ class App extends React.Component {
   }
 
   useZipCoordinates(zipCoordinates) {
-    this.setState({ currentCoordinates: zipCoordinates }, () => {
+    this.setState({
+      currentCoordinates: zipCoordinates,
+      usingCurrentLocation: false
+    }, () => {
       this.sortActivitiesByDistance();
       this.sortBookmarksByDistance();
     });
@@ -139,6 +168,9 @@ class App extends React.Component {
   }
 
   renderPage() {
+    if (this.state.isLoading) return <Loading />;
+    if (this.state.errorMsg) return <NetworkError />;
+
     const { route } = this.state;
     if (route.path === '') {
       return <Home />;
@@ -149,7 +181,6 @@ class App extends React.Component {
     if (route.path === 'sign-in' || route.path === 'sign-up') {
       return <AuthPage />;
     }
-
     if (route.path === 'activity-details') {
       const activityId = route.params.get('activityId');
       return <ActivityDetails activityId={activityId} />;
@@ -160,22 +191,24 @@ class App extends React.Component {
     if (route.path === 'new-entry-form') {
       return <NewEntryForm />;
     }
+    return <NotFound />;
   }
 
   render() {
     if (this.state.isAuthorizing) return null;
+
     const { handleSignIn, handleSignOut, useZipCoordinates, useCurrentLocation, setNewActivityPin, refreshActivities } = this;
-    const { route, activities, currentCoordinates, newActivityPin, user, bookmarks } = this.state;
-    const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, user, bookmarks };
+    const { route, activities, currentCoordinates, usingCurrentLocation, newActivityPin, user, bookmarks } = this.state;
+    const contextValue = { handleSignIn, handleSignOut, route, activities, currentCoordinates, useZipCoordinates, useCurrentLocation, usingCurrentLocation, newActivityPin, setNewActivityPin, refreshActivities, user, bookmarks };
 
     return (
       <AppContext.Provider value = {contextValue}>
         <>
-        <div className="container rounded-2 bg-primary  d-flex flex-column pb-page">
-          <Header />
-          { this.renderPage() }
-          <Footer />
-        </div>
+          <div className="container rounded-2 bg-primary d-flex flex-column min-width min-height pb-5 pb-md-2">
+            <Header />
+           { this.renderPage() }
+           <Footer />
+          </div>
         </>
       </AppContext.Provider>
 

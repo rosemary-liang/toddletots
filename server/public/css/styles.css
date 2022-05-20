@@ -1,6 +1,6 @@
 .fa-tree-1 {
-  left: 8px;
-  top: 7px;
+  left: 9px;
+  top: 8px;
 }
 
 .fa-tree-2 {
@@ -9,7 +9,7 @@
 }
 
 .fa-tree-3 {
-  left: 16px;
+  left: 15px;
   top: 12px;
 }
 
@@ -42,21 +42,9 @@
   border-radius: 90px;
 }
 
-.w-60 {
-  width: 60%;
-}
-
 .entry-form-single {
   height: 2.25rem;
   padding-left: 1rem;
-}
-
-.h-40px {
-  height: 40px;
-}
-
-.h-24px {
-  height: 24px;
 }
 
 .cursor-pointer {
@@ -66,6 +54,14 @@
 .map-placeholder {
   min-height: 600px;
   border: 1px solid black;
+}
+
+.fs-7 {
+  font-size: 0.9rem;
+}
+
+.fs-8 {
+  font-size: 0.75rem;
 }
 
 .text-brown {
@@ -96,15 +92,19 @@
   border: #eba6a6 2px solid;
 }
 
-.pb-page {
-  padding-bottom: 4rem;
-  margin-bottom: 1rem;
+.new-entry,
+.carousel-image,
+.new-entry-success {
+  object-fit: cover;
 }
 
-.new-entry,
 .carousel-image {
-  object-fit: cover;
-  height: 230px;
+  height: 180px;
+  max-width: 260px;
+}
+
+.new-entry, {
+  height: 180px;
 }
 
 .new-entry-success {
@@ -138,6 +138,51 @@
   width: 90%;
 }
 
+/* css loading spinner */
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 25px;
+  height: 25px;
+  right: 6rem;
+}
+
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  margin: 5px;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .custom-dialog-delete {
     left: 15%;
@@ -154,6 +199,11 @@
 @media only screen and (min-width: 768px) {
   .custom-dialog-menu {
     width: 25% !important;
+  }
+
+  .carousel-image {
+    height: 210px;
+    max-width: 290px;
   }
 
   .carousel {
@@ -194,10 +244,9 @@
     transform: scale(1.2);
   }
 
-  .new-entry,
   .carousel-image {
-    height: 300px;
-    width: 100%;
+    height: 220px;
+    max-width: 300px;
   }
 
   .new-entry-success {
@@ -225,9 +274,9 @@
     transform: scale(1.3);
   }
 
-  .new-entry,
   .carousel-image {
     height: 290px;
+    max-width: 350px;
   }
 
   .new-entry-success {
@@ -255,9 +304,9 @@
     transform: scale(1.3);
   }
 
-  .new-entry,
   .carousel-image {
     height: 300px;
+    max-width: 370px;
   }
 
   .new-entry-success {

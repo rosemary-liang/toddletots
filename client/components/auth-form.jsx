@@ -5,8 +5,10 @@ export default class AuthForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: ''
+      username: 'demo',
+      password: '123',
+      isLoading: false,
+      errorMsg: ''
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,23 +21,34 @@ export default class AuthForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { action } = this.props;
-    const req = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state)
-    };
-    fetch(`/api/auth/${action}`, req)
-      .then(res => res.json())
-      .then(result => {
-        if (action === 'sign-up') {
-          window.location.hash = 'sign-in';
-        } else if (result.user && result.token) {
-          this.props.onSignIn(result);
-        }
-      });
+    this.setState({
+      isLoading: true,
+      errorMsg: ''
+    }, () => {
+      const { action } = this.props;
+      const req = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state)
+      };
+      fetch(`/api/auth/${action}`, req)
+        .then(res => res.json())
+        .then(result => {
+          if (result.error) {
+            this.setState({ errorMsg: result.error });
+          } else {
+            if (action === 'sign-up') {
+              window.location.hash = 'sign-in';
+            } else if (result.user && result.token) {
+              this.props.onSignIn(result);
+            }
+          }
+        })
+        .then(this.setState({ isLoading: false }))
+        .catch(err => console.error(err));
+    });
   }
 
   render() {
@@ -50,6 +63,7 @@ export default class AuthForm extends React.Component {
     const submitButtonText = action === 'sign-up'
       ? 'Register'
       : 'Log In';
+    const loaderClass = this.state.isLoading ? '' : 'd-none';
 
     return (
       <form onSubmit={handleSubmit} className='d-flex flex-column auth-form'>
@@ -59,6 +73,7 @@ export default class AuthForm extends React.Component {
         name='username'
         placeholder='username'
         onChange={handleInputChange}
+        value='demo'
         className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2 w-sm-100' />
         <input
           required
@@ -66,11 +81,20 @@ export default class AuthForm extends React.Component {
           name='password'
           placeholder='password'
           onChange={handleInputChange}
+          value='123'
           className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
-          <div className='d-flex justify-content-between mt-2 mb-4'>
-            <a href={altActionHref} className='fw-bold text-brown'>{altActionText}</a>
+
+        <p className='text-danger'>{this.state.errorMsg}</p>
+
+        <div className='d-flex justify-content-between align-items-center mb-4'>
+          <a href={altActionHref} className='fw-bold text-brown'>{altActionText}</a>
+          <div className='position-relative'>
+            <div className={`${loaderClass} lds-ring position-absolute`}><div></div><div></div><div></div><div></div></div>
             <button type="submit" className='bg-white border-0 border-radius-10px px-3 py-1 fw-bold text-primary'> {submitButtonText}</button>
           </div>
+
+        </div>
+
       </form>
     );
   }

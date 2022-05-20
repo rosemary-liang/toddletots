@@ -282,6 +282,7 @@ app.post('/api/auth/sign-up', (req, res, next) => {
   if (!username || !password) {
     throw new ClientError(400, 'username and password are required fields');
   }
+
   argon2
     .hash(password)
     .then(hashedPassword => {
@@ -297,7 +298,12 @@ app.post('/api/auth/sign-up', (req, res, next) => {
       const [user] = result.rows;
       res.status(201).json(user);
     })
-    .catch(err => next(err));
+    .catch(err => {
+      if (err.code === '23505') {
+        next(new ClientError(401, 'username already in use'));
+      }
+      next(err);
+    });
 });
 
 app.post('/api/auth/sign-in', (req, res, next) => {
@@ -397,13 +403,22 @@ app.delete('/api/activities/:activityId', (req, res, next) => {
     `;
   db.query(sqlImages, params)
     .then(result => {
-      const sqlActivities = `
-    delete from "activities"
-    where "activityId" = $1
-    returning *
-  `;
-      db.query(sqlActivities, params)
-        .then(result => res.sendStatus(204))
+      const sqlBookmarks = `
+      delete from "bookmarks"
+      where "activityId" = $1
+      returning *
+      `;
+      db.query(sqlBookmarks, params)
+        .then(result => {
+          const sqlActivities = `
+          delete from "activities"
+          where "activityId" = $1
+          returning *
+        `;
+          db.query(sqlActivities, params)
+            .then(result => res.sendStatus(204))
+            .catch(err => next(err));
+        })
         .catch(err => next(err));
     })
     .catch(err => next(err));

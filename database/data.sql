@@ -3,7 +3,7 @@ insert into "users" (
   "hashedPassword"
 ) values (
   'demo',
-  'temp'
+  '$argon2i$v=19$m=4096,t=3,p=1$vMz7xBmbPxHjqo4tkxoh/Q$jjbtdvX0gh7vXdTzuKfaikmhQJ8FjtqB0+lhSkNcWrU'
 );
 
 
