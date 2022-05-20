@@ -13,6 +13,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Loading from './components/loading';
 import NetworkError from './components/network-connection-error';
+import NotFound from './pages/not-found';
 import './scss/style.scss';
 
 class App extends React.Component {
@@ -190,6 +191,7 @@ class App extends React.Component {
     if (route.path === 'new-entry-form') {
       return <NewEntryForm />;
     }
+    return <NotFound />;
   }
 
   render() {
