@@ -73,7 +73,7 @@ export default class AuthForm extends React.Component {
         name='username'
         placeholder='username'
         onChange={handleInputChange}
-        value='demo'
+        defaultValue='demo'
         className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2 w-sm-100' />
         <input
           required
@@ -81,7 +81,7 @@ export default class AuthForm extends React.Component {
           name='password'
           placeholder='password'
           onChange={handleInputChange}
-          value='123'
+          defaultValue='123'
           className='border-0 border-gray border-radius-10px entry-form-single fw-bold my-2' />
 
         <p className='text-danger'>{this.state.errorMsg}</p>
